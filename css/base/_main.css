@@ -1,0 +1,43 @@
+@import url('../base/_variables.css');
+
+body {
+    margin: 0;
+
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+
+.logo img {
+    width: 30%;
+
+}
+
+.logo img:hover {
+    transform: rotate(360deg);
+    transition: all 0.7s ease-in-out;
+}
+
+a {
+    color: var(--white);
+}
+
+a:hover {
+    color: var(--extra);
+}
+
+nav a {
+    margin-left: 1rem;
+    text-decoration: none;
+
+}
+
+section {
+    padding: 3rem 2rem;
+    min-height: 250px;
+}

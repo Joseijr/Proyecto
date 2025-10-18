@@ -1,0 +1,148 @@
+@layer typography {
+  /*Typography font*/
+
+  .lato-thin {
+    font-family: "Lato", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+  }
+
+  .lato-light {
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  .lato-regular {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .lato-bold {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .lato-black {
+    font-family: "Lato", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  .lato-thin-italic {
+    font-family: "Lato", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+  }
+
+  .lato-light-italic {
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .lato-regular-italic {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .lato-bold-italic {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .lato-black-italic {
+    font-family: "Lato", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+  }
+
+  /*Typography colors*/
+  .blue-color {
+    color: var(--blue);
+  }
+
+  .primary-color {
+    color: var(--primary);
+  }
+
+  .secondary-color {
+    color: var(--secondary);
+  }
+
+  .light-color {
+    color: var(--light);
+  }
+
+  .extra-color {
+    color: var(--extra);
+  }
+
+  .white-color {
+    color: var(--white);
+  }
+
+  .blue-color {
+    color: var(--blue);
+  }
+
+  /* typography sizes */
+
+  .text-xs {
+    font-size: var(--fs-xs);
+  }
+
+  .text-s {
+    font-size: var(--fs-s);
+  }
+
+  .text-m {
+    font-size: var(--fs-m);
+  }
+
+  .text-l {
+    font-size: var(--fs-l);
+  }
+
+  .text-xl {
+    font-size: var(--fs-xl);
+  }
+
+  .text-xxl {
+    font-size: var(--fs-xxl);
+  }
+
+  .text-giant {
+    font-size: var(--fs-giant);
+  }
+
+  .text-king {
+    font-size: var(--fs-king);
+  }
+
+  /*Typography weight*/
+
+  .thin {
+    font-weight: var(--fw-thin);
+  }
+
+  .light {
+    font-weight: var(--fw-light);
+  }
+
+  .regular {
+    font-weight: var(--fw-regular);
+  }
+
+  .bold {
+    font-weight: var(--fw-bold);
+  }
+
+  .black {
+    font-weight: var(--fw-black);
+  }
+}
