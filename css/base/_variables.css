@@ -9,12 +9,11 @@
         --extra: #EB6269;
 
 
-        --ff-main: "Lato", sans-serif;
-        --fw-thin: 100;
-        --fw-light: 300;
+        --ff-main: "Pixelify Sans", sans-serif;
         --fw-regular: 400;
+        --fw-medium: 500;
+        --fw-semiBold: 600;
         --fw-bold: 700;
-        --fw-black: 900;
 
 
         /* Texto muy pequeño (notas, subtítulos diminutos) */

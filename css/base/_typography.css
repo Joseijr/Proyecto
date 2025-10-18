@@ -1,64 +1,41 @@
 @layer typography {
   /*Typography font*/
 
-  .lato-thin {
-    font-family: "Lato", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-  }
 
-  .lato-light {
-    font-family: "Lato", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-  }
-
-  .lato-regular {
-    font-family: "Lato", sans-serif;
+  .pixelify-sans-regular {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
   }
 
-  .lato-bold {
-    font-family: "Lato", sans-serif;
+  .pixelify-sans-medium {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .pixelify-sans-semibold {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  .pixelify-sans-bold {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 700;
     font-style: normal;
   }
 
-  .lato-black {
-    font-family: "Lato", sans-serif;
-    font-weight: 900;
+  body {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+
     font-style: normal;
-  }
-
-  .lato-thin-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 100;
-    font-style: italic;
-  }
-
-  .lato-light-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 300;
-    font-style: italic;
-  }
-
-  .lato-regular-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .lato-bold-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-  }
-
-  .lato-black-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 900;
-    font-style: italic;
   }
 
   /*Typography colors*/
@@ -126,23 +103,23 @@
 
   /*Typography weight*/
 
-  .thin {
-    font-weight: var(--fw-thin);
-  }
 
-  .light {
-    font-weight: var(--fw-light);
-  }
 
   .regular {
     font-weight: var(--fw-regular);
+  }
+
+  .medium {
+    font-weight: var(--fw-medium);
+  }
+
+  .semiBold {
+    font-weight: var(--fw-semiBold);
   }
 
   .bold {
     font-weight: var(--fw-bold);
   }
 
-  .black {
-    font-weight: var(--fw-black);
-  }
+
 }

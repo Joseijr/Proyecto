@@ -1,11 +1,14 @@
-@layer header{
+@layer header {
 
     .banner {
-    text-align: center;
-    padding: 4rem 1rem;
-    height: 50vh;
+        text-align: center;
+        padding: 4rem 1rem;
+        height: 150vh;
+        background: linear-gradient(hsla(0, 0%, 0%, 0.4), hsla(0, 0%, 0%, 0.4)), url('../../assets/Illustrationproyecto1.jpg') no-repeat center/cover;
 
-}
+
+    }
+
 
 
 

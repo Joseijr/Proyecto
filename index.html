@@ -6,21 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=UnifrakturCook:wght@700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
     <script src="./js/vue.global.js"></script>
-    <title>Document</title>
+    <title>Mushroom's Garden</title>
 </head>
 
 <body>
-    <div class="app">
-
-
-
+    <div id="app">
         <header class="primary-bg">
-            <div class="logo white-color black text-xl">
+            <div class="logo white-color text-xl">
                 <img src="assets/Logo.png" alt="">
             </div>
             <nav class="text-l bold">
@@ -33,50 +28,70 @@
         </header>
 
         <div class="banner blue-bg">
-            <h1 class="white-color text-king ">Mushroom's Garden</h1>
+            <h1 class="white-color text-king bold">Mushroom's Garden</h1>
+            <p class="white-color text-l">Relajacion,jardineria y magia!</p>
         </div>
 
+        <!-- Primera sección - Card a la derecha -->
+        <section class="light-bg">
 
-        <section class="light-bg center-section m-xxl ">
+            <div class="display-flex ml-l">
+                <div class="mx-giant">
+                    <h2 class="extra-color text-xxl  center-section ml-l">Jardineria y fantasia</h2>
+                    <p class="text-m regular">En Mushrooms Garden, la jardinería deja de ser una simple tarea y se
+                        convierte en una experiencia mágica y encantadora.
+                        Aquí, cada brote esconde un secreto, cada flor murmura un hechizo y cada rincón del jardín
+                        respira vida y fantasía.
+                        Adéntrate en el bosque y cultiva plantas extraordinarias que florecen bajo la luz de
+                        luciérnagas, ayuda a tus vecinos
+                        del bosque y siente la magia en cada planta. A medida que el jardín crece, también lo hace tu
+                        conexión con el mundo
+                        místico que lo rodea: un lugar donde la naturaleza y la magia coexisten en perfecta armonía.</p>
+                </div>
+                <div class="card">
 
-            <div class="px-giant">
-                <h2 class="extra-color bold text-xxl">Lorem ipsum</h2>
-                <p class="black text-m">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est sapiente
-                    distinctio iure asperiores, dicta unde ipsam corrupti excepturi tempore dignissimos! Iusto
-                    voluptatem
-                    aliquid odio doloribus obcaecati ipsam blanditiis minima ipsa?</p>
+                </div>
             </div>
-
-
-        </section>
-        <section class="secondary-bg center-section">
-
-            <div class="m-xxl">
-                <h2 class="blue-color bold text-xxl">Lorem ipsum</h2>
-                <p class="white-color text-m">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est sapiente
-                    distinctio iure
-                    asperiores, dicta unde ipsam corrupti excepturi tempore dignissimos! Iusto voluptatem aliquid odio
-                    doloribus
-                    obcaecati ipsam blanditiis minima ipsa?</p>
-
-            </div>
-
         </section>
 
 
+        <section class="secondary-bg">
 
+            <div class="display-flex reverse ml-l">
+                <div class="card">
+
+                </div>
+                <div class="text-content mx-giant">
+                    <h2 class="blue-color text-xxl ml-l  center-section">Relajate y crea</h2>
+                    <p class="white-color text-m regular">Mientras el jardín crece, también lo hacen las oportunidades:
+                        completa misiones, ayuda a los tus vecinos en tareas
+                        diarias y descubre la belleza en lo mas pequeño. Ya sea sembrando en el terreno, recolectando
+                        recursos o cumpliendo
+                        encargos mágicos, siempre hay algo nuevo por hacer.
+                        Con un ritmo tranquilo y una estética adorable, Mushrooms Garden invita a disfrutar del proceso
+                        de cultivar y dejar que
+                        la magia florezca.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="extra-bg">
+
+            <div>
+                <img src="assets/Illustrationproyecto1.jpg" alt="">
+            </div>
+        </section>
 
         <footer class="primary-bg">
             <p class="white-color">Mushroom's Garden Todos los derechos reservados</p>
         </footer>
-
-
-
-
-        <script src="./js/main.js"></script>
-        <script>const mountedApp = app.mount("#app");</script>
     </div>
 
+    <script src="./js/main.js"></script>
+    <script>
+        const mountedApp = app.mount("#app");
+    </script>
 </body>
 
 </html>
