@@ -18,6 +18,14 @@ header {
 
 }
 
+.prueba {
+    width: 100px;
+    height: 100px;
+    background-color: var(--extra);
+    border-radius: 50%;
+    transition: all 0.7s ease-in-out;
+}
+
 .logo img:hover {
     transform: rotate(360deg);
     transition: all 0.7s ease-in-out;
