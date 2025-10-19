@@ -1,0 +1,32 @@
+@layer buttons {
+.btn-account {
+    padding: 12px 30px;
+    border-radius: 17px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-play-container {
+    text-align: right;
+    margin-top: 2rem;
+}
+
+.btn-play {
+    display: inline-block;
+    padding: 12px 40px;
+    border-radius: 34px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.language-selector button {
+    background: transparent;
+    border: 1px transparent var(--white);
+    color: var(--white);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: var(--fs-l);
+}
+}

@@ -1,0 +1,13 @@
+@layer navigation{
+nav {
+    display: flex;
+    margin-left: auto;
+    text-decoration: none;
+}
+
+nav a {
+    margin-left: 1rem;
+
+}
+
+}
