@@ -1,0 +1,36 @@
+input {
+    background: var(--black);
+    border-radius: 8px;
+    padding: 12px 26px;
+    width: 35%;
+    padding-left: 50px;
+
+
+}
+
+.input-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+    cursor: text;
+    transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+}
+
+
+.user-icon {
+    background: url('../../assets/User.svg') no-repeat 15px center/30px, var(--black);
+}
+
+.email-icon {
+    background: url('../../assets/mail.svg') no-repeat 15px center/30px, var(--black);
+}
+
+.password-icon {
+    background: url('../../assets/Lock.svg') no-repeat 15px center/30px, var(--black);
+}

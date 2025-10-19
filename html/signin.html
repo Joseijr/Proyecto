@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="./js/vue.global.js"></script>
+    <title>Sign In</title>
+</head>
+
+<body class="signin-back">
+    <div id="app">
+        <header class="yellow-bg">
+            <div class="logo white-color text-xl">
+                <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
+            </div>
+            <nav class="text-l bold">
+                <a href="index.html">Home</a>
+                <a href="#">Game</a>
+                <a href="login.html">Login</a>
+                <a href="signin.html">Sign In</a>
+                <a href="#">Contact</a>
+            </nav>
+        </header>
+
+        <section class="input-display">
+            <h1 class="white-color text-king">Sign In</h1>
+            <input class="m-xxl text-xl yellow-border white-color user-icon" type="text" placeholder="UserName">
+            <input class="m-xxl text-xl yellow-border white-color email-icon" type="text" placeholder="Email">
+            <input class="m-xxl text-xl yellow-border white-color password-icon" type="password" placeholder="Password">
+
+            <p class="white-color text-xl">alredy have an account? <span class="extra-color underline">log in</span></p>
+
+            <div class="btn-account text-xl yellow-bg white-color my-xxl">Start the garden!</div>
+        </section>
+
+
+        <footer class="yellow-bg">
+            <p class="white-color">Mushroom's Garden Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script src="./js/main.js"></script>
+    <script>
+        const mountedApp = app.mount("#app");
+    </script>
+</body>
+
+</html>

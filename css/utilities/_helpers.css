@@ -22,6 +22,18 @@
         background-color: var(--extra);
     }
 
+    .yellow-bg {
+        background-color: var(--yellow);
+    }
+
+    .yellow-border {
+        border: 2px solid var(--yellow);
+    }
+
+    .secondary-border {
+        border: 2px solid var(--secondary);
+    }
+
 
     .align-left {
         text-align: left;

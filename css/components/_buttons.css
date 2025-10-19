@@ -1,0 +1,32 @@
+.btn-account {
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+}
+
+
+.btn-account:hover {
+    background: var(--white);
+    color: var(--black);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.btn-play {
+    text-align: center;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+}
+
+
+.btn-play:hover {
+    background: var(--white);
+    color: var(--black);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
