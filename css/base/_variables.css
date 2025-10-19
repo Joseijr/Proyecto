@@ -1,72 +1,55 @@
-@layer base {
-    :root {
+:root {
 
-        --blue: #129899;
-        --primary: #0B3148;
-        --secondary: #94CD9A;
-        --white: #ffffff;
-        --black: #000000;
-        --extra: #EB6269;
-        --yellow: #F7CE7F;
-
-
-        --ff-main: "Pixelify Sans", sans-serif;
-        --fw-regular: 400;
-        --fw-medium: 500;
-        --fw-semiBold: 600;
-        --fw-bold: 700;
+    --blue: #129899;
+    --primary: #0B3148;
+    --secondary: #94CD9A;
+    --green: #83C89C;
+    --white: #ffffff;
+    --black: #000000;
+    --extra: #EB6269;
+    --yellow: #F7CE7F;
 
 
-        /* Texto muy pequeño (notas, subtítulos diminutos) */
-        --fs-xs: 0.75rem;
-        /* 12px */
-
-        /* Texto pequeño (descripciones, texto auxiliar) */
-        --fs-s: 0.875rem;
-        /* 14px */
-
-        /* Texto base (párrafos normales) */
-        --fs-m: 1rem;
-        /* 16px */
-
-        /* Texto un poco más grande (subtítulos, menús) */
-        --fs-l: 1.125rem;
-        /* 18px */
-
-        /* Títulos pequeños */
-        --fs-xl: 1.5rem;
-        /* 24px */
-
-        /* Títulos medianos */
-        --fs-xxl: 2rem;
-        /* 32px */
-
-        /* Títulos grandes (héroes/banners) */
-        --fs-giant: 2.5rem;
-        /* 40px */
-
-        /* Titulares principales (landing, portada) */
-        --fs-king: 4rem;
-        /* 64px */
-
-        /* Márgenes / Espaciados */
-        --sp-xxs: 0.25rem;
-        /* 4px  */
-        --sp-xs: 0.5rem;
-        /* 8px  */
-        --sp-s: 0.75rem;
-        /* 12px */
-        --sp-m: 1rem;
-        /* 16px */
-        --sp-l: 1.5rem;
-        /* 24px */
-        --sp-xl: 2rem;
-        /* 32px */
-        --sp-xxl: 3rem;
-        /* 48px */
-        --sp-giant: 4rem;
-        /* 64px */
+    --ff-main: "Pixelify Sans", sans-serif;
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semiBold: 600;
+    --fw-bold: 700;
 
 
-    }
+    --fs-xs: 0.75rem;
+    /* 12px */
+    --fs-s: 0.875rem;
+    /* 14px */
+    --fs-m: 1rem;
+    /* 16px */
+    --fs-l: 1.125rem;
+    /* 18px */
+    --fs-xl: 1.5rem;
+    /* 24px */
+    --fs-xxl: 2rem;
+    /* 32px */
+    --fs-giant: 2.5rem;
+    /* 40px */
+    --fs-king: 4rem;
+    /* 64px */
+
+    --sp-xxs: 0.25rem;
+    /* 4px  */
+    --sp-xs: 0.5rem;
+    /* 8px  */
+    --sp-s: 0.75rem;
+    /* 12px */
+    --sp-m: 1rem;
+    /* 16px */
+    --sp-l: 1.5rem;
+    /* 24px */
+    --sp-xl: 2rem;
+    /* 32px */
+    --sp-xxl: 3rem;
+    /* 48px */
+    --sp-giant: 4rem;
+    /* 64px */
+
+
 }

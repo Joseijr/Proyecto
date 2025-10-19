@@ -3,7 +3,7 @@
 @import "./base/_main.css";
 @import "./base/_typography.css";
 
-@import "./layout/_grid.css";
+@import "./layout/_text.css";
 @import "./layout/_sections.css";
 
 @import "./components/_header.css";
@@ -13,3 +13,4 @@
 
 @import "./utilities/_helpers.css";
 @import "./utilities/_spacing.css";
+@import "./utilities/_hovers.css";

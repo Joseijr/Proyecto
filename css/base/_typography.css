@@ -1,133 +1,118 @@
-@layer typography {
-  /*Typography font*/
+.pixelify-sans-regular {
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pixelify-sans-medium {
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.pixelify-sans-semibold {
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.pixelify-sans-bold {
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
 
 
-  .pixelify-sans-regular {
-    font-family: "Pixelify Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-  }
+.underline {
+  text-decoration: underline;
+}
 
-  .pixelify-sans-medium {
-    font-family: "Pixelify Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-  }
+/*Typography colors*/
+.blue-color {
+  color: var(--blue);
+}
 
-  .pixelify-sans-semibold {
-    font-family: "Pixelify Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-style: normal;
-  }
+.primary-color {
+  color: var(--primary);
+}
 
-  .pixelify-sans-bold {
-    font-family: "Pixelify Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-  }
+.secondary-color {
+  color: var(--secondary);
+}
 
-  body {
-    font-family: "Pixelify Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
+.grenn-color {
+  color: var(--green);
+}
 
-    font-style: normal;
-  }
+.light-color {
+  color: var(--light);
+}
 
-  .underline {
-    text-decoration: underline;
-  }
+.extra-color {
+  color: var(--extra);
+}
 
-  /*Typography colors*/
-  .blue-color {
-    color: var(--blue);
-  }
-
-  .primary-color {
-    color: var(--primary);
-  }
-
-  .secondary-color {
-    color: var(--secondary);
-  }
-
-  .light-color {
-    color: var(--light);
-  }
-
-  .extra-color {
-    color: var(--extra);
-  }
-
-  .white-color {
-    color: var(--white);
-  }
-
-  .blue-color {
-    color: var(--blue);
-  }
-
-  .yellow-color {
-    color: var(--yellow);
-  }
-
-  /* typography sizes */
-
-  .text-xs {
-    font-size: var(--fs-xs);
-  }
-
-  .text-s {
-    font-size: var(--fs-s);
-  }
-
-  .text-m {
-    font-size: var(--fs-m);
-  }
-
-  .text-l {
-    font-size: var(--fs-l);
-  }
-
-  .text-xl {
-    font-size: var(--fs-xl);
-  }
-
-  .text-xxl {
-    font-size: var(--fs-xxl);
-  }
-
-  .text-giant {
-    font-size: var(--fs-giant);
-  }
-
-  .text-king {
-    font-size: var(--fs-king);
-  }
-
-  /*Typography weight*/
+.white-color {
+  color: var(--white);
+}
 
 
+.yellow-color {
+  color: var(--yellow);
+}
 
-  .regular {
-    font-weight: var(--fw-regular);
-  }
+/* typography sizes */
 
-  .medium {
-    font-weight: var(--fw-medium);
-  }
+.text-xs {
+  font-size: var(--fs-xs);
+}
 
-  .semiBold {
-    font-weight: var(--fw-semiBold);
-  }
+.text-s {
+  font-size: var(--fs-s);
+}
 
-  .bold {
-    font-weight: var(--fw-bold);
-  }
+.text-m {
+  font-size: var(--fs-m);
+}
+
+.text-l {
+  font-size: var(--fs-l);
+}
+
+.text-xl {
+  font-size: var(--fs-xl);
+}
+
+.text-xxl {
+  font-size: var(--fs-xxl);
+}
+
+.text-giant {
+  font-size: var(--fs-giant);
+}
+
+.text-king {
+  font-size: var(--fs-king);
+}
 
 
+/*Typography weight*/
+.regular {
+  font-weight: var(--fw-regular);
+}
+
+.medium {
+  font-weight: var(--fw-medium);
+}
+
+.semiBold {
+  font-weight: var(--fw-semiBold);
+}
+
+.bold {
+  font-weight: var(--fw-bold);
 }

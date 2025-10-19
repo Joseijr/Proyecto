@@ -1,32 +1,30 @@
 .btn-account {
     padding: 12px 30px;
-    border-radius: 8px;
+    border-radius: 17px;
     cursor: pointer;
     transition: all 0.3s ease;
-
 }
 
-
-.btn-account:hover {
-    background: var(--white);
-    color: var(--black);
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+.btn-play-container {
+    text-align: right;
+    margin-top: 2rem;
 }
 
 .btn-play {
-    text-align: center;
-    padding: 12px 30px;
-    border-radius: 8px;
+    display: inline-block;
+    padding: 12px 40px;
+    border-radius: 34px;
     cursor: pointer;
     transition: all 0.3s ease;
-
+    text-align: center;
 }
 
-
-.btn-play:hover {
-    background: var(--white);
-    color: var(--black);
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+.language-selector button {
+    background: transparent;
+    border: 1px transparent var(--white);
+    color: var(--white);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: var(--fs-l);
 }

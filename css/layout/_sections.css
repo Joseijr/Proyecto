@@ -1,5 +1,11 @@
 .center-section {
     text-align: center;
+    align-self: center;
 
 
+}
+
+section {
+    padding: 3rem 2rem;
+    min-height: 250px;
 }

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <script src="./js/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Login</title>
 </head>
 
@@ -17,36 +17,46 @@
         <header class="primary-bg">
             <div class="logo white-color text-xl">
                 <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
+                <div class="language-selector display-flex">
+                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
+                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
+                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
+                </div>
+
+
             </div>
-            <nav class="text-l bold">
-                <a href="index.html">Home</a>
-                <a href="#">Game</a>
-                <a href="login.html">Login</a>
-                <a href="signin.html">Sign In</a>
-                <a href="#">Contact</a>
+            <nav class="text-l bold secondary-hover">
+                <a href="index.html">{{ t.nav?.home}}</a>
+                <a href="game.html">{{ t.nav?.game}}</a>
+                <a href="login.html">{{ t.nav?.login}}</a>
+                <a href="signin.html">{{ t.nav?.signin}}</a>
+                <a href="#">{{ t.nav?.contact}}</a>
             </nav>
         </header>
 
         <section class="input-display">
-            <h1 class="white-color text-king">Log In</h1>
-            <input class="m-xxl text-xl secondary-border white-color user-icon" type="text" placeholder="UserName">
-            <input class="m-xxl text-xl secondary-border white-color email-icon" type="password" placeholder="Password">
+            <h1 class="white-color text-king">{{ t.login?.title}}</h1>
+            <input class="m-xxl text-xl secondary-border white-color user-icon" type="text"
+                :placeholder="t.login?.username || 'UserName'">
+            <input class="m-xxl text-xl secondary-border white-color email-icon" type="password"
+                :placeholder="t.login?.password || 'Password'">
 
-            <p class="white-color text-xl">dont have an account? <span class="extra-color underline">Sign in</span></p>
+            <p class="white-color text-xl">
+                {{ t.login?.no_account}} <span class="extra-color underline link">{{
+                    t.login?.signin_link}}</span>
+            </p>
 
-            <div class="btn-account text-xl primary-bg white-color my-xxl">Go to the garden!</div>
+            <div class="btn-account text-xl primary-bg white-color my-xxl">
+                {{ t.login?.button}}
+            </div>
         </section>
 
-
         <footer class="primary-bg">
-            <p class="white-color">Mushroom's Garden Todos los derechos reservados</p>
+            <p class="white-color">{{ t.footer?.rights}}</p>
         </footer>
     </div>
 
-    <script src="./js/main.js"></script>
-    <script>
-        const mountedApp = app.mount("#app");
-    </script>
+    <script src="../js/main.js"></script>
 </body>
 
 </html>

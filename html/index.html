@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <script src="./js/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Mushroom's Garden</title>
 </head>
 
@@ -16,84 +16,70 @@
     <div id="app">
         <header class="primary-bg">
             <div class="logo white-color text-xl">
-                <img src="../assets/Logo.png" alt="">
+                <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
+                <div class="language-selector display-flex">
+                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
+                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
+                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
+                </div>
+
             </div>
-            <nav class="text-l bold">
-                <a href="#">Home</a>
-                <a href="#">Game</a>
-                <a href="login.html">Login</a>
-                <a href="signin.html">Sign In</a>
-                <a href="#">Contact</a>
+            <nav class="text-l bold secondary-hover">
+                <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
+                <a href="#">{{t.nav?.home}}</a>
+                <a href="game.html">{{t.nav?.game}}</a>
+                <a href="login.html">{{t.nav?.login}}</a>
+                <a href="signin.html">{{t.nav?.signin}}</a>
+                <a href="#">{{t.nav?.contact}}</a>
             </nav>
         </header>
 
         <div class="banner blue-bg">
-            <h1 class="white-color text-king bold">Mushroom's Garden</h1>
-            <p class="white-color text-l">Relajacion,jardineria y magia!</p>
+            <h1 class="white-color text-king bold ">{{t.banner?.title}}</h1>
+            <p class="white-color text-l">{{t.banner?.subtitle}}</p>
         </div>
 
-        <!-- Primera sección - Card a la derecha -->
+        <!-- Primera sección -->
         <section class="light-bg">
-
             <div class="display-flex ml-l">
-                <div class="mx-giant">
-                    <h2 class="extra-color text-xxl  center-section ml-l">Jardineria y fantasia</h2>
-                    <p class="text-m regular">En Mushrooms Garden, la jardinería deja de ser una simple tarea y se
-                        convierte en una experiencia mágica y encantadora.
-                        Aquí, cada brote esconde un secreto, cada flor murmura un hechizo y cada rincón del jardín
-                        respira vida y fantasía.
-                        Adéntrate en el bosque y cultiva plantas extraordinarias que florecen bajo la luz de
-                        luciérnagas, ayuda a tus vecinos
-                        del bosque y siente la magia en cada planta. A medida que el jardín crece, también lo hace tu
-                        conexión con el mundo
-                        místico que lo rodea: un lugar donde la naturaleza y la magia coexisten en perfecta armonía.</p>
+                <div class="mx-giant text-left">
+                    <h2 class="extra-color text-xxl center-section ml-l">{{t.section1?.title}}</h2>
+                    <p class="text-m regular">{{t.section1?.text}}</p>
                 </div>
-                <div class="card">
-
-                </div>
+                <div class="card"></div>
             </div>
         </section>
 
-
+        <!-- Segunda sección -->
         <section class="secondary-bg">
-
             <div class="display-flex reverse ml-l">
                 <div class="card">
 
                 </div>
-                <div class="text-content mx-giant">
-                    <h2 class="blue-color text-xxl ml-l  center-section">Relajate y crea</h2>
-                    <p class="white-color text-m regular">Mientras el jardín crece, también lo hacen las oportunidades:
-                        completa misiones, ayuda a los tus vecinos en tareas
-                        diarias y descubre la belleza en lo mas pequeño. Ya sea sembrando en el terreno, recolectando
-                        recursos o cumpliendo
-                        encargos mágicos, siempre hay algo nuevo por hacer.
-                        Con un ritmo tranquilo y una estética adorable, Mushrooms Garden invita a disfrutar del proceso
-                        de cultivar y dejar que
-                        la magia florezca.</p>
+                <div class="text-right mx-giant">
 
-                    <div class="btn-play blue-bg white-color my-xl">Play Now!</div>
+                    <h2 class="blue-color text-xxl">{{t.section2?.title}}</h2>
+                    <p class="white-color text-m regular">{{t.section2?.text}}</p>
+                    <div class="btn-play-container">
+                        <div class="btn-play blue-bg white-color text-xl black-hover">{{t.section2?.button}}</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-
         <section class="extra-bg">
-
             <div>
                 <img src="../assets/Illustrationproyecto1.jpg" alt="">
             </div>
         </section>
 
         <footer class="primary-bg">
-            <p class="white-color">Mushroom's Garden Todos los derechos reservados</p>
+            <p class="white-color">{{t.footer?.rights}}</p>
         </footer>
     </div>
 
-    <script src="./js/main.js"></script>
-    <script>
-        const mountedApp = app.mount("#app");
-    </script>
+    <script src="../../Proyecto/js/main.js"></script>
+
 </body>
 
 </html>
