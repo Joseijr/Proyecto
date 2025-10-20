@@ -1,6 +1,8 @@
 const app = Vue.createApp({
     data() {
         return {
+            show: false,
+            i: 0,
             image: "../assets/Illustrationproyecto1.jpg",
             variants: [
                 { id: 1, image: "../assets/Illustrationproyecto1.jpg" },
@@ -12,6 +14,14 @@ const app = Vue.createApp({
             t: {},
             lang: "en"
         };
+    },
+
+
+    computed: {
+        // Computed property para obtener la imagen actual
+        currentImage() {
+            return this.variants[this.i].image;
+        }
     },
 
     methods: {
@@ -33,14 +43,38 @@ const app = Vue.createApp({
             this.loadLanguage(lang);
         },
 
-    //respuesta de botones 
-        logInBtn(){
-        console.log("boton de iniciar sesion o login");
-    },
+        // Método para imagen siguiente
+        nextImage() {
+            if (this.i < this.variants.length - 1) {
+                this.i++;
+            } else {
+                this.i = 0;
+            }
+        },
 
-        SignInBtn(){
-        console.log("boton de registrarse o sign in");
-    },
+        // Método para imagen anterior
+        prevImage() {
+            if (this.i > 0) {
+                this.i--;
+            } else {
+                this.i = this.variants.length - 1;
+            }
+        },
+        hideImage() {
+            this.show = false;
+        },
+
+        showImage() {
+            this.show = true;
+        },
+        //respuesta de botones 
+        logInBtn() {
+            console.log("boton de iniciar sesion o login");
+        },
+
+        SignInBtn() {
+            console.log("boton de registrarse o sign in");
+        },
 
 
     },

@@ -1,13 +1,21 @@
-@layer navigation{
-nav {
-    display: flex;
-    margin-left: auto;
-    text-decoration: none;
-}
+@layer navigation {
+    nav {
+        display: flex;
+        margin-left: auto;
+        text-decoration: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
 
-nav a {
-    margin-left: 1rem;
+    nav a {
+        margin-left: 0;
+        padding: 0.5rem 0.75rem;
+        white-space: nowrap;
+        font-size: var(--fs-m);
+        text-align: center;
+        min-width: max-content;
+    }
 
-}
 
 }

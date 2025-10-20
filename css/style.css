@@ -3,7 +3,7 @@
 @import "./base/_main.css";
 @import "./base/_typography.css";
 
-@import "./layout/_text.css";
+@import "./layout/_responsive.css";
 @import "./layout/_sections.css";
 
 @import "./components/_header.css";

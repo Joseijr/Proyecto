@@ -1,96 +1,88 @@
-@layer hovers{
+@layer hovers {
 
-input:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
-    cursor: text;
-    transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
-}
-
-.logo img:hover {
-    animation: spin infinite 1s ease-in-out;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
+    input:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+        cursor: text;
+        transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
     }
 
-    100% {
-        transform: rotate(360deg);
+    .logo img:hover {
+        animation: spin infinite 1s ease-in-out;
     }
-}
 
-.btn-account:hover {
-    background: var(--white);
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-    color: var(--black);
-}
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
 
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 
-.extra-hover *:hover {
-    color: var(--extra);
-}
+    .btn-account:hover {
+        background: var(--white);
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        color: var(--black);
+    }
 
-.secondary-hover *:hover {
-    color: var(--secondary);
-}
-
-.black-hover *:hover {
-    color: var(--black);
-}
-
-.white-hover *:hover {
-    color: var(--white);
-}
-
-.yellow-hover *:hover {
-    color: var(--yellow);
-}
+    .btn-arrows:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: scale(1.1);
+    }
 
 
+    .extra-hover:hover {
+        color: var(--extra);
+    }
 
-.btn-play:hover {
-    background: var(--white);
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-    color: var(--black);
-}
+    .secondary-hover:hover {
+        color: var(--secondary);
+    }
 
-.language-selector button:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
+    .black-hover:hover {
+        color: var(--black);
+    }
 
-.link:hover {
-    color: var(--white);
-}
+    .white-hover:hover {
+        color: var(--white);
+    }
 
-a:hover::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 100%;
-    height: 2px;
-    background-color: var(--secondary);
-    animation: underline 0.3s ease;
-    transition: 0.5s;
-
-}
+    .yellow-hover:hover {
+        color: var(--yellow);
+    }
 
 
-.card:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
-    background-color: #7ddfb9;
-    cursor: pointer;
-    transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
 
-}
+    .btn-play:hover {
+        background: var(--white);
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        color: var(--black);
+    }
 
-.cursor{
-    cursor: pointer;
-}
+    .language-selector button:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .link:hover {
+        color: var(--white);
+    }
+
+
+
+    .img:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+        cursor: pointer;
+        transition: transform 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+
+    }
+
+    .cursor {
+        cursor: pointer;
+    }
 
 }
