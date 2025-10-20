@@ -1,3 +1,4 @@
+@layer main{
 footer {
     height: 10vh;
     align-items: center;
@@ -35,4 +36,5 @@ footer {
 .display-flex {
     display: flex;
 
+}
 }

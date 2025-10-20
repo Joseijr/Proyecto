@@ -1,3 +1,4 @@
+@layer header {
 header {
     display: flex;
     align-items: center;
@@ -31,4 +32,5 @@ header {
     background: linear-gradient(hsla(0, 0%, 0%, 0.4), hsla(0, 0%, 0%, 0.4)), url('../../assets/Illustrationproyecto1.jpg') no-repeat center/cover;
     align-content: center;
 
+}
 }

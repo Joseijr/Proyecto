@@ -18,6 +18,7 @@
             <div class="logo white-color text-xl">
                 <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
                 <div class="language-selector display-flex">
+                    <!--Cambio de idioma dinamico-->
                     <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
                     <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
                     <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
@@ -60,16 +61,25 @@
 
                     <h2 class="blue-color text-xxl">{{t.section2?.title}}</h2>
                     <p class="white-color text-m regular">{{t.section2?.text}}</p>
-                    <div class="btn-play-container">
+                    <div onclick="window.location.href='login.html'" class="btn-play-container">
                         <div class="btn-play blue-bg white-color text-xl black-hover">{{t.section2?.button}}</div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Tercera sección,area de carrousel  -->
         <section class="extra-bg">
-            <div>
-                <img src="../assets/Illustrationproyecto1.jpg" alt="">
+            <div class="carousel">
+                <div class="imgCarrousel"><!--array de js con data,que contenga las imagenes-->
+                    <img src="../assets/Illustrationproyecto1.jpg" alt="">
+                    <img src="../assets/Illustrationproyecto2.jpg" alt="">
+                    <img src="../assets/Illustrationproyecto3.jpg" alt="">
+                </div>
+                <div>
+                <div><button class="btn-arrows"><img src="../assets/Arrow left.svg" alt=""></button></div>
+                <div><button class="btn-arrows"><img src="../assets/Arrow right.svg" alt=""></button></div>
+                </div>
             </div>
         </section>
 
@@ -78,7 +88,7 @@
         </footer>
     </div>
 
-    <script src="../../Proyecto/js/main.js"></script>
+    <script src="../js/main.js"></script>
 
 </body>
 

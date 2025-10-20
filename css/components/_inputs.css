@@ -1,3 +1,4 @@
+@layer inputs{
 input {
     background: var(--black);
     border-radius: 8px;
@@ -28,4 +29,6 @@ input {
 
 .password-icon {
     background: url('../../assets/Lock.svg') no-repeat 15px center/30px, var(--black);
+}
+
 }

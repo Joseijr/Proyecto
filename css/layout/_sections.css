@@ -1,11 +1,24 @@
-.center-section {
-    text-align: center;
-    align-self: center;
+@layer sections {
+    .center-section {
+        text-align: center;
+        align-self: center;
+    }
 
-
-}
 
 section {
     padding: 3rem 2rem;
     min-height: 250px;
+}
+
+.carousel{
+    display: flex;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    width: 100%; 
+}
+
+.imgCarrousel{
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
 }

@@ -15,7 +15,7 @@ const app = Vue.createApp({
     },
 
     methods: {
-        //carca el idioma
+        //carga el idioma
         loadLanguage(lang) {
             //ruta del json "Carpeta lang +Idioma ingles por defecto+.json"
             fetch("../lang/" + lang + ".json")
@@ -31,13 +31,27 @@ const app = Vue.createApp({
         //actualiza el idioma
         changeLanguage(lang) {
             this.loadLanguage(lang);
-        }
+        },
+
+    //respuesta de botones 
+        logInBtn(){
+        console.log("boton de iniciar sesion o login");
+    },
+
+        SignInBtn(){
+        console.log("boton de registrarse o sign in");
+    },
+
+
     },
     //Cuando se crar el documento carga el idioa
     created() {
         const savedLang = localStorage.getItem('mushroom-language');
         this.loadLanguage(savedLang || this.lang);
     }
+
+
+
 });
 
 app.mount("#app");

@@ -1,3 +1,4 @@
+@layer buttons {
 .btn-account {
     padding: 12px 30px;
     border-radius: 17px;
@@ -27,4 +28,15 @@
     border-radius: 4px;
     transition: all 0.3s ease;
     font-size: var(--fs-l);
+}
+
+.btn-arrows{
+    display: flex;
+    margin:17rem;
+
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+}
 }

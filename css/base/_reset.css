@@ -1,3 +1,4 @@
+@layer reset{
 /* Reset CSS styles to ensure consistent rendering across browsers */
 *,
 *::before,
@@ -79,4 +80,5 @@ textarea,
 select {
     font: inherit;
     /* make form elements inherit font styles from their parent elements, normally they don't */
+}
 }

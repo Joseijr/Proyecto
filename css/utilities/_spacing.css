@@ -1,4 +1,6 @@
 /* Margins - Vertical (arriba y abajo) */
+
+@layer spacing{
 .my-xxs {
     margin-top: var(--sp-xxs);
     margin-bottom: var(--sp-xxs);
@@ -198,4 +200,5 @@
 .px-giant {
     padding-left: var(--sp-giant);
     padding-right: var(--sp-giant);
+}
 }

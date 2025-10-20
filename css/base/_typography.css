@@ -1,3 +1,29 @@
+@layer typography{
+  * {
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
 .pixelify-sans-regular {
   font-family: "Pixelify Sans", sans-serif;
   font-optical-sizing: auto;
@@ -115,4 +141,5 @@
 
 .bold {
   font-weight: var(--fw-bold);
+}
 }
