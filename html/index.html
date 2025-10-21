@@ -42,12 +42,12 @@
 
         <!-- Primera sección -->
         <section class="light-bg">
-            <div class="display-flex ml-l">
+            <div class="display-flex ">
                 <div class="mx-giant text-left">
-                    <h2 class="extra-color text-xxl ml-l">{{t.section1?.title}}</h2>
+                    <h2 class="extra-color text-xxl ">{{t.section1?.title}}</h2>
                     <p class="text-m regular">{{t.section1?.text}}</p>
                 </div>
-                <div class="card img">
+                <div class="card img display-flex">
                     <img src="../assets/fondoPreview.png" alt="">
                 </div>
             </div>
@@ -103,6 +103,7 @@
 
     <script src="../js/main.js"></script>
 
+    <script>const mountedApp = app.mount("#app");</script>
 </body>
 
 </html>
