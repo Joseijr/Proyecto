@@ -31,6 +31,9 @@
         justify-content: center;
     }
 
+    .textCard{
+        max-width: 10rem;
+    }
     .card {
         display: flex;
         background-color: var(--extra);
@@ -41,7 +44,7 @@
     }
 
     .card img {
-        width: 100%;
+        width: 500px;
         height: 100%;
         object-fit: cover;
         object-position: center;
@@ -49,7 +52,6 @@
 
     .display-flex {
         display: flex;
-        flex-wrap: wrap;
         gap: 2rem;
         align-items: center;
         justify-content: center;

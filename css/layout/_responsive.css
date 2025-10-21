@@ -7,6 +7,8 @@
     }
 
     .display-flex {
+        display: flex;
+           flex-wrap: wrap;
         gap: 1.5rem;
     }
 
@@ -48,13 +50,10 @@
 @media (max-width: 768px) {
 
     .display-flex {
-        flex-direction: column;
+        flex-direction: flex;
         text-align: center;
     }
 
-    .display-flex.reverse {
-        flex-direction: column;
-    }
 
     .mx-giant {
         max-width: 100%;
