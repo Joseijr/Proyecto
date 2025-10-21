@@ -25,7 +25,7 @@
 
     .language-selector {
         align-items: center;
-        gap: 5px;
+        gap: 1rem;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -38,7 +38,7 @@
         display: flex;
         overflow: hidden;
        
-        border-radius: 10px;
+        border-radius: 0.6px;
     }
 
     .card img {

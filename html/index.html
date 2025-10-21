@@ -44,8 +44,8 @@
         <section class="light-bg">
             <div class="display-flex ">
                 <div class="mx-giant text-left textCard">
-                    <h2 class=" text-xxl extra-color">{{t.section1?.title}}</h2>
-                    <p class="text-m regular "> {{t.section1.in}} <span class="extra-color">{{t.banner.title}}</span>{{t.section1?.text}}</p>
+                    <h2 class=" text-giant extra-color">{{t.section1?.title}}</h2>
+                    <p class="text-l regular "> {{t.section1.in}} <span class="extra-color">{{t.banner.title}}</span>{{t.section1?.text}}</p>
                 </div>
                 <div class="card img display-flex">
                     <img src="../assets/fondoPreview.png" alt="">
@@ -61,8 +61,8 @@
                 </div>
                 <div class="text-right mx-giant textCard">
 
-                    <h2 class="blue-color text-xxl">{{t.section2?.title}}</h2>
-                    <p class="white-color text-m regular">{{t.section2?.text}}</p>
+                    <h2 class="blue-color text-giant">{{t.section2?.title}}</h2>
+                    <p class="white-color text-l regular">{{t.section2?.text}}</p>
                     <div onclick="window.location.href='login.html'" class="btn-play-container">
                         <div class="btn-play blue-bg white-color text-xl black-hover">{{t.section2?.button}}</div>
                     </div>
@@ -71,18 +71,20 @@
         </section>
 
 
-        <!-- tercera sección -->
+        <!-- tercera sección,carrousel de ilustraciones de el juego -->
         <section class="extra-bg">
             <div class="carousel">
                 <div class="carousel-container">
+
+                    <!--boton de anterior-->
                     <button @click="prevImage" class="btn-arrows">
                         <img src="../assets/Arrow left.svg" alt="Anterior">
                     </button>
-
+                    <!--Carrousel-->
                     <div class="carrousel ">
                         <img class="img" @click="showImage" :src="variants[i].image" alt="variant image">
                     </div>
-
+                    <!--Boton de siguiente-->
                     <button @click="nextImage" class="btn-arrows">
                         <img src="../assets/Arrow right.svg" alt="Siguiente">
                     </button>
