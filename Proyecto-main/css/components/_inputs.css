@@ -1,0 +1,33 @@
+@layer inputs {
+    input {
+        background: var(--black);
+        border-radius: 8px;
+        padding: 12px 26px;
+        width: 100%;
+        max-width: 400px;
+        padding-left: 50px;
+    }
+
+    .input-display {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0 1rem;
+    }
+
+    .user-icon {
+        background: url('../../assets/User.svg') no-repeat 15px center/30px, var(--black);
+    }
+
+    .email-icon {
+        background: url('../../assets/mail.svg') no-repeat 15px center/30px, var(--black);
+    }
+
+    .password-icon {
+        background: url('../../assets/Lock.svg') no-repeat 15px center/30px, var(--black);
+    }
+
+
+}

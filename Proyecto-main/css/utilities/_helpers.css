@@ -1,0 +1,81 @@
+@layer helpers{
+.blue-bg {
+    background-color: var(--blue);
+}
+
+.primary-bg {
+    background-color: var(--primary);
+}
+
+.secondary-bg {
+    background-color: var(--secondary);
+}
+
+.green-bg {
+    background-color: var(--green);
+}
+
+.light-bg {
+    background-color: var(--light);
+}
+
+.extra-bg {
+    background-color: var(--extra);
+}
+
+.yellow-bg {
+    background-color: var(--yellow);
+}
+
+.yellow-border {
+    border: 2px solid var(--yellow);
+}
+
+.secondary-border {
+    border: 2px solid var(--secondary);
+}
+
+
+.align-left {
+    text-align: left;
+    padding-left: var(--sp-l);
+}
+
+.align-right {
+    text-align: right;
+    padding-right: var(--sp-l);
+}
+
+/* Margins - Todos los lados */
+.m-xxs {
+    margin: var(--sp-xxs);
+}
+
+.m-xs {
+    margin: var(--sp-xs);
+}
+
+.m-s {
+    margin: var(--sp-s);
+}
+
+.m-m {
+    margin: var(--sp-m);
+}
+
+.m-l {
+    margin: var(--sp-l);
+}
+
+.m-xl {
+    margin: var(--sp-xl);
+}
+
+.m-xxl {
+    margin: var(--sp-xxl);
+}
+
+.m-giant {
+    margin: var(--sp-giant);
+}
+}

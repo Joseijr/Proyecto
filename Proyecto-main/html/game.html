@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Sign In</title>
+</head>
+
+<body>
+    <div id="app">
+        <header class="green-bg">
+            <div class="logo white-color text-xl">
+                <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
+                <div class="language-selector display-flex">
+                    <!--Cambio de idioma dinamico-->
+                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
+                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
+                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
+                </div>
+
+            </div>
+            <nav class="text-l bold extra-hover">
+                <a class="white-color extra-hover" href="index.html">{{ t.nav?.home}}</a>
+                <a class="white-color extra-hover" href="#">{{ t.nav?.game}}</a>
+                <a class="white-color extra-hover" href="login.html">{{ t.nav?.login}}</a>
+                <a class="white-color extra-hover" href="signin.html">{{ t.nav?.signin}}</a>
+                <a class="white-color extra-hover" href="#">{{ t.nav?.contact}}</a>
+            </nav>
+        </header>
+
+        <section class="image-container">
+            <img class="" src="../assets/fondoGranja.jpg" alt="">
+        </section>
+
+        <footer class="green-bg">
+            <p class="white-color">{{ t.footer?.rights}}</p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>const mountedApp = app.mount("#app");</script>
+</body>
+
+</html>

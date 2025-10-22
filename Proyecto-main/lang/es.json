@@ -1,0 +1,47 @@
+{
+    "nav": {
+        "home": "Inicio",
+        "game": "Juego",
+        "login": "Iniciar Sesión",
+        "signin": "Registrarse",
+        "contact": "Contacto"
+    },
+    "language": {
+        "en": "English",
+        "es": "Español"
+    },
+    "banner": {
+        "title": "Mushroom's Garden",
+        "subtitle": "¡Relajación, Jardinería y Magia!"
+    },
+    "section1": {
+        "title": "Jardinería y Fantasía",
+        "in":"En",
+        "text": ", la jardinería deja de ser una simple tarea y se transforma en una experiencia mágica y encantadora. Aquí, cada brote esconde un secreto, cada flor susurra un hechizo y cada rincón del jardín respira vida y fantasía. Adéntrate en el bosque y cultiva plantas extraordinarias que florecen bajo la luz de las luciérnagas, ayuda a tus vecinos del bosque y siente la magia en cada planta. A medida que el jardín crece, también lo hace tu conexión con el mundo místico que lo rodea: un lugar donde la naturaleza y la magia coexisten en perfecta armonía."
+    },
+    "section2": {
+        "title": "Relájate y Crea",
+        "text": "A medida que el jardín crece, también lo hacen las oportunidades: completa misiones, ayuda a tus vecinos con tareas diarias y descubre la belleza en las cosas más pequeñas. Ya sea que estés plantando en la tierra, recolectando recursos o cumpliendo encargos mágicos, siempre hay algo nuevo por hacer. Con un ritmo tranquilo y una estética adorable, Jardín de Hongos te invita a disfrutar del proceso de cultivar y dejar que la magia florezca.",
+        "button": "¡Jugar Ahora!"
+    },
+    "login": {
+        "title": "Iniciar Sesión",
+        "username": "Usuario",
+        "password": "Contraseña",
+        "no_account": "¿No tienes una cuenta?",
+        "signin_link": "Regístrate",
+        "button": "¡Ir al jardín!"
+    },
+    "signin": {
+        "title": "Registrarse",
+        "username": "Usuario",
+        "email": "Correo Electrónico",
+        "password": "Contraseña",
+        "have_account": "¿Ya tienes una cuenta?",
+        "login_link": "iniciar sesión",
+        "button": "¡Comenzar el jardín!"
+    },
+    "footer": {
+        "rights": "Mushroom's Garden - Todos los derechos reservados"
+    }
+}

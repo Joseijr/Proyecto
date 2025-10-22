@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Login</title>
+</head>
+
+<body class="login-back">
+    <div id="app">
+        <header class="primary-bg">
+            <div class="logo white-color text-xl">
+                <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
+                <div class="language-selector display-flex">
+                    <!--Cambio de idioma dinamico-->
+                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
+                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
+                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
+                </div>
+
+
+            </div>
+            <nav class="text-l bold extra-hover">
+                <a class="white-color secondary-hover" href="index.html">{{ t.nav?.home}}</a>
+                <a class="white-color secondary-hover" href="game.html">{{ t.nav?.game}}</a>
+                <a class="white-color secondary-hover" href="login.html">{{ t.nav?.login}}</a>
+                <a class="white-color secondary-hover" href="signin.html">{{ t.nav?.signin}}</a>
+                <a class="white-color secondary-hover" href="#">{{ t.nav?.contact}}</a>
+            </nav>
+        </header>
+
+        <section class="input-display">
+            <h1 class="white-color text-king">{{ t.login?.title}}</h1>
+            <input class="m-xxl text-xl secondary-border white-color user-icon" type="text"
+                :placeholder="t.login?.username || 'UserName'">
+            <input class="m-xxl text-xl secondary-border white-color email-icon" type="password"
+                :placeholder="t.login?.password || 'Password'">
+
+            <p class="white-color text-xl">
+                {{ t.login?.no_account}} <span onclick="window.location.href='signin.html'"
+                    class="extra-color underline link cursor">
+                    {{t.login?.signin_link}}
+                </span>
+
+                <!--window.location hace que cuando da click en el enlace te envia hacia el sigin 
+                asi no hay que usar etiquetas de <a> y se controla via vue-->
+            </p>
+
+
+            <!--Boton para enviar formulario-->
+
+            <div class="btn-account text-xl primary-bg white-color my-xxl" v-on:click="logInBtn">
+                {{ t.login?.button}}
+            </div>
+        </section>
+
+        <footer class="primary-bg">
+            <p class="white-color">{{ t.footer?.rights}}</p>
+        </footer>
+    </div>
+
+    <script src="../js/main.js"></script>
+
+    <script>const mountedApp = app.mount("#app");</script>
+</body>
+
+</html>
