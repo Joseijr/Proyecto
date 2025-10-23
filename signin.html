@@ -25,13 +25,33 @@
                 </div>
 
             </div>
-            <nav class="text-l bold yellow-hover">
-                <a class="white-color secondary-hover" href="index.html">{{ t.nav?.home}}</a>
-                <a class="white-color secondary-hover" href="game.html">{{ t.nav?.game}}</a>
-                <a class="white-color secondary-hover" href="login.html">{{ t.nav?.login}}</a>
-                <a class="white-color secondary-hover" href="signin.html">{{ t.nav?.signin}}</a>
-                <a class="white-color secondary-hover" href="#">{{ t.nav?.contact}}</a>
+            <nav class="text-l bold" v-if="ancho >= 780">
+                <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
+                <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
+                <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
+                <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
+                <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
+                <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
             </nav>
+
+            <button v-if="ancho <= 779" v-on:click="showHam" class="menu-toggle" id="menu-toggle">
+                ☰
+            </button>
+
+            <div v-if="menu==true" class="hamMenu primary-bg">
+
+                <button v-on:click="showHam" class="menu-toggle" id="menu-toggle">
+                    ☰
+                </button>
+                <nav class="text-l bold">
+                    <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
+                    <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
+                    <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
+                    <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
+                    <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
+                    <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
+                </nav>
+            </div>
         </header>
 
         <section class="input-display">
@@ -54,14 +74,16 @@
             </div>
         </section>
 
-        <footer class="primary-bg">
-            <p class="white-color">{{ t.footer?.rights}}</p>
-        </footer>
+
     </div>
 
     <script src="../js/main.js"></script>
 
     <script>const mountedApp = app.mount("#app");</script>
 </body>
+
+<footer class="primary-bg">
+    <p class="white-color">Mushroom's Garden - All rights reserved</p>
+</footer>
 
 </html>

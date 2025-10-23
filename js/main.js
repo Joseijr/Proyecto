@@ -12,7 +12,11 @@ const app = Vue.createApp({
 
 
             t: {},
-            lang: "en"
+            lang: "en",
+            menu: false,
+
+            //Obtiene el tamaño de la pantalla
+            ancho: window.innerWidth,
         };
     },
 
@@ -76,7 +80,22 @@ const app = Vue.createApp({
             console.log("boton de registrarse o sign in");
         },
 
+        showHam() {
+            if (this.menu == false) {
+                this.menu = true;
+            } else {
+                this.menu = false;
+            }
 
+        },
+
+
+    },
+
+    mounted() { // Hace cambios cada que se actualiza el DOM
+        window.addEventListener("resize", () => {
+            this.ancho = window.innerWidth;
+        });
     },
     //Cuando se crar el documento carga el idioa
     created() {

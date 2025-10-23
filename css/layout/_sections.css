@@ -13,25 +13,24 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 1,25rem; /*20px*/
+
         flex-wrap: wrap;
-        padding: 1rem;
+
     }
 
     .carrousel {
         display: flex;
         transition: transform 0.5s ease-in-out;
         width: 100%;
-        max-width: 60rem; /*800px*/
-        
+        max-width: fit-content;
+
     }
 
     .carrousel img {
         width: 100%;
-        height: 30rem; /*480px*/
+        height: 30rem;
         object-fit: contain;
-        border-radius: 0.625rem; /*10px*/
-        
+
     }
 
     .full-image {
@@ -60,7 +59,8 @@
     .full-content img {
         max-width: 100%;
         max-height: 85vh;
-        border-radius: 0.625rem; /*10px*/
+        border-radius: 0.625rem;
+        /*10px*/
         object-fit: contain;
     }
 

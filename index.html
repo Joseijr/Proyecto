@@ -14,25 +14,45 @@
 
 <body>
     <div id="app">
-        <header class="primary-bg header-left">
+        <header class="primary-bg ">
             <div class="logo white-color text-xl">
                 <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
                 <div class="language-selector display-flex">
-                    <!--Cambio de idioma dinamico-->
+                    <!--Cambio de idioma-->
                     <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
                     <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
                     <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
                 </div>
 
             </div>
-            <nav class="text-l bold">
+
+            <nav class="text-l bold" v-if="ancho >= 780">
                 <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
-                <a class="white-color secondary-hover" href="#">{{t.nav?.home}}</a>
+                <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
                 <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
                 <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
                 <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
                 <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
             </nav>
+
+            <button v-if="ancho <= 779" v-on:click="showHam" class="menu-toggle" id="menu-toggle">
+                ☰
+            </button>
+
+            <div v-if="menu==true" class="hamMenu primary-bg">
+
+                <button v-on:click="showHam" class="menu-toggle" id="menu-toggle">
+                    ☰
+                </button>
+                <nav class="text-l bold">
+                    <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
+                    <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
+                    <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
+                    <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
+                    <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
+                    <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
+                </nav>
+            </div>
         </header>
 
         <div class="banner blue-bg">
@@ -45,7 +65,8 @@
             <div class="display-flex ">
                 <div class="mx-giant text-left textCard">
                     <h2 class=" text-giant extra-color">{{t.section1?.title}}</h2>
-                    <p class="text-l regular "> {{t.section1.in}} <span class="extra-color">{{t.banner.title}}</span>{{t.section1?.text}}</p>
+                    <p class="text-l regular "> {{t.section1.in}} <span
+                            class="extra-color">{{t.banner.title}}</span>{{t.section1?.text}}</p>
                 </div>
                 <div class="card img display-flex">
                     <img src="../assets/fondoPreview.png" alt="">
@@ -56,7 +77,7 @@
         <!-- Segunda sección -->
         <section class="secondary-bg">
             <div class="display-flex reverse ml-l">
-                <div class="card img">
+                <div class="card img display-flex">
                     <img src="../assets/fondoPreview.png" alt="">
                 </div>
                 <div class="text-right mx-giant textCard">
@@ -98,14 +119,16 @@
         </section>
 
 
-        <footer class="primary-bg">
-            <p class="white-color">{{t.footer?.rights}}</p>
-        </footer>
+
     </div>
 
     <script src="../js/main.js"></script>
 
     <script>const mountedApp = app.mount("#app");</script>
 </body>
+
+<footer class="primary-bg">
+    <p class="white-color">Mushroom's Garden - All rights reserved</p>
+</footer>
 
 </html>

@@ -14,37 +14,63 @@
 
 <body>
     <div id="app">
-        <header class="green-bg">
-            <div class="logo white-color text-xl">
-                <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
-                <div class="language-selector display-flex">
-                    <!--Cambio de idioma dinamico-->
-                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
-                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
-                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
+        <div class="page-wrapper">
+            <header class="green-bg">
+                <div class="logo white-color text-xl">
+                    <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
+                    <div class="language-selector display-flex">
+                        <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
+                        <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
+                        <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
+                    </div>
                 </div>
+                <nav class="text-l bold" v-if="ancho >= 780">
+                    <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
+                    <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
+                    <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
+                    <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
+                    <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
+                </nav>
 
-            </div>
-            <nav class="text-l bold extra-hover">
-                <a class="white-color extra-hover" href="index.html">{{ t.nav?.home}}</a>
-                <a class="white-color extra-hover" href="#">{{ t.nav?.game}}</a>
-                <a class="white-color extra-hover" href="login.html">{{ t.nav?.login}}</a>
-                <a class="white-color extra-hover" href="signin.html">{{ t.nav?.signin}}</a>
-                <a class="white-color extra-hover" href="#">{{ t.nav?.contact}}</a>
-            </nav>
-        </header>
+                <button v-if="ancho <= 779" v-on:click="showHam" class="menu-toggle" id="menu-toggle">
+                    ☰
+                </button>
 
-        <section class="image-container">
-            <img class="" src="../assets/fondoGranja.jpg" alt="">
-        </section>
+                <div v-if="menu==true" class="hamMenu green-bg">
+                    <button v-on:click="showHam" class="menu-toggle" id="menu-toggle">
+                        ☰
+                    </button>
+                    <nav class="text-l bold">
+                        <a class="white-color extra-hover" href="index.html">{{t.nav?.home}}</a>
+                        <a class="white-color extra-hover" href="game.html">{{t.nav?.game}}</a>
+                        <a class="white-color extra-hover" href="login.html">{{t.nav?.login}}</a>
+                        <a class="white-color extra-hover" href="signin.html">{{t.nav?.signin}}</a>
+                        <a class="white-color extra-hover" href="#">{{t.nav?.contact}}</a>
+                    </nav>
+                </div>
+            </header>
 
-        <footer class="green-bg">
-            <p class="white-color">{{ t.footer?.rights}}</p>
-        </footer>
+            <main class="main-content">
+                <section class="image-container">
+                    <img src="../assets/fondoGranja.jpg" alt="">
+                </section>
+            </main>
+
+
+        </div>
     </div>
 
     <script src="../js/main.js"></script>
     <script>const mountedApp = app.mount("#app");</script>
 </body>
+
+<br>
+<br>
+<br>
+<br>
+
+<footer class="green-bg">
+    <p class="white-color">Mushroom's Garden - All rights reserved</p>
+</footer>
 
 </html>
