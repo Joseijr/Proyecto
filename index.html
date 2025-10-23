@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <!-- Ruta corregida para CSS -->
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Mushroom's Garden</title>
 </head>
@@ -18,7 +18,7 @@
         <header class="primary-bg ">
             <div class="logo white-color text-xl">
                 <!-- Ruta corregida para imágenes -->
-                <img src="./assets/Logo.png" alt="Mushroom's Garden Logo">
+                <img src="assets/Logo.png" alt="Mushroom's Garden Logo">
                 <div class="language-selector display-flex">
                     <!--Cambio de idioma-->
                     <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
@@ -30,10 +30,10 @@
 
             <nav class="text-l bold" v-if="ancho >= 780">
                 <!-- Rutas corregidas para navegación -->
-                <a class="white-color secondary-hover" href="./index.html">{{t.nav?.home}}</a>
-                <a class="white-color secondary-hover" href="./game.html">{{t.nav?.game}}</a>
-                <a class="white-color secondary-hover" href="./login.html">{{t.nav?.login}}</a>
-                <a class="white-color secondary-hover" href="./signin.html">{{t.nav?.signin}}</a>
+                <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
+                <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
+                <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
+                <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
                 <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
             </nav>
 
@@ -48,10 +48,10 @@
                 </button>
                 <nav class="text-l bold">
                     <!-- Rutas corregidas para navegación -->
-                    <a class="white-color secondary-hover" href="./index.html">{{t.nav?.home}}</a>
-                    <a class="white-color secondary-hover" href="./game.html">{{t.nav?.game}}</a>
-                    <a class="white-color secondary-hover" href="./login.html">{{t.nav?.login}}</a>
-                    <a class="white-color secondary-hover" href="./signin.html">{{t.nav?.signin}}</a>
+                    <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
+                    <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
+                    <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
+                    <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
                     <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
                 </nav>
             </div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="card img display-flex">
                     <!-- Ruta corregida para imágenes -->
-                    <img src="./assets/fondoPreview.png" alt="">
+                    <img src="assets/fondoPreview.png" alt="">
                 </div>
             </div>
         </section>
@@ -82,13 +82,13 @@
             <div class="display-flex reverse ml-l">
                 <div class="card img display-flex">
                     <!-- Ruta corregida para imágenes -->
-                    <img src="./assets/fondoPreview.png" alt="">
+                    <img src="assets/fondoPreview.png" alt="">
                 </div>
                 <div class="text-right mx-giant textCard">
 
                     <h2 class="blue-color text-giant">{{t.section2?.title}}</h2>
                     <p class="white-color text-l regular">{{t.section2?.text}}</p>
-                    <div onclick="window.location.href='./login.html'" class="btn-play-container">
+                    <div onclick="window.location.href='login.html'" class="btn-play-container">
                         <div class="btn-play blue-bg white-color text-xl black-hover">{{t.section2?.button}}</div>
                     </div>
                 </div>
@@ -104,23 +104,23 @@
                     <!--boton de anterior-->
                     <button @click="prevImage" class="btn-arrows">
                         <!-- Ruta corregida para imágenes -->
-                        <img src="./assets/Arrow left.svg" alt="Anterior">
+                        <img src="assets/Arrow left.svg" alt="Anterior">
                     </button>
                     <!--Carrousel-->
                     <div class="carrousel ">
                         <!-- Ruta corregida para imágenes -->
-                        <img class="img" @click="showImage" :src="'./assets/' + variants[i].image" alt="variant image">
+                        <img class="img" @click="showImage" :src="variants[i].image" alt="variant image">
                     </div>
                     <!--Boton de siguiente-->
                     <button @click="nextImage" class="btn-arrows">
                         <!-- Ruta corregida para imágenes -->
-                        <img src="./assets/Arrow right.svg" alt="Siguiente">
+                        <img src="assets/Arrow right.svg" alt="Siguiente">
                     </button>
                 </div>
                 <div v-if="show" class="full-image" @click="hideImage">
                     <div class="full-content img">
                         <!-- Ruta corregida para imágenes -->
-                        <img :src="'./assets/' + variants[i].image" alt="variant image">
+                        <img :src="variants[i].image" alt="variant image">
                     </div>
                 </div>
             </div>
