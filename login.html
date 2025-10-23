@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Login</title>
 </head>
@@ -16,7 +16,7 @@
     <div id="app">
         <header class="primary-bg">
             <div class="logo white-color text-xl">
-                <img src="../assets/Logo.png" alt="Mushroom's Garden Logo">
+                <img src="assets/Logo.png" alt="Mushroom's Garden Logo">
                 <div class="language-selector display-flex">
                     <!--Cambio de idioma dinamico-->
                     <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
@@ -82,7 +82,7 @@
 
     </div>
 
-    <script src="../js/main.js"></script>
+    <script src="js/main.js"></script>
 
     <script>const mountedApp = app.mount("#app");</script>
 </body>
