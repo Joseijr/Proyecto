@@ -12,7 +12,7 @@
     <title>Login</title>
 </head>
 
-<body class="login-back">
+<body>
     <div id="app">
         <header class="primary-bg">
             <div class="logo white-color text-xl">
@@ -23,9 +23,9 @@
                     <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
                     <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
                 </div>
-
-
             </div>
+
+
             <nav class="text-l bold" v-if="ancho >= 780">
                 <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
                 <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
@@ -50,13 +50,13 @@
                     <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
                     <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
                     <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
-                    <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
+                    <a class="white-color secondary-hover" href="contact.html">{{t.nav?.contact}}</a>
                 </nav>
             </div>
         </header>
 
-        <section class="input-display">
-            <h1 class="white-color text-king">{{ t.login?.title}}</h1>
+        <section class="input-display login-back">
+            <h1 class="white-color text-king my-xl">{{ t.login?.title}}</h1>
             <input class="m-xxl text-xl secondary-border white-color user-icon" type="text"
                 :placeholder="t.login?.username || 'UserName'">
             <input class="m-xxl text-xl secondary-border white-color email-icon" type="password"
@@ -78,17 +78,20 @@
             <div class="btn-account text-xl primary-bg white-color my-xxl" v-on:click="logInBtn">
                 {{ t.login?.button}}
             </div>
+
         </section>
 
     </div>
+
+    <footer class="primary-bg">
+        <p class="white-color">Mushroom's Garden - All rights reserved</p>
+    </footer>
 
     <script src="js/main.js"></script>
 
     <script>const mountedApp = app.mount("#app");</script>
 </body>
 
-<footer class="primary-bg">
-    <p class="white-color">Mushroom's Garden - All rights reserved</p>
-</footer>
+
 
 </html>

@@ -27,6 +27,12 @@
         background: linear-gradient(hsla(0, 0%, 0%, 0.4), hsla(0, 0%, 0%, 0.4)), url('../../assets/Illustrationproyecto2.jpg') center/cover no-repeat;
     }
 
+    .contact-back {
+        text-align: center;
+        background: linear-gradient(hsla(0, 0%, 0%, 0.4), hsla(0, 0%, 0%, 0.4)), url('../../assets/Illustrationproyecto3.jpg') center/cover no-repeat;
+        
+    }
+
     .language-selector {
         align-items: center;
         gap: 1rem;

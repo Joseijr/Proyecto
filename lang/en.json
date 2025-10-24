@@ -41,6 +41,15 @@
         "login_link": "log in",
         "button": "Start the garden!"
     },
+        "contact": {
+        "title": "Contact Us",
+        "secondTittle": "Art and development deparment ",
+        "email1": "gigisartplace0707@gmail.com",
+        "email2": "gigisartplace0707@gmail.com",
+        "thirdTittle": "Costumer Support",
+        "email3": "mushroomsGSupport@gmail.com"
+    },
+
     "footer": {
         "rights": "Mushroom's Garden - All rights reserved"
     }

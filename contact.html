@@ -9,10 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <title>Sign In</title>
+    <title>contact</title>
 </head>
 
-<body class="signin-back">
+<body>
     <div id="app">
         <header class="primary-bg">
             <div class="logo white-color text-xl">
@@ -23,8 +23,9 @@
                     <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
                     <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
                 </div>
-
             </div>
+
+
             <nav class="text-l bold" v-if="ancho >= 780">
                 <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
                 <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
@@ -49,41 +50,50 @@
                     <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
                     <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
                     <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
-                    <a class="white-color secondary-hover" href="contact.html">{{t.nav?.contact}}</a>
+                    <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
                 </nav>
             </div>
         </header>
 
-        <section class="input-display">
-            <h1 class="white-color text-king my-xl">{{ t.signin?.title}}</h1>
-            <input class="m-xxl text-xl yellow-border white-color user-icon" type="text"
-                :placeholder="t.signin?.username || 'UserName'">
-            <input class="m-xxl text-xl yellow-border white-color email-icon" type="text"
-                :placeholder="t.signin?.email || 'Email'">
-            <input class="m-xxl text-xl yellow-border white-color password-icon" type="password"
-                :placeholder="t.signin?.password || 'Password'">
+        <section class="input-display contact-back ">
+            
 
-            <p class="white-color text-xl">
-                {{ t.signin?.have_account}} <span onclick="window.location.href='login.html'"
-                    class="yellow-color underline link cursor">{{ t.signin?.login_link}}</span>
-            </p>
+            <h1 class="white-color text-king p-giant ">{{ t.contact?.title}}</h1>
 
-            <!--Boton para enviar formulario de sign in-->
-            <div class="btn-account text-xl yellow-bg white-color my-xxl" v-on:click="SignInBtn">
-                {{ t.signin?.button}}
+
+            <h2 class="white-color text-xxl p-giant">{{ t.contact?.secondTittle}}</h2>
+
+            <div class="mails-contact ">
+                <img src="assets/mail.svg" alt="">
+                <p class="white-color text-xl">{{ t.contact?.email1}}</p>
             </div>
+            <div class="mails-contact p-giant">
+                <img src="assets/mail.svg" alt="">
+                <p class="white-color text-xl">{{ t.contact?.email2}}</p>
+            </div>
+
+
+
+            <h2 class="white-color text-xxl my-xl">{{ t.contact?.thirdTittle}}</h2>
+
+            <div class="mails-contact p-giant">
+                <img src="assets/mail.svg" alt="">
+                <p class="white-color text-xl">{{ t.contact?.email3}}</p>
+            </div>
+
         </section>
 
-
     </div>
+
+    <footer class="primary-bg">
+        <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
+    </footer>
 
     <script src="js/main.js"></script>
 
     <script>const mountedApp = app.mount("#app");</script>
 </body>
 
-<footer class="primary-bg">
-    <p class="white-color">Mushroom's Garden - All rights reserved</p>
-</footer>
+
 
 </html>

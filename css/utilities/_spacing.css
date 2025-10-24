@@ -48,6 +48,10 @@
         margin-bottom: var(--sp-m);
     }
 
+    .mt-m {
+        margin-top: var(--sp-giant);
+    }
+
     /* Margins - Horizontal (izquierda y derecha) */
     .mx-xxs {
         margin-left: var(--sp-xxs);
