@@ -16,7 +16,7 @@
     },
     "section1": {
         "title": "Gardening and Fantasy",
-        "in":"In",
+        "in": "In",
         "text": ", gardening stops being a simple chore and transforms into a magical and charming experience. Here, every sprout hides a secret, every flower whispers a spell, and every corner of the garden breathes life and fantasy. Step into the forest and cultivate extraordinary plants that bloom under the light of fireflies, help your forest neighbors, and feel the magic in every plant. As the garden grows, so does your connection to the mystical world around it: a place where nature and magic coexist in perfect harmony."
     },
     "section2": {
@@ -41,15 +41,14 @@
         "login_link": "log in",
         "button": "Start the garden!"
     },
-        "contact": {
+    "contact": {
         "title": "Contact Us",
         "secondTittle": "Art and development deparment ",
         "email1": "gigisartplace0707@gmail.com",
-        "email2": "gigisartplace0707@gmail.com",
+        "email2": "jjimenezrubi6@gmail.com",
         "thirdTittle": "Costumer Support",
         "email3": "mushroomsGSupport@gmail.com"
     },
-
     "footer": {
         "rights": "Mushroom's Garden - All rights reserved"
     }

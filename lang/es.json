@@ -16,7 +16,7 @@
     },
     "section1": {
         "title": "Jardinería y Fantasía",
-        "in":"En",
+        "in": "En",
         "text": ", la jardinería deja de ser una simple tarea y se transforma en una experiencia mágica y encantadora. Aquí, cada brote esconde un secreto, cada flor susurra un hechizo y cada rincón del jardín respira vida y fantasía. Adéntrate en el bosque y cultiva plantas extraordinarias que florecen bajo la luz de las luciérnagas, ayuda a tus vecinos del bosque y siente la magia en cada planta. A medida que el jardín crece, también lo hace tu conexión con el mundo místico que lo rodea: un lugar donde la naturaleza y la magia coexisten en perfecta armonía."
     },
     "section2": {
@@ -41,11 +41,11 @@
         "login_link": "iniciar sesión",
         "button": "¡Comenzar el jardín!"
     },
-        "contact": {
+    "contact": {
         "title": "Contáctanos",
         "secondTittle": "Departamento de arte y desarrollo",
         "email1": "gigisartplace0707@gmail.com",
-        "email2": "gigisartplace0707@gmail.com",
+        "email2": "jjimenezrubi6@gmail.com",
         "thirdTittle": "Soporte al cliente",
         "email3": "mushroomsGSupport@gmail.com"
     },
