@@ -1,6 +1,7 @@
 @layer main {
     footer {
-        position: relative;
+        display: flex;
+        
         align-items: center;
         text-align: center;
         justify-content: center;
@@ -11,10 +12,15 @@
     }
 
     body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+
         margin: 0;
         min-height: 100vh;
         display: grid;
         grid-template-rows: auto 1fr auto;
+        
     }
 
     .login-back {
@@ -25,6 +31,7 @@
     .signin-back {
         text-align: center;
         background: linear-gradient(hsla(0, 0%, 0%, 0.4), hsla(0, 0%, 0%, 0.4)), url('../../assets/Illustrationproyecto2.jpg') center/cover no-repeat;
+        flex: 1;
     }
 
     .contact-back {

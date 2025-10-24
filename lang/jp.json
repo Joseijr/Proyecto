@@ -42,6 +42,14 @@
         "login_link": "ログイン",
         "button": "庭を始める！"
     },
+        "contact": {
+        "title": "お問い合わせ",
+        "secondTittle": "アートと開発部門",
+        "email1": "gigisartplace0707@gmail.com",
+        "email2": "gigisartplace0707@gmail.com",
+        "thirdTittle": "カスタマーサポート",
+        "email3": "mushroomsGSupport@gmail.com"
+    },
     "footer": {
         "rights": "Mushroom's Garden - 全著作権所有"
     }
