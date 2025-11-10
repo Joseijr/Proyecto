@@ -7,7 +7,8 @@ const app = Vue.createApp({
             variants: [
                 { id: 1, image: "../assets/Illustrationproyecto1.jpg" },
                 { id: 2, image: "../assets/Illustrationproyecto2.jpg" },
-                { id: 3, image: "../assets/Illustrationproyecto3.jpg" }
+                { id: 3, image: "../assets/Illustrationproyecto3.jpg" },
+                { id: 3, image: "../assets/bg-granja.png" }
             ],
 
 

@@ -52,7 +52,26 @@
 
             <main class="main-content">
                 <section class="image-container">
-                    <img src="assets/fondoGranja.jpg" alt="">
+                    <img src="assets/bg-granja.png" alt="">
+                    
+                    <!-- Panel lateral de inventario/acciones -->
+                    <aside class="game-sidebar">
+                        <div class="game-actions">
+                            <button class="action-btn" title="Plantar">
+                                <img src="assets/shovel.png" alt="Plantar" class="action-icon-img">
+                            </button>
+                            <button class="action-btn" title="Regar">
+                                <img src="assets/regar.png" alt="Regar" class="action-icon-img">
+                            </button>
+                            <button class="action-btn" title="Inventario">
+                                <img src="assets/bolsabase.png" alt="Inventario" class="action-icon-img">
+                            </button>
+
+                            <!-- El atributo title="Plantar", 
+                             title="Regar" y title="Inventario" es lo que hace que aparezca ese texto al 
+                             pasar el cursor sobre los botones. -->
+                        </div>
+                    </aside>
                 </section>
             </main>
 
@@ -63,11 +82,6 @@
     <script src="js/main.js"></script>
     <script>const mountedApp = app.mount("#app");</script>
 </body>
-
-<br>
-<br>
-<br>
-<br>
 
 <footer class="green-bg">
     <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
