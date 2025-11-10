@@ -7,45 +7,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="css/style.css">
     <title>Login</title>
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" class="page-shell">
         <header class="primary-bg">
-            <div class="logo white-color text-xl">
-                <img src="assets/Logo.png" alt="Mushroom's Garden Logo">
-                <div class="language-selector display-flex">
-                    <!--Cambio de idioma dinamico-->
-                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
-                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
-                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
-                </div>
-            </div>
-
-
             <nav class="text-l bold" v-if="ancho >= 780">
-                <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
                 <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
                 <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
                 <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
                 <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
                 <a class="white-color secondary-hover" href="contact.html">{{t.nav?.contact}}</a>
             </nav>
-
-            <button v-if="ancho <= 779" v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                ☰
-            </button>
-
-            <div v-if="menu==true" class="hamMenu primary-bg">
-
-                <button v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                    ☰
-                </button>
+            <button v-if="ancho <= 779" @click="showHam" class="menu-toggle">☰</button>
+            <div v-if="menu" class="hamMenu primary-bg">
                 <nav class="text-l bold">
-                    <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
                     <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
                     <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
                     <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
@@ -55,34 +34,35 @@
             </div>
         </header>
 
-        <section class="input-display login-back">
-            <h1 class="white-color text-king my-xl">{{ t.login?.title}}</h1>
+        <main>
+            <section class="input-display login-back">
+                <h1 class="white-color text-king my-xl">{{ t.login?.title }}</h1>
 
-            <input class="m-xxl text-xl secondary-border white-color user-icon" type="text"
-                :placeholder="t.login?.username || 'UserName'">
+                <input class="m-xxl text-xl secondary-border white-color user-icon" type="text"
+                    :placeholder="t.login?.username || 'UserName'">
 
-            <input class="m-xxl text-xl secondary-border white-color email-icon" type="password"
-                :placeholder="t.login?.password || 'Password'">
+                <input class="m-xxl text-xl secondary-border white-color email-icon" type="password"
+                    :placeholder="t.login?.password || 'Password'">
 
-            <p class="white-color text-xl">
-                {{ t.login?.no_account}} <span onclick="window.location.href='signin.html'"
-                    class="extra-color underline link cursor">
-                    {{t.login?.signin_link}}
-                </span>
+                <p class="white-color text-xl">
+                    {{ t.login?.no_account}} <span onclick="window.location.href='signin.html'"
+                        class="extra-color underline link cursor">
+                        {{t.login?.signin_link}}
+                    </span>
 
-                <!--window.location hace que cuando da click en el enlace te envia hacia el sigin 
+                    <!--window.location hace que cuando da click en el enlace te envia hacia el sigin 
                 asi no hay que usar etiquetas de <a> y se controla via vue-->
-            </p>
+                </p>
 
 
-            <!--Boton para enviar formulario-->
+                <!--Boton para enviar formulario-->
 
-            <div class="btn-account text-xl primary-bg white-color my-super" v-on:click="logInBtn">
-                {{ t.login?.button}}
-            </div>
+                <div class="btn-account text-xl primary-bg white-color my-super" v-on:click="logInBtn">
+                    {{ t.login?.button}}
+                </div>
 
-        </section>
-
+            </section>
+        </main>
     </div>
 
     <footer class="primary-bg">
@@ -90,10 +70,9 @@
     </footer>
 
     <script src="js/main.js"></script>
-
-    <script>const mountedApp = app.mount("#app");</script>
+    <script>
+        app.mount('#app');
+    </script>
 </body>
-
-
 
 </html>
