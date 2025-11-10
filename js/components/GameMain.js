@@ -3,7 +3,7 @@ app.component('game-main', {
     props: {
         // Puede recibir props en el futuro para estado del juego
     },
-    emits: ['plant-action', 'water-action', 'inventory-action'],
+    
     methods: {
         handlePlant() {
             this.$emit('plant-action');

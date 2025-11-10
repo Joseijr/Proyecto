@@ -14,82 +14,29 @@
 
 <body>
     <div id="app">
-        <header class="primary-bg">
-            <div class="logo white-color text-xl">
-                <img src="assets/Logo.png" alt="Mushroom's Garden Logo">
-                <div class="language-selector display-flex">
-                    <!--Cambio de idioma dinamico-->
-                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
-                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
-                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
-                </div>
-            </div>
+        <!-- App Header Component (reutilizado de index) -->
+        <app-header 
+            :t="t" 
+            :lang="lang" 
+            :ancho="ancho" 
+            :menu="menu" 
+            @change-language="changeLanguage" 
+            @toggle-menu="showHam">
+        </app-header>
 
-
-            <nav class="text-l bold" v-if="ancho >= 780">
-                <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
-                <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
-                <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
-                <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
-                <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
-                <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
-            </nav>
-
-            <button v-if="ancho <= 779" v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                ☰
-            </button>
-
-            <div v-if="menu==true" class="hamMenu primary-bg">
-
-                <button v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                    ☰
-                </button>
-                <nav class="text-l bold">
-                    <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
-                    <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
-                    <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
-                    <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
-                    <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
-                    <a class="white-color secondary-hover" href="#">{{t.nav?.contact}}</a>
-                </nav>
-            </div>
-        </header>
-
-        <section class="input-display contact-back ">
-            
-
-            <h1 class="white-color text-king p-giant ">{{ t.contact?.title}}</h1>
-
-
-            <h2 class="white-color text-xxl p-giant">{{ t.contact?.secondTittle}}</h2>
-
-            <div class="mails-contact ">
-                <img src="assets/mail.svg" alt="">
-                <p class="white-color text-xl">{{ t.contact?.email1}}</p>
-            </div>
-            <div class="mails-contact p-giant">
-                <img src="assets/mail.svg" alt="">
-                <p class="white-color text-xl">{{ t.contact?.email2}}</p>
-            </div>
-
-
-
-            <h2 class="white-color text-xxl my-xl">{{ t.contact?.thirdTittle}}</h2>
-
-            <div class="mails-contact p-giant">
-                <img src="assets/mail.svg" alt="">
-                <p class="white-color text-xl">{{ t.contact?.email3}}</p>
-            </div>
-
-        </section>
-
+        <!-- Contact Section Component -->
+        <contact-section :t="t"></contact-section>
     </div>
 
     <footer class="primary-bg">
-        <p class="white-color mt-m ">Mushroom's Garden - All rights reserved</p>
+        <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
     </footer>
 
+    <!-- Main app -->
     <script src="js/main.js"></script>
+    <!-- Components -->
+    <script src="js/components/AppHeader.js"></script>
+    <script src="js/components/ContactSection.js"></script>
 
     <script>const mountedApp = app.mount("#app");</script>
 </body>

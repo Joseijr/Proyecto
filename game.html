@@ -15,71 +15,31 @@
 <body>
     <div id="app">
         <div class="page-wrapper">
-            <header class="green-bg">
-                <div class="logo white-color text-xl">
-                    <img src="assets/Logo.png" alt="Mushroom's Garden Logo">
-                    <div class="language-selector display-flex">
-                        <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
-                        <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
-                        <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
-                    </div>
-                </div>
-                <nav class="text-l bold" v-if="ancho >= 780">
-                    <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
-                    <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
-                    <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
-                    <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
-                    <a class="white-color secondary-hover" href="contact.html">{{t.nav?.contact}}</a>
-                </nav>
+            <!-- Game Header Component -->
+            <game-header 
+                :t="t" 
+                :lang="lang" 
+                :ancho="ancho" 
+                :menu="menu" 
+                @change-language="changeLanguage" 
+                @toggle-menu="showHam">
+            </game-header>
 
-                <button v-if="ancho <= 779" v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                    ☰
-                </button>
-
-                <div v-if="menu==true" class="hamMenu green-bg">
-                    <button v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                        ☰
-                    </button>
-                    <nav class="text-l bold">
-                        <a class="white-color extra-hover" href="index.html">{{t.nav?.home}}</a>
-                        <a class="white-color extra-hover" href="game.html">{{t.nav?.game}}</a>
-                        <a class="white-color extra-hover" href="login.html">{{t.nav?.login}}</a>
-                        <a class="white-color extra-hover" href="signin.html">{{t.nav?.signin}}</a>
-                        <a class="white-color extra-hover" href="#">{{t.nav?.contact}}</a>
-                    </nav>
-                </div>
-            </header>
-
-            <main class="main-content">
-                <section class="image-container">
-                    <img src="assets/bg-granja.png" alt="">
-                    
-                    <!-- Panel lateral de inventario/acciones -->
-                    <aside class="game-sidebar">
-                        <div class="game-actions">
-                            <button class="action-btn" title="Plantar">
-                                <img src="assets/shovel.png" alt="Plantar" class="action-icon-img">
-                            </button>
-                            <button class="action-btn" title="Regar">
-                                <img src="assets/regar.png" alt="Regar" class="action-icon-img">
-                            </button>
-                            <button class="action-btn" title="Inventario">
-                                <img src="assets/bolsabase.png" alt="Inventario" class="action-icon-img">
-                            </button>
-
-                            <!-- El atributo title="Plantar", 
-                             title="Regar" y title="Inventario" es lo que hace que aparezca ese texto al 
-                             pasar el cursor sobre los botones. -->
-                        </div>
-                    </aside>
-                </section>
-            </main>
-
-
+            <!-- Game Main Component -->
+            <game-main 
+                @plant-action="plantAction" 
+                @water-action="waterAction" 
+                @inventory-action="inventoryAction">
+            </game-main>
         </div>
     </div>
 
+    <!-- Main app -->
     <script src="js/main.js"></script>
+    <!-- Game components -->
+    <script src="js/components/GameHeader.js"></script>
+    <script src="js/components/GameMain.js"></script>
+
     <script>const mountedApp = app.mount("#app");</script>
 </body>
 

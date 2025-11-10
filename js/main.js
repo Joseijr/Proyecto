@@ -90,6 +90,19 @@ const app = Vue.createApp({
 
         },
 
+        // Game actions - métodos para los botones del juego
+        plantAction() {
+            console.log("Acción: editar parcela");
+        },
+
+        waterAction() {
+            console.log("Acción: Regar");
+        },
+
+        inventoryAction() {
+            console.log("Acción: Abrir inventario");
+        },
+
 
     },
 

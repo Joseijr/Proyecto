@@ -14,69 +14,34 @@
 
 <body class="signin-back">
     <div id="app">
-        <header class="primary-bg">
-            <div class="logo white-color text-xl">
-                <img src="assets/Logo.png" alt="Mushroom's Garden Logo">
-                <div class="language-selector display-flex">
-                    <!--Cambio de idioma dinamico-->
-                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
-                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
-                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
-                </div>
+        <!-- App Header Component (reutilizado) -->
+        <app-header 
+            :t="t" 
+            :lang="lang" 
+            :ancho="ancho" 
+            :menu="menu" 
+            @change-language="changeLanguage" 
+            @toggle-menu="showHam">
+        </app-header>
 
-            </div>
-            <nav class="text-l bold" v-if="ancho >= 780">
-                <!--Estructura "t+La seccion del texto en este caso nav+."Nombre del texto""-->
-                <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
-                <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
-                <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
-                <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
-                <a class="white-color secondary-hover" href="contact.html">{{t.nav?.contact}}</a>
-            </nav>
-
-            <button v-if="ancho <= 779" v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                ☰
-            </button>
-
-            <div v-if="menu==true" class="hamMenu primary-bg">
-
-                <button v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                    ☰
-                </button>
-
-            </div>
-        </header>
-
-        <section class="input-display">
-            <h1 class="white-color text-king my-xl">{{ t.signin?.title}}</h1>
-            <input class="m-xxl text-xl yellow-border white-color user-icon" type="text"
-                :placeholder="t.signin?.username || 'UserName'">
-            <input class="m-xxl text-xl yellow-border white-color email-icon" type="text"
-                :placeholder="t.signin?.email || 'Email'">
-            <input class="m-xxl text-xl yellow-border white-color password-icon" type="password"
-                :placeholder="t.signin?.password || 'Password'">
-
-            <p class="white-color text-xl">
-                {{ t.signin?.have_account}} <span onclick="window.location.href='login.html'"
-                    class="yellow-color underline link cursor">{{ t.signin?.login_link}}</span>
-            </p>
-
-            <!--Boton para enviar formulario de sign in-->
-            <div class="btn-account text-xl yellow-bg white-color my-xxl" v-on:click="SignInBtn">
-                {{ t.signin?.button}}
-            </div>
-        </section>
-
-
+        <!-- Signin Form Component -->
+        <signin-form 
+            :t="t" 
+            @signin-submit="SignInBtn">
+        </signin-form>
     </div>
-
-    <script src="js/main.js"></script>
-
-    <script>const mountedApp = app.mount("#app");</script>
-</body>
 
     <footer class="primary-bg">
         <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
     </footer>
+
+    <!-- Main app -->
+    <script src="js/main.js"></script>
+    <!-- Components -->
+    <script src="js/components/AppHeader.js"></script>
+    <script src="js/components/SigninForm.js"></script>
+
+    <script>const mountedApp = app.mount("#app");</script>
+</body>
 
 </html>
