@@ -15,133 +15,46 @@
 
 <body>
     <div id="app">
-        <header class="primary-bg ">
-            <div class="logo white-color text-xl">
+        <!-- Header Component -->
+        <app-header 
+            :t="t" 
+            :lang="lang" 
+            :ancho="ancho" 
+            :menu="menu" 
+            @change-language="changeLanguage" 
+            @toggle-menu="showHam">
+        </app-header>
 
-                <img src="assets/Logo.png" alt="Mushroom's Garden Logo">
-                <div class="language-selector display-flex">
-                    <!--Cambio de idioma-->
-                    <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
-                    <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
-                    <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
-                </div>
+        <!-- componente del banner -->
+        <app-banner :t="t"></app-banner>
 
-            </div>
+        <!-- componente de la primera seccion de texto -->
+        <section-one :t="t"></section-one>
 
-            <nav class="text-l bold" v-if="ancho >= 780">
-                <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
-                <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
-                <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
-                <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
-                <a class="white-color secondary-hover" href="contact.html">{{t.nav?.contact}}</a>
-            </nav>
+        <!-- segunda secciom -->
+        <section-two :t="t"></section-two>
 
-            <button v-if="ancho <= 779" v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                ☰
-            </button>
-
-            <div v-if="menu==true" class="hamMenu primary-bg">
-
-                <button v-on:click="showHam" class="menu-toggle" id="menu-toggle">
-                    ☰
-                </button>
-                <nav class="text-l bold">
-                    <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
-                    <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>
-                    <a class="white-color secondary-hover" href="login.html">{{t.nav?.login}}</a>
-                    <a class="white-color secondary-hover" href="signin.html">{{t.nav?.signin}}</a>
-                    <a class="white-color secondary-hover" href="contact.html">{{t.nav?.contact}}</a>
-                </nav>
-            </div>
-        </header>
-
-        <div class="banner blue-bg">
-            <h1 class="white-color text-king bold ">{{t.banner?.title}}</h1>
-            <p class="white-color text-l">{{t.banner?.subtitle}}</p>
-        </div>
-
-        <!-- Primera sección -->
-        <section class="light-bg">
-            <div class="display-flex ">
-                <div class="mx-giant text-left textCard">
-                    <h2 class=" text-giant extra-color">{{t.section1?.title}}</h2>
-                    <p class="text-l regular "> {{t.section1.in}} <span
-                            class="extra-color">{{t.banner.title}}</span>{{t.section1?.text}}</p>
-                </div>
-                <div class="card img display-flex">
-
-                    <img src="assets/fondoPreview.png" alt="">
-                </div>
-            </div>
-        </section>
-
-        <!-- Segunda sección -->
-        <section class="secondary-bg">
-            <div class="display-flex reverse ml-l">
-                <div class="card img display-flex">
-
-                    <img src="assets/fondoPreview.png" alt="">
-                </div>
-                <div class="text-right mx-giant textCard">
-
-                    <h2 class="blue-color text-giant">{{t.section2?.title}}</h2>
-                    <p class="white-color text-l regular">{{t.section2?.text}}</p>
-                    <div onclick="window.location.href='login.html'" class="btn-play-container">
-                        <div class="btn-play blue-bg white-color text-xl black-hover">{{t.section2?.button}}</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- tercera sección,carrousel de ilustraciones de el juego -->
-        <section class="extra-bg">
-            <div class="carousel">
-                <div class="carousel-container">
-
-                    <!--boton de anterior-->
-                    <button @click="prevImage" class="btn-arrows" v-if="ancho >= 779">
-                        <img src="assets/Arrow left.svg" alt="Anterior">
-                    </button>
-                    <!--Carrousel-->
-                    <div class="carrousel ">
-
-                        <img class="img" @click="showImage" :src="variants[i].image" alt="variant image">
-                    </div>
-                    <!--Boton de siguiente-->
-                    <button @click="nextImage" class="btn-arrows" v-if="ancho >= 779">
-
-                        <img src="assets/Arrow right.svg" alt="Siguiente">
-                    </button>
-                </div>
-                <div v-if="show" class="full-image" @click="hideImage">
-                    <div class="full-content img">
-
-                        <img :src="variants[i].image" alt="variant image">
-                    </div>
-                </div>
-
-                <div v-if="ancho <= 779" class="display-flex">
-
-                    <button @click="prevImage" class="btn-arrows">
-                        <img src="assets/Arrow left.svg" alt="Anterior">
-                    </button>
-
-                    <button @click="nextImage" class="btn-arrows">
-
-                        <img src="assets/Arrow right.svg" alt="Siguiente">
-                    </button>
-                </div>
-
-
-            </div>
-        </section>
-
-
-
+        <!-- carrousel -->
+        <carousel-section 
+            :variants="variants" 
+            :i="i" 
+            :show="show" 
+            :ancho="ancho" 
+            @prev-image="prevImage" 
+            @next-image="nextImage" 
+            @show-image="showImage" 
+            @hide-image="hideImage">
+        </carousel-section>
     </div>
 
+    <!-- Main app -->
     <script src="js/main.js"></script>
+    <!-- Components -->
+    <script src="js/components/AppHeader.js"></script>
+    <script src="js/components/AppBanner.js"></script>
+    <script src="js/components/SectionOne.js"></script>
+    <script src="js/components/SectionTwo.js"></script>
+    <script src="js/components/CarouselSection.js"></script>
 
     <script>const mountedApp = app.mount("#app");</script>
 </body>
