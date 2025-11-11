@@ -8,46 +8,36 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Game</title>
 </head>
 
 <body>
-    <div id="app">
-        <div class="page-wrapper">
-            <!-- Game Header Component -->
-            <game-header 
-                :t="t" 
-                :lang="lang" 
-                :ancho="ancho" 
-                :menu="menu" 
-                @change-language="changeLanguage" 
-                @toggle-menu="showHam">
-            </game-header>
+  <div id="app">
+    <div class="page-wrapper">
+      <game-header 
+        :t="t" :lang="lang" :ancho="ancho" :menu="menu"
+        @change-language="changeLanguage" @toggle-menu="showHam">
+      </game-header>
 
-            <!-- Game Main Component -->
-            <game-main 
-                :inventory-open="inventoryOpen"
-                :seeds="seeds"
-                :fertilizer="fertilizer"
-                @plant-action="plantAction" 
-                @water-action="waterAction" 
-                @fertilize-action="fertilizeAction"
-                @inventory-action="inventoryAction"
-                @buy-fertilizer="buyFertilizer">
-            </game-main>
-        </div>
+      <game-main
+        :inventory-open="inventoryOpen"
+        :seeds="seeds"
+        :fertilizer="fertilizer"
+        @inventory-action="inventoryAction"
+        @fertilize-action="fertilizeAction"
+        @buy-fertilizer="buyFertilizer"
+        @buy-seed="buySeed"
+        @sell-seed="sellSeed"
+        @use-seed="useSeed">
+      </game-main>
     </div>
+  </div>
 
-    <footer class="green-bg"></footer>
-
-    <!-- Main app -->
-    <script src="js/main.js"></script>
-    <!-- Game components -->
-    <script src="js/components/GameHeader.js"></script>
-    <script src="js/components/GameMain.js"></script>
-
-    <script>app.mount('#app');</script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/components/GameHeader.js"></script>
+  <script src="js/components/GameMain.js"></script>
+  <script>app.mount('#app');</script>
 </body>
 
 </html>

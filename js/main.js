@@ -22,10 +22,15 @@ const app = Vue.createApp({
             // Game inventory state
             inventoryOpen: false,
             seeds: [
-                { id: 'carrot', name: 'Zanahoria', image: 'assets/semilla1.png', quantity: 10 },
-                { id: 'tomato', name: 'Tomate', image: 'assets/semilla2.png', quantity: 5 }
+                { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 10 },
+                { id: 'mandragora', name: 'Mandragora', image: 'assets/mandragoraSeed.png', quantity: 5 }
             ],
-            fertilizer: { id:'fertilizer_basic', name:'Fertilizante', image:'assets/bolsaAbono.png', quantity: 0 }
+            fertilizer: { 
+                id: 'fertilizer_basic', 
+                name: 'Fertilizante', 
+                image: 'assets/bolsaAbono.png', 
+                quantity: 0 
+            }
         };
     },
 
@@ -107,15 +112,32 @@ const app = Vue.createApp({
             console.log("Acción: Regar");
         },
 
+        // Método para abrir/cerrar inventario
         inventoryAction() {
             this.inventoryOpen = !this.inventoryOpen;
-            console.log("Inventario:", this.inventoryOpen ? "Abierto" : "Cerrado");
+            console.log('Inventario toggle:', this.inventoryOpen); // DEBUG
         },
-        buyFertilizer() {
-            this.fertilizer.quantity += 3; // compra desde el “libro”
-        },
+        
         fertilizeAction() {
-            if (this.fertilizer.quantity > 0) this.fertilizer.quantity -= 1;
+            if (this.fertilizer.quantity > 0) {
+                this.fertilizer.quantity -= 1;
+            }
+        },
+        
+        buyFertilizer() {
+            this.fertilizer.quantity += 3;
+        },
+        
+        // Comprar semilla: busca por ID y suma 1 unidad
+        buySeed(id) {
+            const seed = this.seeds.find(seedItem => seedItem.id === id);
+            if (seed) seed.quantity += 1;
+        },
+        
+        // Usar semilla desde inventario: busca por ID y consume 1 unidad
+        useSeed(seed) {
+            const seedInInventory = this.seeds.find(seedItem => seedItem.id === seed.id);
+            if (seedInInventory && seedInInventory.quantity > 0) seedInInventory.quantity -= 1;
         }
 
 

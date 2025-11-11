@@ -16,6 +16,10 @@ app.component('game-main', {
     handleBuyFertilizer() { this.$emit('buy-fertilizer'); },
     toggleCodex() { this.showCodex = !this.showCodex; }
   },
+  mounted() {
+    console.log('Seeds recibidas:', this.seeds); // DEBUG
+    console.log('Inventory open:', this.inventoryOpen); // DEBUG
+  },
   template: /*html*/`
   <main class="main-content">
     <section class="image-container">
