@@ -62,4 +62,32 @@
         padding: 0.5rem;
     }
 
+    .action-btn.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+    }
+
+/*boton para cerrar la interfaz del libro*/
+        .close-btn {
+        background: transparent;
+        border: 1px solid rgba(255,255,255,.25);
+        color: white;
+        border-radius: 6px;
+        padding: .25rem .5rem;
+        cursor: pointer;
+    }
+
+        .market-buy-btn {
+        padding:.4rem .7rem;
+        background: var(--secondary);
+        border:1px solid var(--secondary);
+        color:#fff;
+        border-radius:6px;
+        cursor:pointer;
+        font-size:.75rem;
+    }
+    .market-buy-btn:hover { filter:brightness(1.1); }
+
+
+
 }

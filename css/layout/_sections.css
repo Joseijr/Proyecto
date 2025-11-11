@@ -211,10 +211,6 @@
         border: 2px solid white;
     }
 
-    .action-btn.active {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 8px;
-    }
 
     /* interfaz de libro para mercado y stats */
     .book-modal {
@@ -250,14 +246,7 @@
         flex: 1;
         padding: 1rem;
     }
-    .close-btn {
-        background: transparent;
-        border: 1px solid rgba(255,255,255,.25);
-        color: white;
-        border-radius: 6px;
-        padding: .25rem .5rem;
-        cursor: pointer;
-    }
+
 
     .tool-quantity {
         position: absolute;
@@ -290,14 +279,5 @@
         gap: .5rem;
     }
     .market-img { width:64px; height:64px; object-fit:contain; margin:0 auto; }
-    .market-buy-btn {
-        padding:.4rem .7rem;
-        background: var(--secondary);
-        border:1px solid var(--secondary);
-        color:#fff;
-        border-radius:6px;
-        cursor:pointer;
-        font-size:.75rem;
-    }
-    .market-buy-btn:hover { filter:brightness(1.1); }
+
 }
