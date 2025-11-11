@@ -18,10 +18,11 @@
         <login-header 
             :t="t" 
             :ancho="ancho" 
-            :menu="menu" 
+            :menu="menu"
+            :lang="lang"
+            @change-language="changeLanguage" 
             @toggle-menu="showHam">
         </login-header>
-
         <!-- Login Form Component -->
         <login-form 
             :t="t" 
