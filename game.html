@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <title>Sign In</title>
+    <title>Game</title>
 </head>
 
 <body>
@@ -29,12 +29,17 @@
             <game-main 
                 :inventory-open="inventoryOpen"
                 :seeds="seeds"
+                :fertilizer="fertilizer"
                 @plant-action="plantAction" 
                 @water-action="waterAction" 
-                @inventory-action="inventoryAction">
+                @fertilize-action="fertilizeAction"
+                @inventory-action="inventoryAction"
+                @buy-fertilizer="buyFertilizer">
             </game-main>
         </div>
     </div>
+
+    <footer class="green-bg"></footer>
 
     <!-- Main app -->
     <script src="js/main.js"></script>
@@ -42,11 +47,7 @@
     <script src="js/components/GameHeader.js"></script>
     <script src="js/components/GameMain.js"></script>
 
-    <script>const mountedApp = app.mount("#app");</script>
+    <script>app.mount('#app');</script>
 </body>
-
-<footer class="green-bg">
-    <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
-</footer>
 
 </html>

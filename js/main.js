@@ -22,14 +22,10 @@ const app = Vue.createApp({
             // Game inventory state
             inventoryOpen: false,
             seeds: [
-                { id: 1, name: 'Albaca Seeds', image: 'assets/albacaSeeds.png', quantity: 5 },
-                { id: 2, name: 'Helleborus Seeds', image: 'assets/helleborusSeed.png', quantity: 3 },
-                { id: 3, name: 'Lavanda Seeds', image: 'assets/lavandaSeeds.png', quantity: 8 },
-                { id: 4, name: 'Leon Seeds', image: 'assets/leonseed.png', quantity: 2 },
-                { id: 5, name: 'Mandragora Seeds', image: 'assets/mandragoraSeed.png', quantity: 4 },
-                { id: 6, name: 'Romero Seeds', image: 'assets/romeroseeds.png', quantity: 6 },
-                { id: 7, name: 'Ruta Seeds', image: 'assets/rutaseeds.png', quantity: 1 }
+                { id: 'carrot', name: 'Zanahoria', image: 'assets/semilla1.png', quantity: 10 },
+                { id: 'tomato', name: 'Tomate', image: 'assets/semilla2.png', quantity: 5 }
             ],
+            fertilizer: { id:'fertilizer_basic', name:'Fertilizante', image:'assets/bolsaAbono.png', quantity: 0 }
         };
     },
 
@@ -115,6 +111,12 @@ const app = Vue.createApp({
             this.inventoryOpen = !this.inventoryOpen;
             console.log("Inventario:", this.inventoryOpen ? "Abierto" : "Cerrado");
         },
+        buyFertilizer() {
+            this.fertilizer.quantity += 3; // compra desde el “libro”
+        },
+        fertilizeAction() {
+            if (this.fertilizer.quantity > 0) this.fertilizer.quantity -= 1;
+        }
 
 
     },
