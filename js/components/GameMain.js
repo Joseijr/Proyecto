@@ -45,9 +45,6 @@ app.component('game-main', {
                         <img src="assets/bolsaAbono.png" alt="Fertilizar" class="action-icon-img">
                     </button>
 
-                    <button class="action-btn" title="Inventario" @click="handleInventory" :class="{ 'active': inventoryOpen }">
-                        <img src="assets/bolsabase.png" alt="Inventario" class="action-icon-img">
-                    </button>
 
                     <!-- Botón Libro -->
                     <button class="action-btn" @click="toggleCodex" title="Libro">
@@ -55,6 +52,11 @@ app.component('game-main', {
                     </button>
 
                     <!-- Inventario desplegable -->
+
+                    <button class="action-btn" title="Inventario" @click="handleInventory" :class="{ 'active': inventoryOpen }">
+                        <img src="assets/bolsabase.png" alt="Inventario" class="action-icon-img">
+                    </button>
+
                     <div v-if="inventoryOpen" class="inventory-dropdown">
                         <div v-for="seed in seeds" :key="seed.id" class="inventory-item">
                             <img :src="seed.image" :alt="seed.name" class="seed-icon">
