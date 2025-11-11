@@ -4,7 +4,11 @@ app.component('game-main', {
         inventoryOpen: { type: Boolean, required: true },
         seeds: { type: Array, required: true }
     },
-    
+    data() {
+      return {
+        showCodex: false //define que la interfaz de libro esta cerrada cuanod se inicia  y asi se muestra con el v if
+      };
+    },
     methods: {
         handlePlant() {
             this.$emit('plant-action');
@@ -17,6 +21,9 @@ app.component('game-main', {
         },
         handleFertilize() {
             this.$emit('fertilize-action');
+        },
+        toggleCodex() {
+          this.showCodex = !this.showCodex; //hace el libro visible o insiblee
         }
     },
     template: /*html*/`
@@ -42,6 +49,11 @@ app.component('game-main', {
                         <img src="assets/bolsabase.png" alt="Inventario" class="action-icon-img">
                     </button>
 
+                    <!-- Botón Libro -->
+                    <button class="action-btn" @click="toggleCodex" title="Libro">
+                    <img src="assets/libroTemporal.jpg" alt="Libro" class="action-icon-img">
+                    </button>
+
                     <!-- Inventario desplegable -->
                     <div v-if="inventoryOpen" class="inventory-dropdown">
                         <div v-for="seed in seeds" :key="seed.id" class="inventory-item">
@@ -52,6 +64,19 @@ app.component('game-main', {
                 </div>
             </aside>
         </section>
+
+        <!-- Modal/Panel del Libro -->
+        <div v-if="showCodex" class="book-modal" @click.self="toggleCodex">
+          <div class="book-box">
+            <header class="book-box-header">
+              <h3 class="white-color">Libro</h3>
+              <button class="close-btn" @click="toggleCodex" aria-label="Cerrar">✕</button>
+            </header>
+            <div class="book-box-body">
+              <p class="white-color opacity-70">Aquí irá tu plantilla.</p>
+            </div>
+          </div>
+        </div>
     </main>
     `
 });
