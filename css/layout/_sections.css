@@ -115,7 +115,7 @@
         right: 0;
         bottom: 0;
         background-color: var(--secondary);
-        opacity: 0.3;
+        opacity: 0.5;
         z-index: -1;
     }
 
@@ -156,6 +156,63 @@
         object-fit: contain;
         user-select: none;
         pointer-events: none;
+    }
+
+    /* Inventario desplegable */
+    .inventory-dropdown {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        width: 100%;
+        align-items: center;
+    }
+
+    .inventory-item {
+        width: 45px;
+        height: 45px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .inventory-item:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .seed-icon {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+    }
+
+    .seed-quantity {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        background-color: var(--extra);
+        color: white;
+        font-size: 10px;
+        font-weight: bold;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+    }
+
+    .action-btn.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
     }
 
 }

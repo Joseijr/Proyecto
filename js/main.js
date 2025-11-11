@@ -18,6 +18,18 @@ const app = Vue.createApp({
 
             //Obtiene el tamaño de la pantalla
             ancho: window.innerWidth,
+
+            // Game inventory state
+            inventoryOpen: false,
+            seeds: [
+                { id: 1, name: 'Albaca Seeds', image: 'assets/albacaSeeds.png', quantity: 5 },
+                { id: 2, name: 'Helleborus Seeds', image: 'assets/helleborusSeed.png', quantity: 3 },
+                { id: 3, name: 'Lavanda Seeds', image: 'assets/lavandaSeeds.png', quantity: 8 },
+                { id: 4, name: 'Leon Seeds', image: 'assets/leonseed.png', quantity: 2 },
+                { id: 5, name: 'Mandragora Seeds', image: 'assets/mandragoraSeed.png', quantity: 4 },
+                { id: 6, name: 'Romero Seeds', image: 'assets/romeroseeds.png', quantity: 6 },
+                { id: 7, name: 'Ruta Seeds', image: 'assets/rutaseeds.png', quantity: 1 }
+            ],
         };
     },
 
@@ -100,7 +112,8 @@ const app = Vue.createApp({
         },
 
         inventoryAction() {
-            console.log("Acción: Abrir inventario");
+            this.inventoryOpen = !this.inventoryOpen;
+            console.log("Inventario:", this.inventoryOpen ? "Abierto" : "Cerrado");
         },
 
 

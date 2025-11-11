@@ -27,6 +27,8 @@
 
             <!-- Game Main Component -->
             <game-main 
+                :inventory-open="inventoryOpen"
+                :seeds="seeds"
                 @plant-action="plantAction" 
                 @water-action="waterAction" 
                 @inventory-action="inventoryAction">
