@@ -31,7 +31,9 @@ const app = Vue.createApp({
                 image: 'assets/bolsaAbono.png', 
                 quantity: 0 
             },
-            coins: 10
+            coins: 10,
+            
+            selectedSeed: null
         };
     },
 
@@ -107,6 +109,11 @@ const app = Vue.createApp({
         //métodos para los botones del juego
         plantAction() {
             console.log("Acción: editar parcela");
+            if (this.selectedSeed) {
+                // Aquí podrías consumir la semilla
+                this.useSeed(this.selectedSeed);
+                this.clearSeedSelection();
+            }
         },
 
         waterAction() {
@@ -145,14 +152,26 @@ const app = Vue.createApp({
         useSeed(seed) {
             const seedInInventory = this.seeds.find(seedItem => seedItem.id === seed.id);
             if (seedInInventory && seedInInventory.quantity > 0) seedInInventory.quantity -= 1;
-        }
+        },
 
+        selectSeed(seed) {
+            this.selectedSeed = seed;
+            // Cambia el cursor al PNG de la semilla (hotspot centrado aproximado)
+            document.body.style.cursor = `url(${seed.image}) 16 16, pointer`;
+        },
+        clearSeedSelection() {
+            this.selectedSeed = null;
+            document.body.style.cursor = ''; // vuelve al cursor por defecto
+        },
 
     },
 
     mounted() { 
         window.addEventListener("resize", () => {
             this.ancho = window.innerWidth;
+        });
+        window.addEventListener('keydown', e => {
+            if (e.key === 'Escape') this.clearSeedSelection();
         });
     },
     //Cuando se crar el documento carga el idioa

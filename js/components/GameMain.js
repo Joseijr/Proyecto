@@ -5,7 +5,8 @@ app.component('game-main', {
     inventoryOpen: { type: Boolean, required: true },
     seeds: { type: Array, required: true },
     fertilizer: { type: Object, required: true },
-    coins: { type: Number, required: true }
+    coins: { type: Number, required: true },
+    selectedSeed: { type: Object, required: false }
   },
 
 
@@ -31,6 +32,8 @@ app.component('game-main', {
 
     handleBuyFertilizer() { this.$emit('buy-fertilizer'); },
 
+    handleSelectSeed(seed) { this.$emit('select-seed', seed); },
+
     toggleCodex() { this.showCodex = !this.showCodex; },
 
 
@@ -40,7 +43,9 @@ app.component('game-main', {
       if (!list[index]) {
         list[index] = true;
       }
-    }
+    },
+
+    handleSelectSeed(seed) { this.$emit('select-seed', seed); }
   },
 
 
@@ -87,7 +92,11 @@ app.component('game-main', {
           </button>
 
           <div v-if="inventoryOpen" class="inventory-dropdown">
-            <div v-for="seed in seeds" :key="seed.id" class="inventory-item">
+            <div v-for="seed in seeds"
+                :key="seed.id"
+                class="inventory-item"
+                :class="{ selected: selectedSeed && selectedSeed.id === seed.id }"
+                @click="handleSelectSeed(seed)">
               <img :src="seed.image" :alt="seed.name" class="seed-icon">
               <span class="seed-quantity">{{ seed.quantity }}</span>
             </div>

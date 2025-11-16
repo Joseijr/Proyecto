@@ -28,7 +28,7 @@
   border: 4px dashed rgba(131, 15, 15, 0.2);
   border-radius: 0.5rem;
   transition: background .15s; /*el que causa el cambio suavecito de casilla a crop*/
-  cursor: pointer;
+  
 }
 
 .plot-cell:hover {
@@ -45,4 +45,11 @@
   border: none; 
 }
 
+.inventory-item.selected {
+  outline: 3px solid var(--extra);
+  box-shadow: 0 0 6px rgba(0,0,0,.4);
+  transform: scale(1.12);
+
   }
+
+}
