@@ -6,7 +6,11 @@ app.component('game-main', {
     fertilizer: { type: Object, required: true }
   },
   data() {
-    return { showCodex: false };
+    return { 
+      showCodex: false,
+      plotsLeft: Array(12).fill(false),
+      plotsRight: Array(12).fill(false)
+    };
   },
   methods: {
     handlePlant() { this.$emit('plant-action'); },
@@ -14,7 +18,14 @@ app.component('game-main', {
     handleFertilize() { this.$emit('fertilize-action'); },
     handleInventory() { this.$emit('inventory-action'); },
     handleBuyFertilizer() { this.$emit('buy-fertilizer'); },
-    toggleCodex() { this.showCodex = !this.showCodex; }
+    toggleCodex() { this.showCodex = !this.showCodex; },
+    togglePlot(side, index) {
+      if (side === 'left') {
+        this.plotsLeft[index] = !this.plotsLeft[index];
+      } else {
+        this.plotsRight[index] = !this.plotsRight[index];
+      }
+    }
   },
   mounted() {
     console.log('Seeds recibidas:', this.seeds); // DEBUG
@@ -62,10 +73,16 @@ app.component('game-main', {
 
     <!-- Grilla de parcelas - izquierda y derecha -->
     <div class="plots-grid plots-left">
-      <div v-for="i in 12" :key="'L'+i" class="plot-cell"></div>
+      <div v-for="(activated, i) in plotsLeft" :key="'L'+i" 
+           class="plot-cell" 
+           :class="{ 'plot-active': activated }"
+           @click="togglePlot('left', i)"></div>
     </div>
     <div class="plots-grid plots-right">
-      <div v-for="i in 12" :key="'R'+i" class="plot-cell"></div>
+      <div v-for="(activated, i) in plotsRight" :key="'R'+i" 
+           class="plot-cell"
+           :class="{ 'plot-active': activated }"
+           @click="togglePlot('right', i)"></div>
     </div>
 
     <!-- Interfaz del libro: comprar +3 fertilizante -->
