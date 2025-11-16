@@ -1,189 +1,214 @@
-# 📚 Documentación del Sistema de Juego - Mushroom's Garden
+# Documentación detallada del sistema de juego
 
-## 🎯 Visión General
-
-Imagina tu juego como una **tienda de jardinería** donde:
-- Tienes un **inventario** (bolsa) con semillas
-- Tienes **herramientas** (pala, regadera, fertilizante)
-- Hay un **mercado** (libro) donde compras y vendes
+Este documento explica cada variable y cada método del juego, línea por línea, incluyendo condiciones (if), bucles y efectos en el estado.
 
 ---
 
-## 🗂️ Estructura de Datos (data)
+## Estado reactivo (data)
 
-### `seeds` - Tu Caja de Semillas
-```javascript
-seeds: [
-    { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 10 },
-    { id: 'mandragora', name: 'Mandragora', image: 'assets/mandragoraSeed.png', quantity: 5 }
-]
+```js
+coins: 10,                 // Monedas iniciales del jugador
+plotCost: 5,               // Costo global para comprar una parcela
+showBook: false,           // Controla la visibilidad del modal "libro/mercado"
+inventoryOpen: false,      // Indica si el inventario desplegable está abierto
+selectedSeed: null,        // Objeto de la semilla actualmente seleccionada o null si no hay selección
+shovelMode: false,         // Modo pala (true = desplantar al hacer clic en la parcela)
+
+seedsInventory: [          // Inventario de semillas (lista reactiva)
+  { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 10 },
+  { id: 'mandragora', name: 'Mandragora', image: 'assets/mandragoraSeed.png', quantity: 5 }
+],
+
+fertilizer: {              // Estado del fertilizante
+  id: 'fertilizer_basic',
+  name: 'Fertilizer',
+  image: 'assets/bolsaAbono.png',
+  price: 3,                // Precio por compra
+  quantity: 0              // Cantidad disponible
+},
+
+// Grillas de parcelas (lado izquierdo y derecho)
+plotsLeft:  Array(12).fill(false),  // false = no comprada, true = comprada
+plotsRight: Array(12).fill(false),
+
+// Flags para animación de "denegado" (falta de monedas) por celda
+deniedLeft:  Array(12).fill(false),
+deniedRight: Array(12).fill(false),
+
+// Cultivos plantados por celda; null = vacío o un objeto cultivo
+// Cultivo: { seedId, seedName, phase, plantedAt }
+cropsLeft:  Array(12).fill(null),
+cropsRight: Array(12).fill(null)
 ```
 
-**Analogía:** Como una caja de zapatos con etiquetas:
-- `id`: código único (como un código de barras)
-- `name`: nombre visible
-- `image`: foto del producto
-- `quantity`: cuántas unidades tienes
+Notas:
+- Cada Array(12) representa 12 celdas por lado. Vue hace reactivo cada índice.
+- plantedAt es un timestamp en milisegundos (Date.now()).
 
-### `fertilizer` - Tu Bolsa de Abono
-```javascript
-fertilizer: { 
-    id: 'fertilizer_basic', 
-    name: 'Fertilizante', 
-    image: 'assets/bolsaAbono.png', 
-    quantity: 0 
+---
+
+## Propiedades computadas
+
+```js
+currentImage() {           // Devuelve la imagen activa según algún índice this.i (si existe en tu código)
+  return this.variants[this.i].image; // Lee variantes e índice actual para mostrar imagen
 }
 ```
 
-**Analogía:** Una bolsa de abono con un contador visible. Empiezas con 0.
-
-### `inventoryOpen` - Estado del Inventario
-```javascript
-inventoryOpen: false
-```
-
-**Analogía:** Un interruptor de luz. `false` = inventario cerrado, `true` = inventario abierto.
-
 ---
 
-## 🛠️ Métodos Principales
+## Métodos de UI
 
-### 1️⃣ `inventoryAction()` - Abrir/Cerrar el Inventario
+### inventoryAction
 
-```javascript
-inventoryAction() {
-    this.inventoryOpen = !this.inventoryOpen;
+```js
+inventoryAction() {             // Alterna la visibilidad del inventario
+  this.inventoryOpen = !this.inventoryOpen; // Cambia true↔false
 }
 ```
 
-**¿Qué hace?**  
-Alterna el estado del inventario (como un interruptor).
+### toggleBook
 
-**Analogía:**  
-Es como abrir o cerrar tu mochila:
-- Si está cerrada (`false`) → se abre (`true`)
-- Si está abierta (`true`) → se cierra (`false`)
-
-**Cuándo se usa:**  
-Cuando haces clic en el botón de la bolsa 🎒
+```js
+toggleBook() {                  // Alterna la visibilidad del modal "libro/mercado"
+  this.showBook = !this.showBook; // Cambia true↔false
+}
+```
 
 ---
 
-### 2️⃣ `buySeed(id)` - Comprar una Semilla
+## Gestión del cursor y selección de semilla
 
-```javascript
+### cursorSelected(seed)
+
+```js
+cursorSelected(seed) {                                  // Se ejecuta al hacer clic en una semilla del inventario
+  if (this.selectedSeed && this.selectedSeed.id === seed.id) { // if: ¿hay una semilla seleccionada y es la misma?
+    this.clearSeedSelection();                          // Sí: deselecciona y restaura cursor
+    return;                                             // Sale para no ejecutar el resto
+  }
+  this.shovelMode = false;                              // Al seleccionar semilla, apaga el modo pala
+  this.selectedSeed = seed;                             // Guarda la semilla como selección actual
+  document.body.style.cursor = `url(${seed.image}) 16 16, pointer`; // Cambia cursor a la imagen de la semilla
+}
+```
+
+Explicación del cursor:
+- url(${seed.image}): usa la imagen de la semilla como cursor.
+- 16 16: hotspot centrado aprox (punto de clic).
+- pointer: fallback si no carga la imagen.
+
+### clearSeedSelection
+
+```js
+clearSeedSelection() {                    // Limpia la selección de semilla y el cursor
+  this.selectedSeed = null;               // Quita la referencia de la semilla seleccionada
+  if (!this.shovelMode) document.body.style.cursor = ''; // if: solo restaura cursor si la pala NO está activa
+}
+```
+
+---
+
+## Herramientas
+
+### plantAction (modo pala)
+
+```js
+plantAction() {
+  this.shovelMode = !this.shovelMode;          // Alterna el modo pala
+  if (this.shovelMode) {                       // Si ahora está en modo pala:
+    this.clearSeedSelection();                 // Limpia cualquier semilla seleccionada
+    document.body.style.cursor = 'url(assets/shovel.png) 16 16, pointer'; // Cambia cursor a pala
+  } else {
+    document.body.style.cursor = '';           // Restaura cursor normal
+  }
+}
+```
+
+---
+
+## Orquestador de acciones: handlePlotClick
+
+```js
+handlePlotClick(side, index) {
+  const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
+  const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+
+  if (this.shovelMode) {                        // Si está en modo pala:
+    if (crops[index]) this.removeCrop(side, index); // Si hay cultivo, lo quita
+    else console.log('No hay un cultivo para quitar en esta parcela.');
+    return;
+  }
+  if (!plots[index]) { this.buyPlot(side, index); return; } // Si no comprada, compra parcela
+  if (plots[index] && !crops[index] && this.selectedSeed) {
+    this.plantSeed(side, index); return;        // Si comprada y vacía, planta semilla
+  }
+  if (crops[index]) console.log('Ya hay un cultivo aquí:', crops[index]);
+}
+```
+
+---
+
+## Compra de parcelas: buyPlot
+
+```js
+buyPlot(side, index) {
+  const plots  = side === 'left' ? this.plotsLeft  : this.plotsRight;
+  const denied = side === 'left' ? this.deniedLeft : this.deniedRight;
+
+  if (this.coins >= this.plotCost) {            // Si hay suficientes monedas:
+    plots[index] = true;                       // Marca parcela como comprada
+    this.coins -= this.plotCost;               // Resta el costo de la parcela
+  } else {
+    denied[index] = true;                      // Activa animación de "denegado"
+    setTimeout(() => (denied[index] = false), 350); // Desactiva después de 350ms
+  }
+}
+```
+
+---
+
+## Gestión de semillas
+
+### Uso y compra de semillas
+
+```js
+useSeed(id) {
+  const seed = this.seedsInventory.find(seedItem => seedItem.id === id);
+  if (seed && seed.quantity > 0) {
+    seed.quantity -= 1;                        // Resta 1 a la cantidad de semillas
+    return true;
+  }
+  return false;
+}
+
 buySeed(id) {
-    const seed = this.seeds.find(seedItem => seedItem.id === id);
-    if (seed) seed.quantity += 1;
+  const seed = this.seedsInventory.find(seedItem => seedItem.id === id);
+  if (seed) seed.quantity += 1;                // Suma 1 a la cantidad de semillas
 }
 ```
 
-**¿Qué hace?**  
-1. Busca la semilla por su `id` (como buscar un producto por código de barras)
-2. Si la encuentra, suma 1 a su cantidad
-
-**Analogía:**  
-Vas al mercado y compras **1 paquete de semillas de albaca**. El vendedor actualiza tu caja:
-- Antes: `albaca: 10`
-- Después: `albaca: 11`
-
-**Cuándo se usa:**  
-Cuando haces clic en "Comprar +1" en el libro/mercado.
-
 ---
 
-### 3️⃣ `sellSeed(id)` - Vender una Semilla
+## Fertilizante
 
-```javascript
-sellSeed(id) {
-    const seed = this.seeds.find(seedItem => seedItem.id === id);
-    if (seed && seed.quantity > 0) seed.quantity -= 1;
-}
-```
+### Uso y compra de fertilizante
 
-**¿Qué hace?**  
-1. Busca la semilla por `id`
-2. Verifica que tengas al menos 1 (`quantity > 0`)
-3. Si sí, resta 1
-
-**Analogía:**  
-Vendes 1 paquete de semillas al mercado. Solo puedes vender si tienes stock:
-- Antes: `mandragora: 5`
-- Después: `mandragora: 4`
-
-**Cuándo se usa:**  
-Cuando haces clic en "Vender -1" en el mercado.
-
----
-
-### 4️⃣ `useSeed(seed)` - Usar una Semilla
-
-```javascript
-useSeed(seed) {
-    const seedInInventory = this.seeds.find(seedItem => seedItem.id === seed.id);
-    if (seedInInventory && seedInInventory.quantity > 0) seedInInventory.quantity -= 1;
-}
-```
-
-**¿Qué hace?**  
-1. Busca la semilla en tu inventario
-2. Si la tienes, consume 1 unidad (como plantarla)
-
-**Analogía:**  
-Sacas 1 semilla de tu bolsa y la plantas en la tierra:
-- Antes: `albaca: 10`
-- Después: `albaca: 9`
-
-**Cuándo se usa:**  
-Cuando haces clic en una semilla del inventario lateral.
-
----
-
-### 5️⃣ `fertilizeAction()` - Usar Fertilizante
-
-```javascript
+```js
 fertilizeAction() {
     if (this.fertilizer.quantity > 0) {
-        this.fertilizer.quantity -= 1;
+        this.fertilizer.quantity -= 1;          // Resta 1 al fertilizante disponible
     }
 }
-```
 
-**¿Qué hace?**  
-Consume 1 unidad de fertilizante (solo si tienes).
-
-**Analogía:**  
-Abres la bolsa de abono y echas 1 puñado en la planta:
-- Antes: `fertilizer: 3`
-- Después: `fertilizer: 2`
-
-**Cuándo se usa:**  
-Cuando haces clic en el botón de la bolsa de abono 💩
-
----
-
-### 6️⃣ `buyFertilizer()` - Comprar Fertilizante
-
-```javascript
 buyFertilizer() {
-    this.fertilizer.quantity += 3;
+    this.fertilizer.quantity += 3;            // Suma 3 unidades de fertilizante
 }
 ```
 
-**¿Qué hace?**  
-Compra 3 unidades de fertilizante de golpe.
-
-**Analogía:**  
-Compras una bolsa nueva de abono que trae 3 porciones:
-- Antes: `fertilizer: 0`
-- Después: `fertilizer: 3`
-
-**Cuándo se usa:**  
-Cuando haces clic en "Comprar +3" en el mercado (libro).
-
 ---
 
-## 🔄 Flujo de Comunicación (Eventos)
+## Flujo de Comunicación (Eventos)
 
 ### De GameMain.js → main.js
 
