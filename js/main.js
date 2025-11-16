@@ -27,8 +27,9 @@ const app = Vue.createApp({
             ],
             fertilizer: { 
                 id: 'fertilizer_basic', 
-                name: 'Fertilizante', 
+                name: 'Fertilizer', 
                 image: 'assets/bolsaAbono.png', 
+                price: 3,
                 quantity: 0 
             },
             coins: 10,
@@ -161,7 +162,12 @@ const app = Vue.createApp({
         },
         clearSeedSelection() {
             this.selectedSeed = null;
-            document.body.style.cursor = ''; // vuelve al cursor por defecto
+            document.body.style.cursor = ''; // cambia al cursor normalito
+        },
+
+        //metodo que te gasta las monedas del inventario cuando las usas
+        spendCoins(amount) {
+            if (this.coins >= amount) this.coins -= amount; // evita negativos
         },
 
     },

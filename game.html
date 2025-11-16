@@ -24,17 +24,13 @@
         :seeds="seeds"
         :fertilizer="fertilizer"
         :coins="coins"
-        :selected-seed="selectedSeed"
         @plant-action="plantAction"
         @water-action="waterAction"
         @fertilize-action="fertilizeAction"
         @inventory-action="inventoryAction"
-        @select-seed="selectSeed"
         @buy-fertilizer="buyFertilizer"
-        @buy-seed="buySeed"
-        @sell-seed="sellSeed"
-        @use-seed="useSeed">
-      </game-main>
+        @spend-coins="spendCoins"
+      />
     </div>
   </div>
 

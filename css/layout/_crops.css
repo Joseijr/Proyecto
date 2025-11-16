@@ -42,8 +42,23 @@
   background: url('../../assets/parcela.png') center/cover no-repeat;
   background-size: cover;
   background-position: center;
-  border: none; 
+  border: none;
+  cursor: default;
 }
+
+.plot-cell.plot-denied {  /* sacudida bien cabrona*/
+  animation: shake .3s;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-6px); }
+  40%, 60% { transform: translateX(6px); }
+}
+/*los porcentajes hacen ref al porcentaje de la animacion y el trasnform a su posicion,entonces 
+termina siendo como que tanto se mueve en los ejes en ese porcentaje de animacion. Por ejemplo si le quitas
+el 30,50 y 70 se mueve bien despacito todo silly*/
 
 .inventory-item.selected {
   outline: 3px solid var(--extra);

@@ -5,8 +5,7 @@ app.component('game-main', {
     inventoryOpen: { type: Boolean, required: true },
     seeds: { type: Array, required: true },
     fertilizer: { type: Object, required: true },
-    coins: { type: Number, required: true },
-    selectedSeed: { type: Object, required: false }
+    coins: { type: Number, required: true }
   },
 
 
@@ -15,7 +14,9 @@ app.component('game-main', {
     return { 
       showCodex: false,
       plotsLeft: Array(12).fill(false),
-      plotsRight: Array(12).fill(false)
+      plotsRight: Array(12).fill(false),
+      deniedLeft: Array(12).fill(false), //se usan mas q nada para la animacion cuando no hay monedas pa comprar
+      deniedRight: Array(12).fill(false),
     };
   },
 
@@ -32,20 +33,29 @@ app.component('game-main', {
 
     handleBuyFertilizer() { this.$emit('buy-fertilizer'); },
 
-    handleSelectSeed(seed) { this.$emit('select-seed', seed); },
-
     toggleCodex() { this.showCodex = !this.showCodex; },
 
 
     togglePlot(side, index) {
       const list = side === 'left' ? this.plotsLeft : this.plotsRight;
-      // Solo activar si aún no estaba activa
-      if (!list[index]) {
-        list[index] = true;
-      }
-    },
+      const denied = side === 'left' ? this.deniedLeft : this.deniedRight;
+      //lo hice por lados para no pasarla tan mal entonces tiene q verificar los lados
+      //el codigo dice si es es left entonces usa deniedLeft sino usa deniedRight
+      //y si no tiene monedas le da el feedback visual
 
-    handleSelectSeed(seed) { this.$emit('select-seed', seed); }
+      // Ya comprada → no hace nada
+      if (list[index]) return;
+
+      const COST = 5;
+      if (this.coins >= COST) {
+        list[index] = true;               // compra la parcela
+        this.$emit('spend-coins', COST);  // descuenta monedas
+      } else {
+        denied[index] = true;             // avisa si no se puede con la sacudida
+        setTimeout(() => (denied[index] = false), 400); //esto es para que la animacion no explote,le da una pausita
+        //a la animacion de sacudida de cuqando no se puede comprar y ya luego sigue en lo suyo.
+      }
+    }
   },
 
 
@@ -107,31 +117,32 @@ app.component('game-main', {
 
     <!-- Grilla de parcelas - izquierda y derecha -->
     <div class="plots-grid plots-left">
-      <div v-for="(activated, i) in plotsLeft" :key="'L'+i" 
-          class="plot-cell" 
-          :class="{ 'plot-active': activated }"
-          @click="togglePlot('left', i)"></div>
+      <div v-for="(activated, i) in plotsLeft" :key="'L'+i"
+           class="plot-cell"
+           :class="{ 'plot-active': activated, 'plot-denied': deniedLeft[i] }"
+           @click="togglePlot('left', i)"></div>
     </div>
     <div class="plots-grid plots-right">
-      <div v-for="(activated, i) in plotsRight" :key="'R'+i" 
-          class="plot-cell"
-          :class="{ 'plot-active': activated }"
-          @click="togglePlot('right', i)"></div>
+      <div v-for="(activated, i) in plotsRight" :key="'R'+i"
+           class="plot-cell"
+           :class="{ 'plot-active': activated, 'plot-denied': deniedRight[i] }"
+           @click="togglePlot('right', i)"></div>
     </div>
 
     <!-- Interfaz del libro: comprar +3 fertilizante -->
     <div v-if="showCodex" class="book-modal" @click.self="toggleCodex">
       <div class="book-box">
         <header class="book-box-header">
-          <h3 class="white-color">Mercado</h3>
+          <h3 class="white-color">Market</h3>
           <button class="close-btn" @click="toggleCodex" aria-label="Cerrar">✕</button>
         </header>
         <div class="book-box-body">
           <div class="market-item">
             <img :src="fertilizer.image" :alt="fertilizer.name" class="market-img">
             <h4 class="white-color">{{ fertilizer.name }}</h4>
-            <p class="white-color">Unidades: {{ fertilizer.quantity }}</p>
-            <button class="market-buy-btn"  :disabled="coins < 3" @click="handleBuyFertilizer">Comprar +3</button>
+            <p class="white-color">Units: {{ fertilizer.quantity }}</p>
+            <p class="white-color">Price: {{ fertilizer.price }}</p>
+            <button class="market-buy-btn"  :disabled="coins < 3" @click="handleBuyFertilizer">Buy +3</button>
           </div>
         </div>
       </div>
