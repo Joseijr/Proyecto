@@ -30,7 +30,8 @@ const app = Vue.createApp({
                 name: 'Fertilizante', 
                 image: 'assets/bolsaAbono.png', 
                 quantity: 0 
-            }
+            },
+            coins: 10
         };
     },
 
@@ -103,7 +104,7 @@ const app = Vue.createApp({
 
         },
 
-        // Game actions - métodos para los botones del juego
+        //métodos para los botones del juego
         plantAction() {
             console.log("Acción: editar parcela");
         },
@@ -115,7 +116,7 @@ const app = Vue.createApp({
         // Método para abrir/cerrar inventario
         inventoryAction() {
             this.inventoryOpen = !this.inventoryOpen;
-            console.log('Inventario toggle:', this.inventoryOpen); // DEBUG
+            //console.log('Inventario toggle:', this.inventoryOpen); // DEBUG
         },
         
         fertilizeAction() {
@@ -125,7 +126,13 @@ const app = Vue.createApp({
         },
         
         buyFertilizer() {
-            this.fertilizer.quantity += 3;
+            if (this.coins >= 5) { 
+                this.coins -= 3;
+                this.fertilizer.quantity += 3;
+                } else{
+                    console.warn("No tienes suficientes monedas para comprar fertilizante.");
+                }
+          
         },
         
         // Comprar semilla: busca por ID y suma 1 unidad
@@ -143,7 +150,7 @@ const app = Vue.createApp({
 
     },
 
-    mounted() { // Hace cambios cada que se actualiza el DOM
+    mounted() { 
         window.addEventListener("resize", () => {
             this.ancho = window.innerWidth;
         });

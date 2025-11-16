@@ -1,10 +1,15 @@
-// GameMain Component - farm image with sidebar actions/inventory
 app.component('game-main', {
+
+
   props: {
     inventoryOpen: { type: Boolean, required: true },
     seeds: { type: Array, required: true },
-    fertilizer: { type: Object, required: true }
+    fertilizer: { type: Object, required: true },
+    coins: { type: Number, required: true }
   },
+
+
+
   data() {
     return { 
       showCodex: false,
@@ -12,13 +17,23 @@ app.component('game-main', {
       plotsRight: Array(12).fill(false)
     };
   },
+
+
+
   methods: {
     handlePlant() { this.$emit('plant-action'); },
+
     handleWater() { this.$emit('water-action'); },
+
     handleFertilize() { this.$emit('fertilize-action'); },
+
     handleInventory() { this.$emit('inventory-action'); },
+
     handleBuyFertilizer() { this.$emit('buy-fertilizer'); },
+
     toggleCodex() { this.showCodex = !this.showCodex; },
+
+
     togglePlot(side, index) {
       if (side === 'left') {
         this.plotsLeft[index] = !this.plotsLeft[index];
@@ -27,16 +42,25 @@ app.component('game-main', {
       }
     }
   },
+
+
   mounted() {
-    console.log('Seeds recibidas:', this.seeds); // DEBUG
-    console.log('Inventory open:', this.inventoryOpen); // DEBUG
+    console.log('Seeds recibidas:', this.seeds); 
+    console.log('Inventory open:', this.inventoryOpen); 
   },
+
   template: /*html*/`
   <main class="main-content">
     <section class="image-container">
       <img src="assets/bg-granja.png" alt="">
       <aside class="game-sidebar">
         <div class="game-actions">
+
+          <div class="coin-display" title="Monedas">
+            <img src="assets/coin.png" alt="Monedas" class="coin-icon-img">
+            <span class="tool-quantity">{{ coins }}</span>
+          </div>
+
           <button class="action-btn" title="Quitar planta" @click="handlePlant">
             <img src="assets/shovel.png" alt="Quitar planta" class="action-icon-img">
           </button>
@@ -50,6 +74,7 @@ app.component('game-main', {
             <img src="assets/bolsaAbono.png" alt="Fertilizar" class="action-icon-img">
             <span class="tool-quantity" :class="{ empty: fertilizer.quantity <= 0 }">{{ fertilizer.quantity }}</span>
           </button>
+
 
           <!-- Libro / Mercado -->
           <button class="action-btn" @click="toggleCodex" title="Libro / Mercado">
@@ -97,7 +122,7 @@ app.component('game-main', {
             <img :src="fertilizer.image" :alt="fertilizer.name" class="market-img">
             <h4 class="white-color">{{ fertilizer.name }}</h4>
             <p class="white-color">Unidades: {{ fertilizer.quantity }}</p>
-            <button class="market-buy-btn" @click="handleBuyFertilizer">Comprar +3</button>
+            <button class="market-buy-btn"  :disabled="coins < 3" @click="handleBuyFertilizer">Comprar +3</button>
           </div>
         </div>
       </div>

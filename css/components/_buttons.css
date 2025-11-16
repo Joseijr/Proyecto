@@ -86,7 +86,49 @@
         cursor:pointer;
         font-size:.75rem;
     }
-    .market-buy-btn:hover { filter:brightness(1.1); }
+
+    .market-buy-btn:hover {
+        background: #fff;
+        color: var(--secondary);}
+
+        .market-buy-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    }
+
+        .action-btn {
+        width: 50px;
+        height: 50px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s, filter 0.2s;
+        padding: 0;
+        position: relative;
+    }
+
+    /*efectos en los botones de acciones de la barra lateral,vaya,lo que le da ese efecto de que se agrandan y el filtrito blanco.*/
+
+    .action-btn:hover {
+        transform: scale(1.15);
+        filter: brightness(1.2);
+    }
+
+    .action-btn:active {
+        transform: scale(0.9);
+    }
+
+    /* jijij los iconos*/
+
+    .action-icon-img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        pointer:cursor;
+    }
 
 
 

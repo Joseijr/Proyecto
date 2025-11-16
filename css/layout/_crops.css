@@ -5,11 +5,10 @@
   width: var(--farm-field-width);
   height: var(--farm-field-height);
   margin: 0 auto;
-  background: url('../assets/bg-granja.png') center/cover no-repeat; /* ajusta ruta si difiere */
+  background: url('../assets/bg-granja.png') center/cover no-repeat;
   overflow: hidden;
 }
 
-/* Grillas */
 .plots-grid {
   position: absolute;
   display: grid;
@@ -26,16 +25,16 @@
 
 .plot-cell {
   background: rgba(124, 55, 55, 0.35);
-  border: 2px dashed rgba(46, 33, 33, 0.2);
-  border-radius: 8px;
-  transition: background .15s;
+  border: 4px dashed rgba(131, 15, 15, 0.2);
+  border-radius: 0.5rem;
+  transition: background .15s; /*el que causa el cambio suavecito de casilla a crop*/
   cursor: pointer;
 }
 
 .plot-cell:hover {
   background: rgba(255, 173, 173, 0.5);
-    cursor: pointer;
-    transition: all 0.3s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 
@@ -43,7 +42,7 @@
   background: url('../../assets/parcela.png') center/cover no-repeat;
   background-size: cover;
   background-position: center;
-  border: none; /* opcional: quita el borde punteado */
+  border: none; 
 }
 
   }
