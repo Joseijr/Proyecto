@@ -24,7 +24,7 @@ const app = Vue.createApp({
             inventoryOpen: false,
             plotCost: 5, // Costo de comprar una parcela
             seedsInventory: [
-                { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 10 },
+                { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 1 },
                 { id: 'mandragora', name: 'Mandragora', image: 'assets/mandragoraSeed.png', quantity: 5 }
             ],
             fertilizer: { 
@@ -34,7 +34,7 @@ const app = Vue.createApp({
                 price: 3,
                 quantity: 0 
             },
-            coins: 10,
+            coins: 15,
             
             selectedSeed: null,
 
@@ -121,8 +121,7 @@ const app = Vue.createApp({
         plantAction() {
             console.log("Acción: editar parcela");
             if (this.selectedSeed) {
-                // Aquí podrías consumir la semilla
-                this.useSeed(this.selectedSeed);
+                this.useSeed(this.selectedSeed.id); // ← pasar solo id
                 this.clearSeedSelection();
             }
         },
@@ -142,6 +141,7 @@ const app = Vue.createApp({
             this.showBook = !this.showBook;
         },
         
+        //cosas del fertilizante
         fertilizeAction() {
             if (this.fertilizer.quantity > 0) {
                 this.fertilizer.quantity -= 1;
@@ -157,6 +157,8 @@ const app = Vue.createApp({
                 }
         
         },
+
+        //cosas con las semillas
         
         // Comprar semilla: busca por ID y suma 1 unidad
         buySeed(id) {
@@ -164,20 +166,58 @@ const app = Vue.createApp({
             if (seed) seed.quantity += 1;
         },
         
-        // Usar semilla desde inventario: busca por ID y consume 1 unidad
-        useSeed(seed) {
-            const seedInInventory = this.seedsInventory.find(seedItem => seedItem.id === seed.id);
-            if (seedInInventory && seedInInventory.quantity > 0) seedInInventory.quantity -= 1;
+        // Usar semilla desde inventario: recibe SOLO el id y consume 1 unidad
+        useSeed(id) {
+            if (!id) return false;
+            const seedInInventory = this.seedsInventory.find(s => s.id === id);
+            if (!seedInInventory || seedInInventory.quantity <= 0) return false;
+            seedInInventory.quantity -= 1;
+            return true;
         },
 
+        //cambio del mouse conlas semillas
+
         selectSeed(seed) {
+            // Si ya está seleccionada la misma semilla, deseleccionar
+            if (this.selectedSeed && this.selectedSeed.id === seed.id) {
+                this.clearSeedSelection();
+                return;
+            }
+            
+            // Si no, seleccionar la nueva semilla
             this.selectedSeed = seed;
             // Cambia el cursor al PNG de la semilla (hotspot centrado aproximado)
             document.body.style.cursor = `url(${seed.image}) 16 16, pointer`;
+            //url(${seed.image}) es lo mismo que decir "url(" + seed.image + ") 16 16, pointer"
         },
+
         clearSeedSelection() {
             this.selectedSeed = null;
             document.body.style.cursor = ''; // cambia al cursor normalito
+        },
+
+        plantSeed(side, index) {
+            const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+
+            if (!this.selectedSeed) {
+                console.log("Selecciona una semilla del inventario primero");
+                return;
+            }
+
+            // Consumir 1 semilla usando SOLO el id
+            if (!this.useSeed(this.selectedSeed.id)) {
+                console.log("No tienes semillas de este tipo");
+                return;
+            }
+
+            crops[index] = {
+                seedId: this.selectedSeed.id,
+                seedName: this.selectedSeed.name,
+                phase: 'start',
+                plantedAt: Date.now()
+            };
+
+            this.clearSeedSelection();
         },
 
         //metodo que te gasta las monedas del inventario cuando las usas
@@ -195,7 +235,7 @@ const app = Vue.createApp({
                 return;
             }
 
-            // Si la parcela está comprada pero vacía, y hay semilla seleccionada
+            // Si la parcela está comprada pero vacía, y hay semilla seleccionada intenta plantar
             if (plots[index] && !crops[index] && this.selectedSeed) {
                 this.plantSeed(side, index);
                 return;
@@ -219,40 +259,9 @@ const app = Vue.createApp({
                 denied[index] = true;
                 setTimeout(() => (denied[index] = false), 350);
             }
-        },
-
-        plantSeed(side, index) {
-            const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
-
-            // Validar que hay semilla seleccionada
-            if (!this.selectedSeed) {
-                console.log("Selecciona una semilla del inventario primero");
-                return;
-            }
-
-            // Validar stock
-            if (this.selectedSeed.quantity <= 0) {
-                console.log("No tienes semillas de este tipo");
-                return;
-            }
-
-            // Plantar
-            crops[index] = {
-                seedId: this.selectedSeed.id,
-                seedName: this.selectedSeed.name,
-                phase: 'start',
-                plantedAt: Date.now()
-            };
-
-            // Consumir semilla del inventario
-            const seedInInventory = this.seedsInventory.find(s => s.id === this.selectedSeed.id);
-            if (seedInInventory) {
-                seedInInventory.quantity -= 1;
-            }
-
-            // Limpiar selección
-            this.clearSeedSelection();
         }
+
+
 
     },
 
@@ -261,10 +270,10 @@ const app = Vue.createApp({
             this.ancho = window.innerWidth;
         });
 
-        //revisar
-        window.addEventListener('keydown', e => {
-            if (e.key === 'Escape') this.clearSeedSelection();
-        });
+        //este era para que cuando le das a escape se deseleccionara la semilla pero yano se usa pq no me gusto jiji
+        // window.addEventListener('keydown', e => {
+        //     if (e.key === 'Escape') this.clearSeedSelection();
+        // });
     },
     //Cuando se crar el documento carga el idioa
     created() {
