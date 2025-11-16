@@ -60,6 +60,14 @@ app.component('game-main', {
       </aside>
     </section>
 
+    <!-- Grilla de parcelas - izquierda y derecha -->
+    <div class="plots-grid plots-left">
+      <div v-for="i in 12" :key="'L'+i" class="plot-cell"></div>
+    </div>
+    <div class="plots-grid plots-right">
+      <div v-for="i in 12" :key="'R'+i" class="plot-cell"></div>
+    </div>
+
     <!-- Interfaz del libro: comprar +3 fertilizante -->
     <div v-if="showCodex" class="book-modal" @click.self="toggleCodex">
       <div class="book-box">

@@ -10,15 +10,12 @@
     --extra: #EB6269;
     --yellow: #F7CE7F;
 
-    /* Parcela y fondo (nuevas) */
-  --farm-field-width: 100vw;
-  --farm-field-height: calc(100vh - 120px);
 
   /* Ajusta estos hasta que calcen con tu arte */
-  --plots-w: 560px;
-  --plots-h: 780px;
+  --plots-w: 500px;
+  --plots-h: 700px;
   --plots-gap: 22px;
-  --plots-top: 110px;
+  --plots-top: 245px;
   --plots-left: 230px;
   --plots-right: 230px;
 
