@@ -22,6 +22,7 @@ const app = Vue.createApp({
             // Game inventory state
             showBook: false,
             inventoryOpen: false,
+            shovelMode: false,          // Modo pala: si está activo, los clics quitan cultivos
             plotCost: 5, // Costo de comprar una parcela
             seedsInventory: [
                 { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 1 },
@@ -35,7 +36,7 @@ const app = Vue.createApp({
                 quantity: 0 
             },
             coins: 15,
-            
+
             selectedSeed: null,
 
 
@@ -196,6 +197,85 @@ const app = Vue.createApp({
             document.body.style.cursor = ''; // cambia al cursor normalito
         },
 
+        // Botón de la pala: alterna el modo "desplantar"
+        // - Activa: limpia selección de semilla y cambia cursor a la pala
+        // - Desactiva: restaura el cursor normal
+        plantAction() {
+            this.shovelMode = !this.shovelMode;
+            if (this.shovelMode) {
+                this.clearSeedSelection(); // asegúrate de no estar en modo semilla
+                document.body.style.cursor = 'url(assets/shovel.png) 16 16, pointer';
+            } else {
+                document.body.style.cursor = '';
+            }
+        },
+
+        // Al seleccionar una semilla:
+        // Si la pala estaba activa, se desactiva
+        // Si se vuelve a tocar la misma semilla, se deselecciona (toggle)
+        cursorSelected(seed) {
+            if (this.selectedSeed && this.selectedSeed.id === seed.id) {
+                this.clearSeedSelection();
+                return;
+            }
+            this.shovelMode = false; // salir de modo pala si estaba activo
+            this.selectedSeed = seed;
+            document.body.style.cursor = `url(${seed.image}) 16 16, pointer`;
+        },
+
+        // Limpia selección y cursor
+        clearSeedSelection() {
+            this.selectedSeed = null;
+            // Si la pala no está activa, volver al cursor normal
+            if (!this.shovelMode) document.body.style.cursor = '';
+        },
+
+        // Quitar cultivo de una parcela (desplantar)
+        // No devuelve semillas ni monedas; solo limpia la parcela
+        removeCrop(side, index) {
+            const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+            if (!crops[index]) return; // nada que quitar
+            crops[index] = null;       // parcela queda vacía
+        },
+
+        // Maneja los clicks de parcelas
+        // 1) Si está el modo pala intenta desplantar
+        // 2) Si no está comprada intenta comprar
+        // 3) Si está comprada y vacía y hay semilla seleccionada intenta plantar
+        // 4) Si ya tiene cultivo tira informacion
+        handlePlotClick(side, index) {
+            const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
+            const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+
+            // 1) Modo pala: desplantar y salir
+            if (this.shovelMode) {
+                if (crops[index]) {
+                    this.removeCrop(side, index);
+                } else {
+                    console.log('No hay un cultivo para quitar en esta parcela.');
+                }
+                return;
+            }
+
+            // 2) Comprar parcela si aún no está comprada
+            if (!plots[index]) {
+                this.buyPlot(side, index);
+                return;
+            }
+
+            // 3) Plantar si está comprada, vacía y hay semilla seleccionada
+            if (plots[index] && !crops[index] && this.selectedSeed) {
+                this.plantSeed(side, index);
+                return;
+            }
+
+            // 4) Ya hay un cultivo
+            if (crops[index]) {
+                console.log('Ya hay un cultivo aquí:', crops[index]);
+            }
+        },
+
+        // Planta consumiendo 1 semilla por id y marcando la parcela con el cultivo
         plantSeed(side, index) {
             const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
 
@@ -204,12 +284,13 @@ const app = Vue.createApp({
                 return;
             }
 
-            // Consumir 1 semilla usando SOLO el id
+            // Consume 1 semilla del inventario por id
             if (!this.useSeed(this.selectedSeed.id)) {
                 console.log("No tienes semillas de este tipo");
                 return;
             }
 
+            // Marca el cultivo en la parcela
             crops[index] = {
                 seedId: this.selectedSeed.id,
                 seedName: this.selectedSeed.name,
@@ -217,6 +298,7 @@ const app = Vue.createApp({
                 plantedAt: Date.now()
             };
 
+            // Sale del modo semilla
             this.clearSeedSelection();
         },
 
@@ -228,6 +310,17 @@ const app = Vue.createApp({
         handlePlotClick(side, index) {
             const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
             const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+
+        
+        if (this.shovelMode) {
+            if (crops[index]) {
+                this.removeCrop(side, index);
+            } else {
+                console.log('No hay un cultivo para quitar en esta parcela.');
+            }
+            return;
+        }
+
 
             // Si la parcela no está comprada, intentar comprarla
             if (!plots[index]) {
@@ -259,7 +352,13 @@ const app = Vue.createApp({
                 denied[index] = true;
                 setTimeout(() => (denied[index] = false), 350);
             }
-        }
+        },
+
+        removeCrop(side, index) {
+        const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+        if (!crops[index]) return; // nada que quitar
+        crops[index] = null;       // parcela queda vacía
+    },
 
 
 
