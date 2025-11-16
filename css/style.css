@@ -5,6 +5,7 @@
 
 @import "./layout/_responsive.css";
 @import "./layout/_sections.css";
+@import "./layout/_crops.css";
 
 @import "./components/_header.css";
 @import "./components/_navigation.css";

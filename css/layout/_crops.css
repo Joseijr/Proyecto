@@ -1,0 +1,38 @@
+@layer crops{
+
+.farm-field {
+  position: relative;
+  width: var(--farm-field-width);
+  height: var(--farm-field-height);
+  margin: 0 auto;
+  background: url('../assets/bg-granja.png') center/cover no-repeat; /* ajusta ruta si difiere */
+  overflow: hidden;
+}
+
+/* Grillas */
+.plots-grid {
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: var(--plots-gap);
+  width: var(--plots-w);
+  height: var(--plots-h);
+  z-index: 2;
+}
+
+.plots-left  { top: var(--plots-top); left:  var(--plots-left); }
+.plots-right { top: var(--plots-top); right: var(--plots-right); }
+
+.plot-cell {
+  background: rgba(255,255,255,0.35);
+  border: 2px dashed rgba(0,0,0,0.2);
+  border-radius: 8px;
+  transition: background .15s;
+}
+
+.plot-cell:hover {
+  background: rgba(255,255,255,0.5);
+}
+    
+}
