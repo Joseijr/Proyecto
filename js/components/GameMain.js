@@ -35,10 +35,10 @@ app.component('game-main', {
 
 
     togglePlot(side, index) {
-      if (side === 'left') {
-        this.plotsLeft[index] = !this.plotsLeft[index];
-      } else {
-        this.plotsRight[index] = !this.plotsRight[index];
+      const list = side === 'left' ? this.plotsLeft : this.plotsRight;
+      // Solo activar si aún no estaba activa
+      if (!list[index]) {
+        list[index] = true;
       }
     }
   },
@@ -99,15 +99,15 @@ app.component('game-main', {
     <!-- Grilla de parcelas - izquierda y derecha -->
     <div class="plots-grid plots-left">
       <div v-for="(activated, i) in plotsLeft" :key="'L'+i" 
-           class="plot-cell" 
-           :class="{ 'plot-active': activated }"
-           @click="togglePlot('left', i)"></div>
+          class="plot-cell" 
+          :class="{ 'plot-active': activated }"
+          @click="togglePlot('left', i)"></div>
     </div>
     <div class="plots-grid plots-right">
       <div v-for="(activated, i) in plotsRight" :key="'R'+i" 
-           class="plot-cell"
-           :class="{ 'plot-active': activated }"
-           @click="togglePlot('right', i)"></div>
+          class="plot-cell"
+          :class="{ 'plot-active': activated }"
+          @click="togglePlot('right', i)"></div>
     </div>
 
     <!-- Interfaz del libro: comprar +3 fertilizante -->

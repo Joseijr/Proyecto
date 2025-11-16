@@ -132,7 +132,7 @@ const app = Vue.createApp({
                 } else{
                     console.warn("No tienes suficientes monedas para comprar fertilizante.");
                 }
-          
+        
         },
         
         // Comprar semilla: busca por ID y suma 1 unidad
