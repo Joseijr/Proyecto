@@ -21,15 +21,25 @@
 
       <game-main
         :inventory-open="inventoryOpen"
-        :seeds="seeds"
+        :seeds="seedsInventory"
         :fertilizer="fertilizer"
         :coins="coins"
+        :selected-seed="selectedSeed"
+        :show-book="showBook"
+        :plots-left="plotsLeft"
+        :plots-right="plotsRight"
+        :denied-left="deniedLeft"
+        :denied-right="deniedRight"
+        :crops-left="cropsLeft"
+        :crops-right="cropsRight"
         @plant-action="plantAction"
         @water-action="waterAction"
         @fertilize-action="fertilizeAction"
         @inventory-action="inventoryAction"
         @buy-fertilizer="buyFertilizer"
-        @spend-coins="spendCoins"
+        @select-seed="selectSeed"
+        @toggle-book="toggleBook"
+        @plot-click="handlePlotClick"
       />
     </div>
   </div>

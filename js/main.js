@@ -20,8 +20,10 @@ const app = Vue.createApp({
             ancho: window.innerWidth,
 
             // Game inventory state
+            showBook: false,
             inventoryOpen: false,
-            seeds: [
+            plotCost: 5, // Costo de comprar una parcela
+            seedsInventory: [
                 { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 10 },
                 { id: 'mandragora', name: 'Mandragora', image: 'assets/mandragoraSeed.png', quantity: 5 }
             ],
@@ -34,7 +36,15 @@ const app = Vue.createApp({
             },
             coins: 10,
             
-            selectedSeed: null
+            selectedSeed: null,
+
+
+            plotsLeft: Array(12).fill(false),   // false = no comprada, true = comprada
+            plotsRight: Array(12).fill(false),
+            deniedLeft: Array(12).fill(false),  // para animación de shake
+            deniedRight: Array(12).fill(false),
+            cropsLeft: Array(12).fill(null),    // null = vacía, objeto = cultivada
+            cropsRight: Array(12).fill(null)
         };
     },
 
@@ -127,6 +137,11 @@ const app = Vue.createApp({
             //console.log('Inventario toggle:', this.inventoryOpen); // DEBUG
         },
         
+        // Método para abrir/cerrar el libro
+        toggleBook() {
+            this.showBook = !this.showBook;
+        },
+        
         fertilizeAction() {
             if (this.fertilizer.quantity > 0) {
                 this.fertilizer.quantity -= 1;
@@ -145,13 +160,13 @@ const app = Vue.createApp({
         
         // Comprar semilla: busca por ID y suma 1 unidad
         buySeed(id) {
-            const seed = this.seeds.find(seedItem => seedItem.id === id);
+            const seed = this.seedsInventory.find(seedItem => seedItem.id === id);
             if (seed) seed.quantity += 1;
         },
         
         // Usar semilla desde inventario: busca por ID y consume 1 unidad
         useSeed(seed) {
-            const seedInInventory = this.seeds.find(seedItem => seedItem.id === seed.id);
+            const seedInInventory = this.seedsInventory.find(seedItem => seedItem.id === seed.id);
             if (seedInInventory && seedInInventory.quantity > 0) seedInInventory.quantity -= 1;
         },
 
@@ -170,12 +185,83 @@ const app = Vue.createApp({
             if (this.coins >= amount) this.coins -= amount; // evita negativos
         },
 
+        handlePlotClick(side, index) {
+            const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
+            const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+
+            // Si la parcela no está comprada, intentar comprarla
+            if (!plots[index]) {
+                this.buyPlot(side, index);
+                return;
+            }
+
+            // Si la parcela está comprada pero vacía, y hay semilla seleccionada
+            if (plots[index] && !crops[index] && this.selectedSeed) {
+                this.plantSeed(side, index);
+                return;
+            }
+
+            // Si ya hay un cultivo, mostrar info o permitir cosechar
+            if (crops[index]) {
+                console.log('Ya hay un cultivo aquí:', crops[index]);
+            }
+        },
+
+        buyPlot(side, index) {
+            const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
+            const denied = side === 'left' ? this.deniedLeft : this.deniedRight;
+
+            if (this.coins >= this.plotCost) {
+                plots[index] = true;
+                this.coins -= this.plotCost;
+            } else {
+                // Activar animación de shake
+                denied[index] = true;
+                setTimeout(() => (denied[index] = false), 350);
+            }
+        },
+
+        plantSeed(side, index) {
+            const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+
+            // Validar que hay semilla seleccionada
+            if (!this.selectedSeed) {
+                console.log("Selecciona una semilla del inventario primero");
+                return;
+            }
+
+            // Validar stock
+            if (this.selectedSeed.quantity <= 0) {
+                console.log("No tienes semillas de este tipo");
+                return;
+            }
+
+            // Plantar
+            crops[index] = {
+                seedId: this.selectedSeed.id,
+                seedName: this.selectedSeed.name,
+                phase: 'start',
+                plantedAt: Date.now()
+            };
+
+            // Consumir semilla del inventario
+            const seedInInventory = this.seedsInventory.find(s => s.id === this.selectedSeed.id);
+            if (seedInInventory) {
+                seedInInventory.quantity -= 1;
+            }
+
+            // Limpiar selección
+            this.clearSeedSelection();
+        }
+
     },
 
     mounted() { 
         window.addEventListener("resize", () => {
             this.ancho = window.innerWidth;
         });
+
+        //revisar
         window.addEventListener('keydown', e => {
             if (e.key === 'Escape') this.clearSeedSelection();
         });

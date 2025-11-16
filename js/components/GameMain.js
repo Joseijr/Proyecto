@@ -1,67 +1,37 @@
 app.component('game-main', {
-
-
   props: {
     inventoryOpen: { type: Boolean, required: true },
     seeds: { type: Array, required: true },
     fertilizer: { type: Object, required: true },
-    coins: { type: Number, required: true }
+    coins: { type: Number, required: true },
+    selectedSeed: { type: Object, default: null },
+    showBook: { type: Boolean, required: true },
+    plotsLeft: { type: Array, required: true },
+    plotsRight: { type: Array, required: true },
+    deniedLeft: { type: Array, required: true },
+    deniedRight: { type: Array, required: true },
+    cropsLeft: { type: Array, required: true },
+    cropsRight: { type: Array, required: true }
   },
-
-
-
-  data() {
-    return { 
-      showCodex: false,
-      plotsLeft: Array(12).fill(false),
-      plotsRight: Array(12).fill(false),
-      deniedLeft: Array(12).fill(false), //se usan mas q nada para la animacion cuando no hay monedas pa comprar
-      deniedRight: Array(12).fill(false),
-    };
-  },
-
-
 
   methods: {
+    // Solo emite eventos al padre
     handlePlant() { this.$emit('plant-action'); },
-
     handleWater() { this.$emit('water-action'); },
-
     handleFertilize() { this.$emit('fertilize-action'); },
-
     handleInventory() { this.$emit('inventory-action'); },
-
     handleBuyFertilizer() { this.$emit('buy-fertilizer'); },
-
-    toggleCodex() { this.showCodex = !this.showCodex; },
-
-
-    togglePlot(side, index) {
-      const list = side === 'left' ? this.plotsLeft : this.plotsRight;
-      const denied = side === 'left' ? this.deniedLeft : this.deniedRight;
-      //lo hice por lados para no pasarla tan mal entonces tiene q verificar los lados
-      //el codigo dice si es es left entonces usa deniedLeft sino usa deniedRight
-      //y si no tiene monedas le da el feedback visual
-
-      // Ya comprada → no hace nada
-      if (list[index]) return;
-
-      const COST = 5;
-      if (this.coins >= COST) {
-        list[index] = true;               // compra la parcela
-        this.$emit('spend-coins', COST);  // descuenta monedas
-      } else {
-        denied[index] = true;             // avisa si no se puede con la sacudida
-        setTimeout(() => (denied[index] = false), 400); //esto es para que la animacion no explote,le da una pausita
-        //a la animacion de sacudida de cuqando no se puede comprar y ya luego sigue en lo suyo.
-      }
+    handleSelectSeed(seed) { this.$emit('select-seed', seed); },
+    handleToggleBook() { this.$emit('toggle-book'); },
+    handlePlotClick(side, index) { this.$emit('plot-click', side, index); },
+    
+    // obtener imagen según fase del cultivo
+    getCropImage(crop) {
+      if (!crop) return null;
+      if (crop.phase === 'start') return 'assets/startgrowing.png';
+      if (crop.phase === 'almost') return 'assets/almostgrown.png';
+      return null;
     }
-  },
-
-
-  mounted() {
-    console.log('Seeds recibidas:', this.seeds); 
-    console.log('Inventory open:', this.inventoryOpen); 
   },
 
   template: /*html*/`
@@ -71,6 +41,7 @@ app.component('game-main', {
       <aside class="game-sidebar">
         <div class="game-actions">
 
+          <!-- Monedas -->
           <div class="coin-display" title="Monedas">
             <img src="assets/coin.png" alt="Monedas" class="coin-icon-img">
             <span class="tool-quantity">{{ coins }}</span>
@@ -84,19 +55,15 @@ app.component('game-main', {
             <img src="assets/regar.png" alt="Regar" class="action-icon-img">
           </button>
 
-          <!-- Fertilizante con contador -->
           <button class="action-btn" title="Fertilizar (usa 1)" @click="handleFertilize">
             <img src="assets/bolsaAbono.png" alt="Fertilizar" class="action-icon-img">
             <span class="tool-quantity" :class="{ empty: fertilizer.quantity <= 0 }">{{ fertilizer.quantity }}</span>
           </button>
 
-
-          <!-- Libro / Mercado -->
-          <button class="action-btn" @click="toggleCodex" title="Libro / Mercado">
+          <button class="action-btn" @click="handleToggleBook" title="Libro / Mercado">
             <img src="assets/libroTemporal.jpg" alt="Libro" class="action-icon-img">
           </button>
 
-          <!-- Inventario (solo semillas) -->
           <button class="action-btn" title="Inventario" @click="handleInventory" :class="{ 'active': inventoryOpen }">
             <img src="assets/bolsabase.png" alt="Inventario" class="action-icon-img">
           </button>
@@ -115,34 +82,49 @@ app.component('game-main', {
       </aside>
     </section>
 
-    <!-- Grilla de parcelas - izquierda y derecha -->
+    <!-- Grillas de parcelas -->
     <div class="plots-grid plots-left">
       <div v-for="(activated, i) in plotsLeft" :key="'L'+i"
            class="plot-cell"
-           :class="{ 'plot-active': activated, 'plot-denied': deniedLeft[i] }"
-           @click="togglePlot('left', i)"></div>
+           :class="{ 
+             'plot-active': activated, 
+             'plot-denied': deniedLeft[i], 
+             'plot-planted': cropsLeft[i] 
+           }"
+           @click="handlePlotClick('left', i)">
+        <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
+      </div>
     </div>
+
     <div class="plots-grid plots-right">
       <div v-for="(activated, i) in plotsRight" :key="'R'+i"
            class="plot-cell"
-           :class="{ 'plot-active': activated, 'plot-denied': deniedRight[i] }"
-           @click="togglePlot('right', i)"></div>
+           :class="{ 
+             'plot-active': activated, 
+             'plot-denied': deniedRight[i], 
+             'plot-planted': cropsRight[i] 
+           }"
+           @click="handlePlotClick('right', i)">
+        <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
+      </div>
     </div>
 
-    <!-- Interfaz del libro: comprar +3 fertilizante -->
-    <div v-if="showCodex" class="book-modal" @click.self="toggleCodex">
+    <!-- Modal Mercado -->
+    <div v-if="showBook" class="book-modal" @click.self="handleToggleBook">
       <div class="book-box">
         <header class="book-box-header">
           <h3 class="white-color">Market</h3>
-          <button class="close-btn" @click="toggleCodex" aria-label="Cerrar">✕</button>
+          <button class="close-btn" @click="handleToggleBook" aria-label="Cerrar">✕</button>
         </header>
         <div class="book-box-body">
           <div class="market-item">
             <img :src="fertilizer.image" :alt="fertilizer.name" class="market-img">
             <h4 class="white-color">{{ fertilizer.name }}</h4>
             <p class="white-color">Units: {{ fertilizer.quantity }}</p>
-            <p class="white-color">Price: {{ fertilizer.price }}</p>
-            <button class="market-buy-btn"  :disabled="coins < 3" @click="handleBuyFertilizer">Buy +3</button>
+            <p class="white-color">Price: {{ fertilizer.price }} coins</p>
+            <button class="market-buy-btn" 
+                    :disabled="coins < fertilizer.price" 
+                    @click="handleBuyFertilizer">Buy +3</button>
           </div>
         </div>
       </div>
