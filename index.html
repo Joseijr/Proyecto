@@ -16,34 +16,26 @@
 <body>
     <div id="app">
         <!-- Header Component -->
-        <app-header 
-            :t="t" 
-            :lang="lang" 
-            :ancho="ancho" 
-            :menu="menu" 
-            @change-language="changeLanguage" 
+        <app-header :t="t" :lang="lang" :ancho="ancho" :menu="menu" @change-language="changeLanguage"
             @toggle-menu="showHam">
         </app-header>
 
         <!-- componente del banner -->
         <app-banner :t="t"></app-banner>
 
+
+
         <!-- componente de la primera seccion de texto -->
         <section-one :t="t"></section-one>
+
+        <missions-list></missions-list>
 
         <!-- segunda secciom -->
         <section-two :t="t"></section-two>
 
         <!-- carrousel -->
-        <carousel-section 
-            :variants="variants" 
-            :i="i" 
-            :show="show" 
-            :ancho="ancho" 
-            @prev-image="prevImage" 
-            @next-image="nextImage" 
-            @show-image="showImage" 
-            @hide-image="hideImage">
+        <carousel-section :variants="variants" :i="i" :show="show" :ancho="ancho" @prev-image="prevImage"
+            @next-image="nextImage" @show-image="showImage" @hide-image="hideImage">
         </carousel-section>
     </div>
 
@@ -52,6 +44,7 @@
     <!-- Components -->
     <script src="js/components/appHeader.js"></script>
     <script src="js/components/appBanner.js"></script>
+    <script src="js/components/missionsSection.js"></script>
     <script src="js/components/sectionOne.js"></script>
     <script src="js/components/sectionTwo.js"></script>
     <script src="js/components/carouselSection.js"></script>

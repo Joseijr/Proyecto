@@ -1,4 +1,3 @@
-// Header Component - logo, language selector, nav menu
 app.component('app-header', {
     props: {
         t: { type: Object, required: true },
@@ -6,24 +5,64 @@ app.component('app-header', {
         ancho: { type: Number, required: true },
         menu: { type: Boolean, required: true }
     },
-    
+    data() {
+        return {
+            user: null,
+            loading: false,
+            error: null
+        };
+    },
     methods: {
         changeLanguage(newLang) {
             this.$emit('change-language', newLang);
         },
         toggleMenu() {
             this.$emit('toggle-menu');
+        },
+        getUser() {
+            this.loading = true;
+            this.error = null;
+            const server = 'http://prueba.test';
+            const token = localStorage.getItem('token');
+
+            fetch(server + '/api/user', {
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                }
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error('No autorizado');
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.success) this.user = data.user;
+                    else this.error = 'Usuario no logeado';
+                    this.loading = false;
+                })
+                .catch(err => {
+                    this.error = err.message;
+                    this.loading = false;
+                });
         }
+    },
+    created() {
+        this.getUser();
     },
     template: /*html*/`
     <header class="primary-bg">
         <div class="logo white-color text-xl">
             <img src="assets/Logo.png" alt="Mushroom's Garden Logo">
+
             <div class="language-selector display-flex">
                 <button @click="changeLanguage('en')" :class="{ 'active': lang === 'en' }">EN</button>
                 <button @click="changeLanguage('es')" :class="{ 'active': lang === 'es' }">ES</button>
                 <button @click="changeLanguage('jp')" :class="{ 'active': lang === 'jp' }">JP</button>
             </div>
+
+            <p v-if="loading" class="white-color">Cargando usuario...</p>
+            <p v-if="error" class="white-color" style="color:red">{{ error }}</p>
+            <p v-if="user" class="white-color">Hola, {{ user.name }}</p>
         </div>
 
         <nav class="text-l bold" v-if="ancho >= 780">
@@ -38,10 +77,8 @@ app.component('app-header', {
             ☰
         </button>
 
-        <div v-if="menu===true" class="hamMenu primary-bg">
-            <button @click="toggleMenu" class="menu-toggle" id="menu-toggle">
-                ☰
-            </button>
+        <div v-if="menu" class="hamMenu primary-bg">
+            <button @click="toggleMenu" class="menu-toggle" id="menu-toggle">☰</button>
             <nav class="text-l bold">
                 <a class="white-color secondary-hover" href="index.html">{{t.nav?.home}}</a>
                 <a class="white-color secondary-hover" href="game.html">{{t.nav?.game}}</a>

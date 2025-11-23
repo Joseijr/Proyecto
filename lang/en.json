@@ -26,7 +26,7 @@
     },
     "login": {
         "title": "Log In",
-        "username": "UserName",
+        "username": "Mail",
         "password": "Password",
         "no_account": "don't have an account?",
         "signin_link": "Sign in",

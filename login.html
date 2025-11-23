@@ -14,19 +14,16 @@
 
 <body>
     <div id="app" class="page-shell">
+
+        <app-header :t="t" :lang="lang" :ancho="ancho" :menu="menu" @change-language="changeLanguage"
+            @toggle-menu="showHam">
+        </app-header>
         <!-- Login Header Component -->
-        <login-header 
-            :t="t" 
-            :ancho="ancho" 
-            :menu="menu"
-            :lang="lang"
-            @change-language="changeLanguage" 
+        <login-header :t="t" :ancho="ancho" :menu="menu" :lang="lang" @change-language="changeLanguage"
             @toggle-menu="showHam">
         </login-header>
         <!-- Login Form Component -->
-        <login-form 
-            :t="t" 
-            @login-submit="logInBtn">
+        <login-form :t="t" @login-submit="logInBtn">
         </login-form>
     </div>
 

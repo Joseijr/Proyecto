@@ -3,6 +3,7 @@ app.component('section-one', {
     props: {
         t: { type: Object, required: true }
     },
+
     template: /*html*/`
     <section class="light-bg">
         <div class="display-flex">

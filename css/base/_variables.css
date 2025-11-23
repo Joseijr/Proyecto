@@ -1,9 +1,9 @@
-@layer base{
-:root {
+@layer base {
+  :root {
 
     --blue: #129899;
     --primary: #0B3148;
-    --secondary: #94CD9A;
+    --secondary: hsl(126, 36%, 69%);
     --green: #83C89C;
     --white: #ffffff;
     --black: #000000;
@@ -11,13 +11,14 @@
     --yellow: #F7CE7F;
 
 
-  /* Ajusta estos hasta que calcen con tu arte */
-  --plots-w: 500px;
-  --plots-h: 700px;
-  --plots-gap: 22px;
-  --plots-top: 245px;
-  --plots-left: 230px;
-  --plots-right: 230px;
+    /* Ajusta estos hasta que calcen con tu arte */
+    --plots-w: 120px;
+    --plots-h: 120px;
+    --plots-gap: 20px;
+    --plots-group-gap: 40px;
+    --plots-top: 200px;
+    --plots-left: 50px;
+    --plots-right: 50px;
 
 
     --ff-main: "Pixelify Sans", sans-serif;
@@ -64,6 +65,112 @@
     --sp-super: 6rem;
     /* 64px */
 
+    /* 4K / Muy grandes - > 2560px */
+    @media (min-width: 2561px) {
 
-}
+      --plots-w: 500px;
+      --plots-h: 500px;
+      --plots-gap: 30px;
+      --plots-top: 300px;
+      --plots-left: 300px;
+      --plots-right: 300px;
+
+    }
+
+    /* Desktop grande - 1920px */
+    @media (max-width: 2560px) and (min-width: 1921px) {
+
+      --plots-w: 450px;
+      --plots-h: 450px;
+      --plots-gap: 28px;
+      --plots-top: 280px;
+      --plots-left: 200px;
+      --plots-right: 280px;
+
+    }
+
+    /* Desktop normal - 1440px */
+    @media (max-width: 1920px) and (min-width: 1441px) {
+
+      --plots-w: 400px;
+      --plots-h: 400px;
+      --plots-gap: 25px;
+      --plots-top: 250px;
+      --plots-left: 190px;
+      --plots-right: 190px;
+
+    }
+
+    /* Desktop pequeño / Laptop grande - 1024px */
+    @media (max-width: 1440px) and (min-width: 1025px) {
+
+      --plots-w: 350px;
+      --plots-h: 350px;
+      --plots-gap: 22px;
+      --plots-top: 220px;
+      --plots-left: 180px;
+      --plots-right: 180px;
+
+    }
+
+    /* Tablet - 1024px */
+    @media (max-width: 1024px) and (min-width: 780px) {
+
+      --plots-w: 300px;
+      --plots-h: 300px;
+      --plots-gap: 18px;
+      --plots-top: 200px;
+      --plots-left: 140px;
+      --plots-right: 140px;
+
+    }
+
+    /* Mobile Large - 779px */
+    @media (max-width: 779px) and (min-width: 601px) {
+
+      --plots-w: 250px;
+      --plots-h: 250px;
+      --plots-gap: 16px;
+      --plots-top: 170px;
+      --plots-left: 100px;
+      --plots-right: 100px;
+
+    }
+
+    /* Mobile Medium - 600px */
+    @media (max-width: 600px) and (min-width: 481px) {
+
+      --plots-w: 200px;
+      --plots-h: 200px;
+      --plots-gap: 12px;
+      --plots-top: 140px;
+      --plots-left: 60px;
+      --plots-right: 60px;
+
+    }
+
+    /* Mobile Small - 480px */
+    @media (max-width: 480px) and (min-width: 361px) {
+
+      --plots-w: 140px;
+      --plots-h: 140px;
+      --plots-gap: 10px;
+      --plots-top: 110px;
+      --plots-left: 40px;
+      --plots-right: 40px;
+    }
+
+
+    /* Pantallas muy pequeñas - 360px */
+    @media (max-width: 360px) {
+
+      --plots-w: 100px;
+      --plots-h: 100px;
+      --plots-gap: 8px;
+      --plots-top: 100px;
+      --plots-left: 30px;
+      --plots-right: 30px;
+
+    }
+  }
 }

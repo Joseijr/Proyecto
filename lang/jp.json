@@ -27,7 +27,7 @@
     },
     "login": {
         "title": "ログイン",
-        "username": "ユーザー名",
+        "username": "メール",
         "password": "パスワード",
         "no_account": "アカウントをお持ちでないですか？",
         "signin_link": "サインアップ",

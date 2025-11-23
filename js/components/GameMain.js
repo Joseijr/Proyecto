@@ -1,4 +1,11 @@
 app.component('game-main', {
+  data() {
+    return {
+      plants: [],
+      loading: false,
+      error: null
+    };
+  },
   props: {
     inventoryOpen: { type: Boolean, required: true },
     seeds: { type: Array, required: true },
@@ -15,6 +22,29 @@ app.component('game-main', {
   },
 
   methods: {
+
+    getPlants() {
+      this.loading = true;
+      this.error = null;
+      const server = 'http://prueba.test';
+      // Replace the URL below with your custom API link
+      fetch(server + '/api/v1/garden/plants')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+          this.plants = data;
+          this.loading = false;
+        })
+        .catch(error => {
+          this.error = error.message;
+          this.loading = false;
+        });
+    },
     // Solo emite eventos al padre
     handlePlant() { this.$emit('plant-action'); },
     handleWater() { this.$emit('water-action'); },
@@ -24,7 +54,7 @@ app.component('game-main', {
     handleSelectSeed(seed) { this.$emit('select-seed', seed); },
     handleToggleBook() { this.$emit('toggle-book'); },
     handlePlotClick(side, index) { this.$emit('plot-click', side, index); },
-    
+
     // obtener imagen según fase del cultivo
     getCropImage(crop) {
       if (!crop) return null;
@@ -33,7 +63,9 @@ app.component('game-main', {
       return null;
     }
   },
-
+  created() {
+    this.getPlants();
+  },
   template: /*html*/`
   <main class="main-content">
     <section class="image-container">
@@ -61,7 +93,7 @@ app.component('game-main', {
           </button>
 
           <button class="action-btn" @click="handleToggleBook" title="Libro / Mercado">
-            <img src="assets/libroTemporal.jpg" alt="Libro" class="action-icon-img">
+            <img src="assets/book.png" alt="Libro" class="action-icon-img">
           </button>
 
           <button class="action-btn" title="Inventario" @click="handleInventory" :class="{ 'active': inventoryOpen }">
@@ -86,10 +118,10 @@ app.component('game-main', {
     <div class="plots-grid plots-left">
       <div v-for="(activated, i) in plotsLeft" :key="'L'+i"
            class="plot-cell"
-           :class="{ 
-             'plot-active': activated, 
-             'plot-denied': deniedLeft[i], 
-             'plot-planted': cropsLeft[i] 
+           :class="{
+             'plot-active': activated,
+             'plot-denied': deniedLeft[i],
+             'plot-planted': cropsLeft[i]
            }"
            @click="handlePlotClick('left', i)">
         <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
@@ -99,10 +131,10 @@ app.component('game-main', {
     <div class="plots-grid plots-right">
       <div v-for="(activated, i) in plotsRight" :key="'R'+i"
            class="plot-cell"
-           :class="{ 
-             'plot-active': activated, 
-             'plot-denied': deniedRight[i], 
-             'plot-planted': cropsRight[i] 
+           :class="{
+             'plot-active': activated,
+             'plot-denied': deniedRight[i],
+             'plot-planted': cropsRight[i]
            }"
            @click="handlePlotClick('right', i)">
         <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
@@ -110,25 +142,31 @@ app.component('game-main', {
     </div>
 
     <!-- Modal Mercado -->
-    <div v-if="showBook" class="book-modal" @click.self="handleToggleBook">
-      <div class="book-box">
-        <header class="book-box-header">
-          <h3 class="white-color">Market</h3>
-          <button class="close-btn" @click="handleToggleBook" aria-label="Cerrar">✕</button>
-        </header>
-        <div class="book-box-body">
-          <div class="market-item">
-            <img :src="fertilizer.image" :alt="fertilizer.name" class="market-img">
-            <h4 class="white-color">{{ fertilizer.name }}</h4>
-            <p class="white-color">Units: {{ fertilizer.quantity }}</p>
-            <p class="white-color">Price: {{ fertilizer.price }} coins</p>
-            <button class="market-buy-btn" 
-                    :disabled="coins < fertilizer.price" 
-                    @click="handleBuyFertilizer">Buy +3</button>
-          </div>
-        </div>
+<div v-if="showBook" class="book-modal" @click.self="handleToggleBook">
+  <div class="book-box">
+    <header class="book-box-header">
+      <h3 class="white-color">Market</h3>
+      <button class="close-btn" @click="handleToggleBook" aria-label="Cerrar">✕</button>
+    </header>
+    <div class="book-box-body">
+
+      <!-- Lista de plantas como items de la tienda -->
+      <div v-for="p in plants" :key="p.id" class="market-item">
+        <img :src="p.image_url" :alt="p.name" class="market-img">
+        <h4 class="white-color">{{ p.name }}</h4>
+        <p class="white-color">Price: {{ p.price || 10 }} coins</p>
+        <button class="market-buy-btn"
+                :disabled="coins < (p.price || 10)"
+                @click="$emit('buy-item', p)">
+          Buy
+        </button>
       </div>
+
+      
+
     </div>
+  </div>
+</div>
   </main>
   `
 });

@@ -28,24 +28,24 @@ const app = Vue.createApp({
                 { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 1 },
                 { id: 'mandragora', name: 'Mandragora', image: 'assets/mandragoraSeed.png', quantity: 5 }
             ],
-            fertilizer: { 
-                id: 'fertilizer_basic', 
-                name: 'Fertilizer', 
-                image: 'assets/bolsaAbono.png', 
+            fertilizer: {
+                id: 'fertilizer_basic',
+                name: 'Fertilizer',
+                image: 'assets/bolsaAbono.png',
                 price: 3,
-                quantity: 0 
+                quantity: 0
             },
             coins: 15,
 
             selectedSeed: null,
 
 
-            plotsLeft: Array(12).fill(false),   // false = no comprada, true = comprada
-            plotsRight: Array(12).fill(false),
-            deniedLeft: Array(12).fill(false),  // para animación de shake
-            deniedRight: Array(12).fill(false),
-            cropsLeft: Array(12).fill(null),    // null = vacía, objeto = cultivada
-            cropsRight: Array(12).fill(null)
+            plotsLeft: Array(4).fill(false),   // false = no comprada, true = comprada
+            plotsRight: Array(4).fill(false),
+            deniedLeft: Array(4).fill(false),  // para animación de shake
+            deniedRight: Array(4).fill(false),
+            cropsLeft: Array(4).fill(null),    // null = vacía, objeto = cultivada
+            cropsRight: Array(4).fill(null)
         };
     },
 
@@ -136,37 +136,37 @@ const app = Vue.createApp({
             this.inventoryOpen = !this.inventoryOpen;
             //console.log('Inventario toggle:', this.inventoryOpen); // DEBUG
         },
-        
+
         // Método para abrir/cerrar el libro
         toggleBook() {
             this.showBook = !this.showBook;
         },
-        
+
         //cosas del fertilizante
         fertilizeAction() {
             if (this.fertilizer.quantity > 0) {
                 this.fertilizer.quantity -= 1;
             }
         },
-        
+
         buyFertilizer() {
-            if (this.coins >= 5) { 
+            if (this.coins >= 5) {
                 this.coins -= 3;
                 this.fertilizer.quantity += 3;
-                } else{
-                    console.warn("No tienes suficientes monedas para comprar fertilizante.");
-                }
-        
+            } else {
+                console.warn("No tienes suficientes monedas para comprar fertilizante.");
+            }
+
         },
 
         //cosas con las semillas
-        
+
         // Comprar semilla: busca por ID y suma 1 unidad
         buySeed(id) {
             const seed = this.seedsInventory.find(seedItem => seedItem.id === id);
             if (seed) seed.quantity += 1;
         },
-        
+
         // Usar semilla desde inventario: recibe SOLO el id y consume 1 unidad
         useSeed(id) {
             if (!id) return false;
@@ -184,7 +184,7 @@ const app = Vue.createApp({
                 this.clearSeedSelection();
                 return;
             }
-            
+
             // Si no, seleccionar la nueva semilla
             this.selectedSeed = seed;
             // Cambia el cursor al PNG de la semilla (hotspot centrado aproximado)
@@ -311,15 +311,15 @@ const app = Vue.createApp({
             const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
             const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
 
-        
-        if (this.shovelMode) {
-            if (crops[index]) {
-                this.removeCrop(side, index);
-            } else {
-                console.log('No hay un cultivo para quitar en esta parcela.');
+
+            if (this.shovelMode) {
+                if (crops[index]) {
+                    this.removeCrop(side, index);
+                } else {
+                    console.log('No hay un cultivo para quitar en esta parcela.');
+                }
+                return;
             }
-            return;
-        }
 
 
             // Si la parcela no está comprada, intentar comprarla
@@ -355,16 +355,16 @@ const app = Vue.createApp({
         },
 
         removeCrop(side, index) {
-        const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
-        if (!crops[index]) return; // nada que quitar
-        crops[index] = null;       // parcela queda vacía
-    },
+            const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
+            if (!crops[index]) return; // nada que quitar
+            crops[index] = null;       // parcela queda vacía
+        },
 
 
 
     },
 
-    mounted() { 
+    mounted() {
         window.addEventListener("resize", () => {
             this.ancho = window.innerWidth;
         });

@@ -1,7 +1,7 @@
 @layer main {
     footer {
         display: flex;
-        
+        margin-top: auto;
         align-items: center;
         text-align: center;
         justify-content: center;
@@ -20,7 +20,7 @@
         min-height: 100vh;
         display: grid;
         grid-template-rows: auto 1fr auto;
-        
+
     }
 
     .login-back {
@@ -37,7 +37,7 @@
     .contact-back {
         text-align: center;
         background: linear-gradient(hsla(0, 0%, 0%, 0.4), hsla(0, 0%, 0%, 0.4)), url('../../assets/Illustrationproyecto3.jpg') center/cover no-repeat;
-        
+
     }
 
     .language-selector {

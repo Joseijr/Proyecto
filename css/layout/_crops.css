@@ -1,80 +1,107 @@
-@layer crops{
+@layer crops {
 
-.farm-field {
-  position: relative;
-  width: var(--farm-field-width);
-  height: var(--farm-field-height);
-  margin: 0 auto;
-  background: url('../assets/bg-granja.png') center/cover no-repeat;
-  overflow: hidden;
-}
+  .farm-field {
+    position: relative;
+    width: var(--farm-field-width);
+    height: var(--farm-field-height);
+    margin: 0 auto;
+    background: url('../assets/bg-granja.png') center/cover no-repeat;
+    overflow: hidden;
+  }
 
-.plots-grid {
-  position: absolute;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  gap: var(--plots-gap);
-  width: var(--plots-w);
-  height: var(--plots-h);
-  z-index: 2;
-}
+  .plots-grid {
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: var(--plots-gap);
+    width: var(--plots-w);
+    height: var(--plots-h);
+    z-index: 1;
+  }
 
-.plots-left  { top: var(--plots-top); left:  var(--plots-left); }
-.plots-right { top: var(--plots-top); right: var(--plots-right); }
+  .plots-left {
+    top: var(--plots-top);
+    left: var(--plots-left);
+  }
 
-.plot-cell {
-  background: rgba(124, 55, 55, 0.35);
-  border: 4px dashed rgba(131, 15, 15, 0.2);
-  border-radius: 0.5rem;
-  transition: background .15s; /*el que causa el cambio suavecito de casilla a crop*/
-  
-}
+  .plots-right {
+    top: var(--plots-top);
+    right: var(--plots-right);
+  }
 
-.plot-cell:hover {
-  background: rgba(255, 173, 173, 0.5);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+  .plot-cell {
+    background: rgba(124, 55, 55, 0.35);
+    border: 4px dashed rgba(131, 15, 15, 0.2);
+    border-radius: 0.5rem;
+    transition: background .15s;
+    /*el que causa el cambio suavecito de casilla a crop*/
+
+  }
+
+  .plot-cell:hover {
+    background: rgba(255, 173, 173, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
 
-.plot-cell.plot-active {
-  background: url('../../assets/parcela.png') center/cover no-repeat;
-  background-size: cover;
-  background-position: center;
-  border: none;
-  cursor: default;
-}
+  .plot-cell.plot-active {
+    background: url('../../assets/parcela.png') center/cover no-repeat;
+    background-size: contain;
+    background-position: center;
+    border: none;
 
-.plot-cell.plot-denied {  /* sacudida bien cabrona*/
-  animation: shake .3s;
-}
+  }
 
-@keyframes shake {
-  10%, 90% { transform: translateX(-2px); }
-  20%, 80% { transform: translateX(4px); }
-  30%, 50%, 70% { transform: translateX(-6px); }
-  40%, 60% { transform: translateX(6px); }
-}
-/*los porcentajes hacen ref al porcentaje de la animacion y el trasnform a su posicion,entonces 
+  .plot-cell.plot-denied {
+    /* sacudida bien cabrona*/
+    animation: shake .3s;
+  }
+
+  @keyframes shake {
+
+    10%,
+    90% {
+      transform: translateX(-2px);
+    }
+
+    20%,
+    80% {
+      transform: translateX(4px);
+    }
+
+    30%,
+    50%,
+    70% {
+      transform: translateX(-6px);
+    }
+
+    40%,
+    60% {
+      transform: translateX(6px);
+    }
+  }
+
+  /*los porcentajes hacen ref al porcentaje de la animacion y el trasnform a su posicion,entonces 
 termina siendo como que tanto se mueve en los ejes en ese porcentaje de animacion. Por ejemplo si le quitas
 el 30,50 y 70 se mueve bien despacito todo silly*/
 
-.plot-cell.plot-planted {
-  pointer-events: auto;
-  cursor: default;
-}
+  .plot-cell.plot-planted {
+    pointer-events: auto;
 
-.crop-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-}
+  }
 
-.inventory-item.selected {
-  outline: 3px solid var(--extra);
-  box-shadow: 0 0 6px rgba(0,0,0,.4);
-  transform: scale(1.12);
-}
+  .crop-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .inventory-item.selected {
+    outline: 3px solid var(--extra);
+    box-shadow: 0 0 6px rgba(0, 0, 0, .4);
+    transform: scale(1.12);
+  }
 }

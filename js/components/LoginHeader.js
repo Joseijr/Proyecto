@@ -1,7 +1,7 @@
 // LoginHeader Component - simplified header without logo for login page
 app.component('login-header', {
-  props: ['t','ancho','menu','lang'],
-  
+  props: ['t', 'ancho', 'menu', 'lang'],
+
   template: /*html*/`
     <header class="primary-bg">
       <div class="display-flex language-selector">
