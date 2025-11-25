@@ -112,34 +112,31 @@ app.component('game-main', {
           </div>
         </div>
       </aside>
+
+      <!-- espacios de cultivoos-->
+      <div class="plots-grid plots-left">
+        <div v-for="(activated, i) in plotsLeft" :key="'L'+i"
+            class="plot-cell"
+            :class="{ 'plot-active': activated, 
+            'plot-denied': deniedLeft[i], 
+            'plot-planted': cropsLeft[i] }"
+            @click="handlePlotClick('left', i)">
+          <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
+        </div>
+      </div>
+
+      <div class="plots-grid plots-right">
+        <div v-for="(activated, i) in plotsRight" :key="'R'+i"
+            class="plot-cell"
+            :class="{ 'plot-active': activated, 
+            'plot-denied': deniedRight[i], 
+            'plot-planted': cropsRight[i] }"
+            @click="handlePlotClick('right', i)">
+          <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
+        </div>
+      </div>
+
     </section>
-
-    <!-- Grillas de parcelas -->
-    <div class="plots-grid plots-left">
-      <div v-for="(activated, i) in plotsLeft" :key="'L'+i"
-           class="plot-cell"
-           :class="{
-             'plot-active': activated,
-             'plot-denied': deniedLeft[i],
-             'plot-planted': cropsLeft[i]
-           }"
-           @click="handlePlotClick('left', i)">
-        <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
-      </div>
-    </div>
-
-    <div class="plots-grid plots-right">
-      <div v-for="(activated, i) in plotsRight" :key="'R'+i"
-           class="plot-cell"
-           :class="{
-             'plot-active': activated,
-             'plot-denied': deniedRight[i],
-             'plot-planted': cropsRight[i]
-           }"
-           @click="handlePlotClick('right', i)">
-        <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
-      </div>
-    </div>
 
     <!-- Modal Mercado -->
 <div v-if="showBook" class="book-modal" @click.self="handleToggleBook">

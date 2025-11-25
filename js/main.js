@@ -129,6 +129,13 @@ const app = Vue.createApp({
 
         waterAction() {
             console.log("Acción: Regar");
+            document.body.style.cursor = `url(assets/regar.png) 16 16, pointer`;
+
+        },
+
+        clearWaterSelection() {
+            this.selectedSeed = null;
+            document.body.style.cursor = ''; // cambia al cursor normalito
         },
 
         // Método para abrir/cerrar inventario

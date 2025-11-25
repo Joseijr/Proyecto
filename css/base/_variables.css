@@ -11,14 +11,16 @@
     --yellow: #F7CE7F;
 
 
-    /* Ajusta estos hasta que calcen con tu arte */
+
     --plots-w: 120px;
     --plots-h: 120px;
     --plots-gap: 20px;
-    --plots-group-gap: 40px;
+
+    --plots-group-gap: 10px;
+    
     --plots-top: 200px;
-    --plots-left: 50px;
-    --plots-right: 50px;
+    --plots-left: 40px;
+    --plots-right: 40px;
 
 
     --ff-main: "Pixelify Sans", sans-serif;
