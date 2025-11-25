@@ -39,6 +39,8 @@ const app = Vue.createApp({
 
             selectedSeed: null,
 
+            selectedWater: false,
+
 
             plotsLeft: Array(4).fill(false),   // false = no comprada, true = comprada
             plotsRight: Array(4).fill(false),
@@ -128,14 +130,22 @@ const app = Vue.createApp({
         },
 
         waterAction() {
+            if(this.selectedWater===true){
             console.log("Acción: Regar");
-            document.body.style.cursor = `url(assets/regar.png) 16 16, pointer`;
+            this.selectedWater=true;
+            document.body.style.cursor = `url(assets/regar.png) 16 16, pointer`;}
+            else{
+                this.clearWaterSelection();
+            }
 
         },
 
         clearWaterSelection() {
-            this.selectedSeed = null;
-            document.body.style.cursor = ''; // cambia al cursor normalito
+
+                this.selectedWater = false;
+                document.body.style.cursor = ''; // cambia al cursor normalito
+            
+            
         },
 
         // Método para abrir/cerrar inventario
@@ -210,7 +220,7 @@ const app = Vue.createApp({
         plantAction() {
             this.shovelMode = !this.shovelMode;
             if (this.shovelMode) {
-                this.clearSeedSelection(); // asegúrate de no estar en modo semilla
+                this.clearSeedSelection(); 
                 document.body.style.cursor = 'url(assets/shovel.png) 16 16, pointer';
             } else {
                 document.body.style.cursor = '';
