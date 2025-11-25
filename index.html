@@ -28,15 +28,16 @@
         <!-- componente de la primera seccion de texto -->
         <section-one :t="t"></section-one>
 
-        <missions-list></missions-list>
 
         <!-- segunda secciom -->
-        <section-two :t="t"></section-two>
+        <section-two :t=" t"></section-two>
 
         <!-- carrousel -->
         <carousel-section :variants="variants" :i="i" :show="show" :ancho="ancho" @prev-image="prevImage"
             @next-image="nextImage" @show-image="showImage" @hide-image="hideImage">
         </carousel-section>
+
+        <missions-list :t="t"></missions-list>
     </div>
 
     <!-- Main app -->
@@ -44,7 +45,7 @@
     <!-- Components -->
     <script src="js/components/appHeader.js"></script>
     <script src="js/components/appBanner.js"></script>
-    <script src="js/components/missionsSection.js"></script>
+    <script src="js/components/MisionsList.js"></script>
     <script src="js/components/sectionOne.js"></script>
     <script src="js/components/sectionTwo.js"></script>
     <script src="js/components/carouselSection.js"></script>
