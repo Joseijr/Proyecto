@@ -1,4 +1,3 @@
-// LoginForm Component - login form with email, password, and submit
 app.component('login-form', {
     props: {
         t: { type: Object, required: true }
@@ -11,48 +10,53 @@ app.component('login-form', {
             loading: false,
             error: null,
             result: null
-
         };
     },
 
     methods: {
-        handleLogin() {
+        async handleLogin() {
             this.loading = true;
             this.error = null;
             this.result = null;
 
             const server = "http://prueba.test";
 
-            // Auto agregar @gmail.com
-            if (!this.email.includes("@")) {
-                this.email = this.email + "@gmail.com";
+            try {
+                const res = await fetch(server + "/api/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: this.email,
+                        password: this.password
+                    })
+                });
+
+                const data = await res.json();
+
+                if (!data.success) {
+                    this.error = data.message;
+                } else {
+                    this.result = data.message;
+
+                    // ✔ Guardar token
+                    if (data.token) {
+                        localStorage.setItem("token", data.token);
+                    }
+
+                    // Notificar al componente padre (opcional)
+                    this.$emit('login-submit', data);
+
+                    // Redirigir si quieres
+                    // window.location.href = "plants.html";
+                }
+            } catch (err) {
+                this.error = err.message;
             }
 
-            fetch(server + "/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    email: this.email,
-                    password: this.password
-                })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.success) {
-                        this.error = data.message; // mensaje del backend
-                    } else {
-                        this.result = data.message;
-                        this.$emit('login-submit', data); // notificar a main si ocupas
-                    }
-                    this.loading = false;
-                })
-                .catch(err => {
-                    this.error = err.message;
-                    this.loading = false;
-                });
+            this.loading = false;
         }
     },
 
@@ -81,17 +85,19 @@ app.component('login-form', {
             <p class="white-color text-xl" v-if="error">{{ error }}</p>
 
             <!-- SUCCESS -->
-            <p class="white-color text-xl" v-if="result"> {{ result }}</p>
+            <p class="white-color text-xl" v-if="result">{{ result }}</p>
 
             <p class="white-color text-xl">
                 {{ t.login?.no_account }} 
-                <span onclick="window.location.href='signin.html'"
+                <span 
+                    onclick="window.location.href='signin.html'"
                     class="extra-color underline link cursor">
                     {{ t.login?.signin_link }}
                 </span>
             </p>
 
-            <div class="btn-account text-xl primary-bg white-color my-super"
+            <div 
+                class="btn-account text-xl primary-bg white-color my-super"
                 @click="handleLogin"
             >
                 {{ loading ? '...' : t.login?.button }}

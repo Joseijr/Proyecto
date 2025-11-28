@@ -1,11 +1,12 @@
 app.component('game-main', {
   data() {
     return {
-      plants: [],
+
       loading: false,
       error: null
     };
   },
+
   props: {
     inventoryOpen: { type: Boolean, required: true },
     seeds: { type: Array, required: true },
@@ -27,16 +28,13 @@ app.component('game-main', {
       this.loading = true;
       this.error = null;
       const server = 'http://prueba.test';
-      // Replace the URL below with your custom API link
+
       fetch(server + '/api/v1/garden/plants')
         .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
+          if (!response.ok) throw new Error('Network response was not ok');
           return response.json();
         })
         .then(data => {
-          console.log(data);
           this.plants = data;
           this.loading = false;
         })
@@ -45,7 +43,52 @@ app.component('game-main', {
           this.loading = false;
         });
     },
-    // Solo emite eventos al padre
+    //Metodos para sumar y restar
+    //De momento solo actualiza los datos de usuario 11
+    //osea el primer usuario que se registra luego de las migraciones y seaders 
+    async sumar(id) {
+      const server = 'http://prueba.test';
+
+      try {
+        const response = await fetch(server + `/api/plants/${id}/sumar`, {
+          method: "PUT"//POST CREA los datos, PUT actualiza los datos, 
+        });
+
+        if (!response.ok) throw new Error('Error al sumar el dato');
+
+        const data = await response.json();
+
+        // Buscamos la planta correspondiente en el front
+        const plant = this.plants.find(p => p.id === id);
+
+        // Actualizamos visualmente la cantidad con la que devuelve el back
+        if (plant) plant.value = data.quantity;
+
+      } catch (error) {
+        console.error('Error al sumar:', error);
+      }
+    },
+    async restar(id) {
+      const server = 'http://prueba.test';
+
+      try {
+        const response = await fetch(server + `/api/plants/${id}/restar`, {
+          method: "PUT"
+        });
+
+        if (!response.ok) throw new Error('Error al restar el dato');
+        const data = await response.json();
+
+        const plant = this.plants.find(p => p.id === id);
+        if (plant) plant.value = data.quantity;
+
+      } catch (error) {
+        console.error('Error al restar:', error);
+      }
+    },
+
+
+
     handlePlant() { this.$emit('plant-action'); },
     handleWater() { this.$emit('water-action'); },
     handleFertilize() { this.$emit('fertilize-action'); },
@@ -55,7 +98,6 @@ app.component('game-main', {
     handleToggleBook() { this.$emit('toggle-book'); },
     handlePlotClick(side, index) { this.$emit('plot-click', side, index); },
 
-    // obtener imagen según fase del cultivo
     getCropImage(crop) {
       if (!crop) return null;
       if (crop.phase === 'start') return 'assets/startgrowing.png';
@@ -63,9 +105,11 @@ app.component('game-main', {
       return null;
     }
   },
+
   created() {
     this.getPlants();
   },
+
   template: /*html*/`
   <main class="main-content">
     <section class="image-container">
@@ -110,6 +154,7 @@ app.component('game-main', {
               <span class="seed-quantity">{{ seed.quantity }}</span>
             </div>
           </div>
+
         </div>
       </aside>
 
@@ -117,8 +162,8 @@ app.component('game-main', {
       <div class="plots-grid plots-left">
         <div v-for="(activated, i) in plotsLeft" :key="'L'+i"
             class="plot-cell"
-            :class="{ 'plot-active': activated, 
-            'plot-denied': deniedLeft[i], 
+            :class="{ 'plot-active': activated,
+            'plot-denied': deniedLeft[i],
             'plot-planted': cropsLeft[i] }"
             @click="handlePlotClick('left', i)">
           <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
@@ -128,8 +173,8 @@ app.component('game-main', {
       <div class="plots-grid plots-right">
         <div v-for="(activated, i) in plotsRight" :key="'R'+i"
             class="plot-cell"
-            :class="{ 'plot-active': activated, 
-            'plot-denied': deniedRight[i], 
+            :class="{ 'plot-active': activated,
+            'plot-denied': deniedRight[i],
             'plot-planted': cropsRight[i] }"
             @click="handlePlotClick('right', i)">
           <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
@@ -145,6 +190,7 @@ app.component('game-main', {
       <h3 class="white-color">Market</h3>
       <button class="close-btn" @click="handleToggleBook" aria-label="Cerrar">✕</button>
     </header>
+
     <div class="book-box-body">
 
       <!-- Lista de plantas como items de la tienda -->
@@ -152,18 +198,29 @@ app.component('game-main', {
         <img :src="p.image_url" :alt="p.name" class="market-img">
         <h4 class="white-color">{{ p.name }}</h4>
         <p class="white-color">Price: {{ p.price || 10 }} coins</p>
+
+        <!-- Botón original -->
         <button class="market-buy-btn"
                 :disabled="coins < (p.price || 10)"
                 @click="$emit('buy-item', p)">
           Buy
         </button>
-      </div>
 
-      
+        <!-- Botoncito que suma -->
+        <button class="market-buy-btn" @click="sumar(p.id)">
+          +1
+        </button>
+         <!-- Botoncito que resta -->
+          <button class="market-buy-btn" @click="restar(p.id)">
+            -1
+          </button>
+
+      </div>
 
     </div>
   </div>
 </div>
+
   </main>
   `
 });
