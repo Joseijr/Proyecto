@@ -3,8 +3,10 @@ app.component('game-main', {
     return {
       loading: false,
       error: null,
-      items: [],    // ahora items será inventario y tienda
-      wallet: null
+      items: [],
+      wallet: null,
+      missions: [],
+      activeTab: '1'
     };
   },
 
@@ -47,20 +49,19 @@ app.component('game-main', {
 
     async sumar(id, price) {
       const server = 'http://prueba.test';
+      const item = this.items.find(i => i.id === id);
+      if (item) item.quantity += 1;
+
       try {
         const res = await fetch(`${server}/api/plants/${id}/${price}/sumar`, { method: "PUT" });
-        if (!res.ok) throw new Error('Error al sumar el dato');
+        if (!res.ok) throw new Error();
         const data = await res.json();
 
-        const item = this.items.find(i => i.id === id);
         if (item) item.quantity = data.quantity;
+        if (this.wallet?.balance !== undefined) this.wallet.balance = data.wallet_balance;
 
-        if (this.wallet && data.wallet_balance !== undefined) {
-          this.wallet.balance = data.wallet_balance;
-        }
-
-      } catch (error) {
-        console.error('Error al sumar:', error);
+      } catch {
+        if (item) item.quantity -= 1;
       }
     },
 
@@ -68,15 +69,52 @@ app.component('game-main', {
       const server = 'http://prueba.test';
       try {
         const res = await fetch(`${server}/api/plants/${id}/restar`, { method: "PUT" });
-        if (!res.ok) throw new Error('Error al restar el dato');
+        if (!res.ok) throw new Error();
         const data = await res.json();
 
         const item = this.items.find(i => i.id === id);
         if (item) item.quantity = data.quantity;
 
-      } catch (error) {
-        console.error('Error al restar:', error);
+      } catch {
+
       }
+    },
+    async generateMissions() {
+      const server = 'http://prueba.test';
+      try {
+        const res = await fetch(`${server}/api/v1/missions/generate`, {
+          method: 'POST',
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('Misiones generadas correctamente');
+          this.getMissions(); // recarga las misiones
+        } else {
+          alert('Error: ' + data.message);
+        }
+      } catch (err) {
+        alert('Error al generar misiones: ' + err.message);
+      }
+    },
+    getMissions() {
+      this.loading = true;
+      this.error = null;
+      const server = 'http://prueba.test';
+      fetch(server + '/api/v1/missions') // Endpoint de tus misiones
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          this.missions = data;
+          this.loading = false;
+        })
+        .catch(error => {
+          this.error = error.message;
+          this.loading = false;
+        });
     },
 
     handlePlant() { this.$emit('plant-action'); },
@@ -97,6 +135,7 @@ app.component('game-main', {
 
   created() {
     this.getInventory();  // solo llama a inventario
+    this.getMissions();
   },
 
   template: /*html*/`
@@ -111,6 +150,7 @@ app.component('game-main', {
             <span class="tool-quantity">{{ wallet ? wallet.balance : 0 }}</span>
           </div>
 
+          
           <!--
           <button class="action-btn" title="Quitar planta" @click="handlePlant">
             <img src="assets/shovel.png" alt="Quitar planta" class="action-icon-img">
@@ -167,36 +207,72 @@ app.component('game-main', {
 
     </section>
 
-    <!-- Modal Mercado -->
-    <div v-if="showBook" class="book-modal" @click.self="handleToggleBook">
-      <div class="book-box">
-        <header class="book-box-header">
-          <h3 class="white-color">Market</h3>
-          <button class="close-btn" @click="handleToggleBook" aria-label="Cerrar">✕</button>
-        </header>
+  <!-- Modal Mercado -->
+<div v-if="showBook" class="book-modal" @click.self="handleToggleBook">
+  <div class="book-box">
+    <header class="book-box-header">
+      <h3 class="white-color">Market</h3>
+      <button @click="activeTab = '1'">Tienda</button>
+      <button @click="activeTab = '2'">Misiones</button>
+      <button class="close-btn" @click="handleToggleBook" aria-label="Cerrar">✕</button>
 
-        <div class="book-box-body">
-          <div v-for="it in items" :key="it.id" class="market-item">
-            <img :src="it.item.image_url" :alt="it.item.name" class="market-img">
-            <h4 class="white-color">{{ it.item.name }}</h4>
-            <p class="white-color">Price: {{ it.item.price }} coins</p>
+    </header>
 
-            <button class="market-buy-btn"
-                    :disabled="wallet.balance < (it.item.price || 10)"
-                    @click="sumar(it.id, it.item.price)">
-              Buy
-            </button>
+    <div class="book-box-body">
 
-            <button class="market-buy-btn" @click="restar(it.id)">-1</button>
-          </div>
-        </div>
+
+      <!--Modulo de Tienda-->
+
+      <div v-for="it in items"
+           :key="'store-' + it.id"
+           class="market-item"
+           v-if="activeTab === '1'">
+
+        <img :src="it.item.image_url" :alt="it.item.name" class="market-img">
+        <h4 class="white-color">{{ it.item.name }}</h4>
+        <p class="white-color">{{ it.item.price }} Buttons</p>
+
+        <button class="market-buy-btn"
+                :disabled="wallet.balance < (it.item.price || 10)"
+                @click="sumar(it.id, it.item.price)">
+          Buy
+        </button>
       </div>
+
+
+
+      <!--Modulo de Misiones-->
+
+      <div v-for="m in missions"
+           :key="'mission-' + m.id"
+           class="mission-item"
+           v-if="activeTab === '2'">
+
+        <p class="extra-color text-xl">{{ m.title }}</p>
+        <span class="white-color">{{ m.description }}</span><br>
+
+        <p class="white-color">Recompensa:
+          <span class="extra-color">{{ m.reward }}</span> Buttons
+        </p>
+
+        <button>Reclamar</button>
+        <hr>
+      </div>
+
     </div>
+  </div>
+</div>
+
+
 
   </main>
 
   <footer class="green-bg">
     <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
   </footer>
+
+  
   `
 });
+
+
