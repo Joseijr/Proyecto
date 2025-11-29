@@ -2,52 +2,31 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Game</title>
 </head>
 
 <body>
   <div id="app">
     <div class="page-wrapper">
-      <game-header 
-        :t="t" :lang="lang" :ancho="ancho" :menu="menu"
-        @change-language="changeLanguage" @toggle-menu="showHam">
+      <game-header :t="t" :lang="lang" :ancho="ancho" :menu="menu" @change-language="changeLanguage"
+        @toggle-menu="showHam">
       </game-header>
 
-      <game-main
-        :inventory-open="inventoryOpen"
-        :seeds="seedsInventory"
-        :fertilizer="fertilizer"
-        :coins="coins"
-        :selected-seed="selectedSeed"
-        :show-book="showBook"
-        :plots-left="plotsLeft"
-        :plots-right="plotsRight"
-        :denied-left="deniedLeft"
-        :denied-right="deniedRight"
-        :crops-left="cropsLeft"
-        :crops-right="cropsRight"
-        @plant-action="plantAction"
-        @water-action="waterAction"
-        @fertilize-action="fertilizeAction"
-        @inventory-action="inventoryAction"
-        @buy-fertilizer="buyFertilizer"
-        @select-seed="cursorSelected"  
-        @toggle-book="toggleBook"
-        @plot-click="handlePlotClick"
-      />
+      <game-main :inventory-open="inventoryOpen" :seeds="seedsInventory" :fertilizer="fertilizer" :coins="coins"
+        :selected-seed="selectedSeed" :show-book="showBook" :plots-left="plotsLeft" :plots-right="plotsRight"
+        :denied-left="deniedLeft" :denied-right="deniedRight" :crops-left="cropsLeft" :crops-right="cropsRight"
+        @plant-action="plantAction" @water-action="waterAction" @fertilize-action="fertilizeAction"
+        @inventory-action="inventoryAction" @buy-fertilizer="buyFertilizer" @select-seed="cursorSelected"
+        @toggle-book="toggleBook" @plot-click="handlePlotClick" />
     </div>
   </div>
 
-  <!-- Footer fuera de #app -->
-  <footer class="green-bg">
-    <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
-  </footer>
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="js/main.js"></script>
@@ -55,4 +34,5 @@
   <script src="js/components/gameMain.js"></script>
   <script>app.mount('#app');</script>
 </body>
+
 </html>

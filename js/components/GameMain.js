@@ -3,7 +3,10 @@ app.component('game-main', {
     return {
 
       loading: false,
-      error: null
+      error: null,
+      items: [],
+      wallet: null,
+      plants: []
     };
   },
 
@@ -43,15 +46,36 @@ app.component('game-main', {
           this.loading = false;
         });
     },
+    getInventory() {
+      this.loading = true;
+      this.error = null;
+      const server = 'http://prueba.test';
+
+      fetch(server + '/api/v1/game/data')
+        .then(response => {
+          if (!response.ok) throw new Error('Network error');
+          return response.json();
+        })
+        .then(data => {
+          this.items = data.items;   // Inventario del usuario
+          this.wallet = data.wallet; // Monedas del usuario
+          this.plants = data.plants; // Plantas disponibles
+          this.loading = false;
+        })
+        .catch(error => {
+          this.error = error.message;
+          this.loading = false;
+        });
+    },
     //Metodos para sumar y restar
     //De momento solo actualiza los datos de usuario 11
     //osea el primer usuario que se registra luego de las migraciones y seaders 
-    async sumar(id) {
+    async sumar(id, price) {
       const server = 'http://prueba.test';
 
       try {
-        const response = await fetch(server + `/api/plants/${id}/sumar`, {
-          method: "PUT"//POST CREA los datos, PUT actualiza los datos, 
+        const response = await fetch(`${server}/api/plants/${id}/${price}/sumar`, {
+          method: "PUT"
         });
 
         if (!response.ok) throw new Error('Error al sumar el dato');
@@ -64,10 +88,17 @@ app.component('game-main', {
         // Actualizamos visualmente la cantidad con la que devuelve el back
         if (plant) plant.value = data.quantity;
 
+        // Actualiza balance del wallet
+        if (this.wallet && data.wallet_balance !== undefined) {
+          this.wallet.balance = data.wallet_balance;
+        }
+
       } catch (error) {
         console.error('Error al sumar:', error);
       }
-    },
+    }
+
+    ,
     async restar(id) {
       const server = 'http://prueba.test';
 
@@ -108,6 +139,7 @@ app.component('game-main', {
 
   created() {
     this.getPlants();
+    this.getInventory();
   },
 
   template: /*html*/`
@@ -120,7 +152,9 @@ app.component('game-main', {
           <!-- Monedas -->
           <div class="coin-display" title="Monedas">
             <img src="assets/coin.png" alt="Monedas" class="coin-icon-img">
-            <span class="tool-quantity">{{ coins }}</span>
+          <span class="tool-quantity">{{ wallet ? wallet.balance : 0 }}</span>
+
+
           </div>
 
           <button class="action-btn" title="Quitar planta" @click="handlePlant">
@@ -145,15 +179,18 @@ app.component('game-main', {
           </button>
 
           <div v-if="inventoryOpen" class="inventory-dropdown">
-            <div v-for="seed in seeds"
-                :key="seed.id"
-                class="inventory-item"
-                :class="{ selected: selectedSeed && selectedSeed.id === seed.id }"
-                @click="handleSelectSeed(seed)">
-              <img :src="seed.image" :alt="seed.name" class="seed-icon">
-              <span class="seed-quantity">{{ seed.quantity }}</span>
-            </div>
-          </div>
+  <div v-for="it in items"
+      :key="it.id"
+      class="inventory-item"
+      @click="handleSelectSeed(it)">
+
+    <img :src="it.item.image_url" :alt="it.item.name" class="seed-icon">
+
+    <span class="seed-quantity">{{ it.quantity }}</span>
+  </div>
+</div>
+
+
 
         </div>
       </aside>
@@ -197,19 +234,16 @@ app.component('game-main', {
       <div v-for="p in plants" :key="p.id" class="market-item">
         <img :src="p.image_url" :alt="p.name" class="market-img">
         <h4 class="white-color">{{ p.name }}</h4>
-        <p class="white-color">Price: {{ p.price || 10 }} coins</p>
+       <p class="white-color">Price: {{ p.price }} coins</p>
 
-        <!-- Botón original -->
+
         <button class="market-buy-btn"
-                :disabled="coins < (p.price || 10)"
-                @click="$emit('buy-item', p)">
+                :disabled="wallet.balance < (p.price || 10)"
+                @click="sumar(p.id, p.price)">
           Buy
         </button>
 
-        <!-- Botoncito que suma -->
-        <button class="market-buy-btn" @click="sumar(p.id)">
-          +1
-        </button>
+
          <!-- Botoncito que resta -->
           <button class="market-buy-btn" @click="restar(p.id)">
             -1
@@ -219,8 +253,14 @@ app.component('game-main', {
 
     </div>
   </div>
+
 </div>
 
   </main>
+
+
+  <footer class="green-bg">
+    <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
+  </footer>
   `
 });
