@@ -41,7 +41,7 @@ app.component('login-form', {
                 } else {
                     this.result = data.message;
 
-                    // ✔ Guardar token
+                    //  Guardar token
                     if (data.token) {
                         localStorage.setItem("token", data.token);
                     }
