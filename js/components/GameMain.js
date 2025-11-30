@@ -250,8 +250,8 @@ app.component('game-main', {
              :class="{ 'plot-active': activated,
                        'plot-denied': deniedLeft[i],
                        'plot-planted': cropsLeft[i] }"
-             @click="buyPlot('left', i, 5)">
-  
+             @click="$emit('plot-click', 'left', i)">
+
           <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
         </div>
       </div>
@@ -262,7 +262,7 @@ app.component('game-main', {
              :class="{ 'plot-active': activated,
                        'plot-denied': deniedRight[i],
                        'plot-planted': cropsRight[i] }"
-             @click="buyPlot('right', i, 5)">
+            @click="$emit('plot-click', 'right', i)">
           <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
         </div>
       </div>
