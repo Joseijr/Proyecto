@@ -124,10 +124,10 @@
         right: -6px;
         background-color: var(--extra);
         color: #fff;
-        font-size: 11px;
+        font-size: 40px;
         font-weight: 700;
-        width: 20px;
-        height: 20px;
+        width: auto;
+        height: auto;
         border-radius: 50%;
         border: 2px solid #fff;
         display: flex;
