@@ -1,17 +1,14 @@
 app.component('game-main', {
   data() {
     return {
+      plants: [],
       loading: false,
-      error: null,
-      wallet: null,
-      missions: [],
-      plots: [],
-      activeTab: '1'
+      error: null
     };
   },
-
   props: {
     inventoryOpen: { type: Boolean, required: true },
+    seeds: { type: Array, required: true },
     fertilizer: { type: Object, required: true },
     coins: { type: Number, required: true },
     selectedSeed: { type: Object, default: null },
@@ -26,130 +23,12 @@ app.component('game-main', {
 
   methods: {
 
-    getInventory() {
+    getPlants() {
       this.loading = true;
       this.error = null;
       const server = 'http://prueba.test';
-
-      fetch(server + '/api/v1/game/data', {
-        headers: {
-          "Authorization": "Bearer " + localStorage.getItem("token")
-        }
-      })
-        .then(res => {
-          if (!res.ok) throw new Error('Network error');
-          return res.json();
-        })
-        .then(data => {
-          this.items = data.items;   // inventario del usuario
-          this.wallet = data.wallet; // monedas del usuario
-          this.plots = data.plots;   // parcelas del usuario
-          this.loading = false;
-        })
-        .catch(err => {
-          this.error = err.message;
-          this.loading = false;
-        });
-    },
-
-    async sumar(id, price) {
-      const server = 'http://prueba.test';
-      const item = this.items.find(i => i.id === id);
-      if (item) item.quantity += 1;
-      console.log("INVENTARIO COMPONENTE:", this.items);
-      console.log("INVENTARIO APP:", this.$root.seedsInventory);
-      try {
-        const res = await fetch(`${server}/api/plants/${id}/${price}/sumar`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
-        });
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-
-        if (item) item.quantity = data.quantity;
-        if (this.wallet?.balance !== undefined) this.wallet.balance = data.wallet_balance;
-
-      } catch {
-        if (item) item.quantity -= 1;
-      }
-    },
-    async buyPlot(side, index, price) {
-      const server = 'http://prueba.test';
-
-      try {
-        const res = await fetch(`${server}/api/plots/buy`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          },
-          body: JSON.stringify({
-            side,
-            index,
-            price
-          })
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error || "Error al comprar parcela");
-
-        // Descontar balance en el front
-        this.wallet.balance = data.wallet_balance;
-
-        // Activar visualmente la parcela
-        if (side === 'left') this.plotsLeft[index] = true;
-        else this.plotsRight[index] = true;
-
-      } catch (err) {
-        alert("Error: " + err.message);
-      }
-    },
-    async restar(id) {
-      const server = 'http://prueba.test';
-      try {
-        const res = await fetch(`${server}/api/plants/${id}/restar`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
-        });
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-
-        const item = this.items.find(i => i.id === id);
-        if (item) item.quantity = data.quantity;
-
-      } catch {
-
-      }
-    },
-    async generateMissions() {
-      const server = 'http://prueba.test';
-      try {
-        const res = await fetch(`${server}/api/v1/missions/generate`, {
-          method: 'POST',
-        });
-        const data = await res.json();
-        if (data.success) {
-          alert('Misiones generadas correctamente');
-          this.getMissions(); // recarga las misiones
-        } else {
-          alert('Error: ' + data.message);
-        }
-      } catch (err) {
-        alert('Error al generar misiones: ' + err.message);
-      }
-    },
-    getMissions() {
-      this.loading = true;
-      this.error = null;
-      const server = 'http://prueba.test';
-      fetch(server + '/api/v1/missions') // Endpoint de tus misiones
+      // Replace the URL below with your custom API link
+      fetch(server + '/api/v1/garden/plants')
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -157,7 +36,8 @@ app.component('game-main', {
           return response.json();
         })
         .then(data => {
-          this.missions = data;
+          console.log(data);
+          this.plants = data;
           this.loading = false;
         })
         .catch(error => {
@@ -165,15 +45,17 @@ app.component('game-main', {
           this.loading = false;
         });
     },
-
+    // Solo emite eventos al padre
     handlePlant() { this.$emit('plant-action'); },
     handleWater() { this.$emit('water-action'); },
     handleFertilize() { this.$emit('fertilize-action'); },
     handleInventory() { this.$emit('inventory-action'); },
+    handleBuyFertilizer() { this.$emit('buy-fertilizer'); },
     handleSelectSeed(seed) { this.$emit('select-seed', seed); },
     handleToggleBook() { this.$emit('toggle-book'); },
-    handlePlotClick(side, index) { this.$emit('buy-plot', side, index, this.plotCost); },
+    handlePlotClick(side, index) { this.$emit('plot-click', side, index); },
 
+    // obtener imagen según fase del cultivo
     getCropImage(crop) {
       if (!crop) return null;
       if (crop.phase === 'start') return 'assets/startgrowing.png';
@@ -181,13 +63,9 @@ app.component('game-main', {
       return null;
     }
   },
-
   created() {
-    this.getInventory();  // solo llama a inventario
-    this.getMissions();
-
+    this.getPlants();
   },
-
   template: /*html*/`
   <main class="main-content">
     <section class="image-container">
@@ -195,13 +73,12 @@ app.component('game-main', {
       <aside class="game-sidebar">
         <div class="game-actions">
 
+          <!-- Monedas -->
           <div class="coin-display" title="Monedas">
             <img src="assets/coin.png" alt="Monedas" class="coin-icon-img">
-            <span class="tool-quantity">{{ wallet ? wallet.balance : 0 }}</span>
+            <span class="tool-quantity">{{ coins }}</span>
           </div>
 
-
-          <!--
           <button class="action-btn" title="Quitar planta" @click="handlePlant">
             <img src="assets/shovel.png" alt="Quitar planta" class="action-icon-img">
           </button>
@@ -214,7 +91,7 @@ app.component('game-main', {
             <img src="assets/bolsaAbono.png" alt="Fertilizar" class="action-icon-img">
             <span class="tool-quantity" :class="{ empty: fertilizer.quantity <= 0 }">{{ fertilizer.quantity }}</span>
           </button>
-          -->
+
           <button class="action-btn" @click="handleToggleBook" title="Libro / Mercado">
             <img src="assets/book.png" alt="Libro" class="action-icon-img">
           </button>
@@ -224,104 +101,72 @@ app.component('game-main', {
           </button>
 
           <div v-if="inventoryOpen" class="inventory-dropdown">
-            <div v-for="it in items" :key="it.id" class="inventory-item" @click="handleSelectSeed(it)">
-              <img :src="it.item.image_url" :alt="it.item.name" class="seed-icon">
-              <span class="seed-quantity">{{ it.quantity }}</span>
+            <div v-for="seed in seeds"
+                :key="seed.id"
+                class="inventory-item"
+                :class="{ selected: selectedSeed && selectedSeed.id === seed.id }"
+                @click="handleSelectSeed(seed)">
+              <img :src="seed.image" :alt="seed.name" class="seed-icon">
+              <span class="seed-quantity">{{ seed.quantity }}</span>
             </div>
           </div>
-
         </div>
       </aside>
-
-      <div class="plots-grid plots-left">
-        <div v-for="(activated, i) in plotsLeft" :key="'L'+i"
-             class="plot-cell"
-             :class="{ 'plot-active': activated,
-                       'plot-denied': deniedLeft[i],
-                       'plot-planted': cropsLeft[i] }"
-             @click="buyPlot('left', i, 5)">
-  
-          <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
-        </div>
-      </div>
-
-      <div class="plots-grid plots-right">
-        <div v-for="(activated, i) in plotsRight" :key="'R'+i"
-             class="plot-cell"
-             :class="{ 'plot-active': activated,
-                       'plot-denied': deniedRight[i],
-                       'plot-planted': cropsRight[i] }"
-             @click="buyPlot('right', i, 5)">
-          <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
-        </div>
-      </div>
-
     </section>
 
-  <!-- Modal Mercado -->
+    <!-- Grillas de parcelas -->
+    <div class="plots-grid plots-left">
+      <div v-for="(activated, i) in plotsLeft" :key="'L'+i"
+           class="plot-cell"
+           :class="{
+             'plot-active': activated,
+             'plot-denied': deniedLeft[i],
+             'plot-planted': cropsLeft[i]
+           }"
+           @click="handlePlotClick('left', i)">
+        <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
+      </div>
+    </div>
+
+    <div class="plots-grid plots-right">
+      <div v-for="(activated, i) in plotsRight" :key="'R'+i"
+           class="plot-cell"
+           :class="{
+             'plot-active': activated,
+             'plot-denied': deniedRight[i],
+             'plot-planted': cropsRight[i]
+           }"
+           @click="handlePlotClick('right', i)">
+        <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
+      </div>
+    </div>
+
+    <!-- Modal Mercado -->
 <div v-if="showBook" class="book-modal" @click.self="handleToggleBook">
   <div class="book-box">
     <header class="book-box-header">
       <h3 class="white-color">Market</h3>
-      <button @click="activeTab = '1'">Tienda</button>
-      <button @click="activeTab = '2'">Misiones</button>
       <button class="close-btn" @click="handleToggleBook" aria-label="Cerrar">✕</button>
-
     </header>
-
     <div class="book-box-body">
 
-
-      <!--Modulo de Tienda-->
-
-      <div v-for="it in items"
-           :key="'store-' + it.id"
-           class="market-item"
-           v-if="activeTab === '1'">
-
-        <img :src="it.item.image_url" :alt="it.item.name" class="market-img">
-        <h4 class="white-color">{{ it.item.name }}</h4>
-        <p class="white-color">{{ it.item.price }} Buttons</p>
-
+      <!-- Lista de plantas como items de la tienda -->
+      <div v-for="p in plants" :key="p.id" class="market-item">
+        <img :src="p.image_url" :alt="p.name" class="market-img">
+        <h4 class="white-color">{{ p.name }}</h4>
+        <p class="white-color">Price: {{ p.price || 10 }} coins</p>
         <button class="market-buy-btn"
-                :disabled="wallet.balance < (it.item.price || 10)"
-                @click="sumar(it.id, it.item.price)">
+                :disabled="coins < (p.price || 10)"
+                @click="$emit('buy-item', p)">
           Buy
         </button>
       </div>
 
-
-
-      <!--Modulo de Misiones-->
-
-      <div v-for="m in missions"
-           :key="'mission-' + m.id"
-           class="mission-item"
-           v-if="activeTab === '2'">
-
-        <p class="extra-color text-xl">{{ m.title }}</p>
-        <span class="white-color">{{ m.description }}</span><br>
-
-        <p class="white-color">Recompensa:
-          <span class="extra-color">{{ m.reward }}</span> Buttons
-        </p>
-
-        <button>Reclamar</button>
-        <hr>
-      </div>
+      
 
     </div>
   </div>
 </div>
-
-
-
   </main>
-
-  <footer class="green-bg">
-    <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
-  </footer>
   `
 });
-
-

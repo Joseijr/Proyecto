@@ -57,7 +57,7 @@ app.component('signin-form', {
 
     template: /*html*/`
     <section class="input-display">
-        <h1 class="white-color text-king my-xl">{{ t.signin?.title }}</h1>
+        <h1 class="white-color text-king my-xl">{{ t.signIn?.title }}</h1>
 
         <!-- USERNAME -->
         <input
@@ -90,15 +90,15 @@ app.component('signin-form', {
         <p class="white-color text-xl" v-if="result">{{ result }}</p>
 
         <p class="white-color text-xl">
-            {{ t.signin?.have_account }}
+            {{ t.signIn?.have_account }}
             <span onclick="window.location.href='login.html'" class="extra-color underline link cursor">
-                {{ t.signin?.login_link }}
+                {{ t.signIn?.login_link }}
             </span>
         </p>
 
         <div class="btn-account text-xl yellow-bg white-color my-xxl"
             @click="handleSignIn">
-            {{ loading ? '...' : t.signin?.button }}
+            {{t.signin?.button }}
         </div>
     </section>
     `
