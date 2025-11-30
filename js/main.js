@@ -24,17 +24,8 @@ const app = Vue.createApp({
             inventoryOpen: false,
             shovelMode: false,          // Modo pala: si está activo, los clics quitan cultivos
             plotCost: 5, // Costo de comprar una parcela
-            seedsInventory: [
-                { id: 'albaca', name: 'Albaca', image: 'assets/albacaSeeds.png', quantity: 1 },
-                { id: 'mandragora', name: 'Mandragora', image: 'assets/mandragoraSeed.png', quantity: 5 }
-            ],
-            fertilizer: {
-                id: 'fertilizer_basic',
-                name: 'Fertilizer',
-                image: 'assets/bolsaAbono.png',
-                price: 3,
-                quantity: 0
-            },
+            seedsInventory: [],
+            fertilizer: 0,
             coins: 15,
 
             selectedSeed: null,
@@ -60,6 +51,7 @@ const app = Vue.createApp({
     },
 
     methods: {
+
         //carga el idioma
         loadLanguage(lang) {
             //ruta del json "Carpeta lang +Idioma ingles por defecto+.json"
@@ -120,6 +112,44 @@ const app = Vue.createApp({
 
         },
 
+        cargarPartida() {
+            fetch("http://prueba.test/api/v1/game/data", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("DATA BACKEND:", data);
+
+                    this.seedsInventory = data.items;
+                    // Wallet
+                    this.coins = data.wallet.balance;
+                    // Plots compradas
+                    const plotStatuses = data.plots.map(p => Number(p.status));
+
+                    this.plotsLeft = plotStatuses.slice(0, 4);
+                    this.plotsRight = plotStatuses.slice(4, 8);
+
+                    // Cargar monedas
+                    if (data.wallet) {
+                        this.coins = data.wallet.coins;
+                    }
+
+                    if (data.items) {
+                        data.items.forEach(inv => {
+                            const seed = this.seedsInventory.find(s => s.id === inv.item.slug);
+                            if (seed) seed.quantity = inv.quantity;
+                        });
+                    }
+
+                })
+                .catch(err => console.error("Error cargando partida:", err));
+        },
+
+
         //métodos para los botones del juego
         plantAction() {
             console.log("Acción: editar parcela");
@@ -130,11 +160,12 @@ const app = Vue.createApp({
         },
 
         waterAction() {
-            if(this.selectedWater===true){
-            console.log("Acción: Regar");
-            this.selectedWater=true;
-            document.body.style.cursor = `url(assets/regar.png) 16 16, pointer`;}
-            else{
+            if (this.selectedWater === true) {
+                console.log("Acción: Regar");
+                this.selectedWater = true;
+                document.body.style.cursor = `url(assets/regar.png) 16 16, pointer`;
+            }
+            else {
                 this.clearWaterSelection();
             }
 
@@ -142,10 +173,10 @@ const app = Vue.createApp({
 
         clearWaterSelection() {
 
-                this.selectedWater = false;
-                document.body.style.cursor = ''; // cambia al cursor normalito
-            
-            
+            this.selectedWater = false;
+            document.body.style.cursor = ''; // cambia al cursor normalito
+
+
         },
 
         // Método para abrir/cerrar inventario
@@ -220,7 +251,7 @@ const app = Vue.createApp({
         plantAction() {
             this.shovelMode = !this.shovelMode;
             if (this.shovelMode) {
-                this.clearSeedSelection(); 
+                this.clearSeedSelection();
                 document.body.style.cursor = 'url(assets/shovel.png) 16 16, pointer';
             } else {
                 document.body.style.cursor = '';
@@ -357,20 +388,41 @@ const app = Vue.createApp({
             }
         },
 
-        buyPlot(side, index) {
-            const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
-            const denied = side === 'left' ? this.deniedLeft : this.deniedRight;
+        async buyPlot(side, index) {
+            const price = this.plotCost;
 
-            if (this.coins >= this.plotCost) {
-                plots[index] = true;
-                this.coins -= this.plotCost;
-            } else {
-                // Activar animación de shake
+            if (this.coins < this.plotCost) {
+                const denied = side === 'left' ? this.deniedLeft : this.deniedRight;
                 denied[index] = true;
                 setTimeout(() => (denied[index] = false), 350);
+                return;
+            }
+
+            try {
+                const res = await fetch("http://prueba.test/api/plots/buy", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    },
+                    body: JSON.stringify({ side, index, price })
+                });
+
+                if (!res.ok) throw new Error("Error al comprar parcela");
+
+                const data = await res.json();
+
+                const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
+                plots[index] = true;
+
+                this.coins = data.wallet_balance;
+
+                console.log("Parcela comprada:", data);
+
+            } catch (err) {
+                console.error("Error comprando parcela:", err);
             }
         },
-
         removeCrop(side, index) {
             const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
             if (!crops[index]) return; // nada que quitar
@@ -395,6 +447,7 @@ const app = Vue.createApp({
     created() {
         const savedLang = localStorage.getItem('mushroom-language');
         this.loadLanguage(savedLang || this.lang);
+        this.cargarPartida();
     }
 
 

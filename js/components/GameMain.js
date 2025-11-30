@@ -3,9 +3,9 @@ app.component('game-main', {
     return {
       loading: false,
       error: null,
-      items: [],
       wallet: null,
       missions: [],
+      plots: [],
       activeTab: '1'
     };
   },
@@ -31,7 +31,11 @@ app.component('game-main', {
       this.error = null;
       const server = 'http://prueba.test';
 
-      fetch(server + '/api/v1/game/data')
+      fetch(server + '/api/v1/game/data', {
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+      })
         .then(res => {
           if (!res.ok) throw new Error('Network error');
           return res.json();
@@ -39,6 +43,7 @@ app.component('game-main', {
         .then(data => {
           this.items = data.items;   // inventario del usuario
           this.wallet = data.wallet; // monedas del usuario
+          this.plots = data.plots;   // parcelas del usuario
           this.loading = false;
         })
         .catch(err => {
@@ -51,9 +56,16 @@ app.component('game-main', {
       const server = 'http://prueba.test';
       const item = this.items.find(i => i.id === id);
       if (item) item.quantity += 1;
-
+      console.log("INVENTARIO COMPONENTE:", this.items);
+      console.log("INVENTARIO APP:", this.$root.seedsInventory);
       try {
-        const res = await fetch(`${server}/api/plants/${id}/${price}/sumar`, { method: "PUT" });
+        const res = await fetch(`${server}/api/plants/${id}/${price}/sumar`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        });
         if (!res.ok) throw new Error();
         const data = await res.json();
 
@@ -64,11 +76,48 @@ app.component('game-main', {
         if (item) item.quantity -= 1;
       }
     },
+    async buyPlot(side, index, price) {
+      const server = 'http://prueba.test';
 
+      try {
+        const res = await fetch(`${server}/api/plots/buy`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          },
+          body: JSON.stringify({
+            side,
+            index,
+            price
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || "Error al comprar parcela");
+
+        // Descontar balance en el front
+        this.wallet.balance = data.wallet_balance;
+
+        // Activar visualmente la parcela
+        if (side === 'left') this.plotsLeft[index] = true;
+        else this.plotsRight[index] = true;
+
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    },
     async restar(id) {
       const server = 'http://prueba.test';
       try {
-        const res = await fetch(`${server}/api/plants/${id}/restar`, { method: "PUT" });
+        const res = await fetch(`${server}/api/plants/${id}/restar`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        });
         if (!res.ok) throw new Error();
         const data = await res.json();
 
@@ -123,7 +172,7 @@ app.component('game-main', {
     handleInventory() { this.$emit('inventory-action'); },
     handleSelectSeed(seed) { this.$emit('select-seed', seed); },
     handleToggleBook() { this.$emit('toggle-book'); },
-    handlePlotClick(side, index) { this.$emit('plot-click', side, index); },
+    handlePlotClick(side, index) { this.$emit('buy-plot', side, index, this.plotCost); },
 
     getCropImage(crop) {
       if (!crop) return null;
@@ -136,6 +185,7 @@ app.component('game-main', {
   created() {
     this.getInventory();  // solo llama a inventario
     this.getMissions();
+
   },
 
   template: /*html*/`
@@ -150,7 +200,7 @@ app.component('game-main', {
             <span class="tool-quantity">{{ wallet ? wallet.balance : 0 }}</span>
           </div>
 
-          
+
           <!--
           <button class="action-btn" title="Quitar planta" @click="handlePlant">
             <img src="assets/shovel.png" alt="Quitar planta" class="action-icon-img">
@@ -189,7 +239,8 @@ app.component('game-main', {
              :class="{ 'plot-active': activated,
                        'plot-denied': deniedLeft[i],
                        'plot-planted': cropsLeft[i] }"
-             @click="handlePlotClick('left', i)">
+             @click="buyPlot('left', i, 5)">
+  
           <img v-if="cropsLeft[i]" :src="getCropImage(cropsLeft[i])" class="crop-image" alt="Cultivo">
         </div>
       </div>
@@ -200,7 +251,7 @@ app.component('game-main', {
              :class="{ 'plot-active': activated,
                        'plot-denied': deniedRight[i],
                        'plot-planted': cropsRight[i] }"
-             @click="handlePlotClick('right', i)">
+             @click="buyPlot('right', i, 5)">
           <img v-if="cropsRight[i]" :src="getCropImage(cropsRight[i])" class="crop-image" alt="Cultivo">
         </div>
       </div>
@@ -270,8 +321,6 @@ app.component('game-main', {
   <footer class="green-bg">
     <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
   </footer>
-
-  
   `
 });
 

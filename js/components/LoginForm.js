@@ -35,7 +35,7 @@ app.component('login-form', {
                 });
 
                 const data = await res.json();
-
+                console.log("Respuesta del server:", data);
                 if (!data.success) {
                     this.error = data.message;
                 } else {
