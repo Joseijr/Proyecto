@@ -273,9 +273,11 @@ app.component('game-main', {
 <div v-if="showBook" class="book-modal" @click.self="handleToggleBook">
   <div class="book-box">
     <header class="book-box-header">
-      <h3 class="white-color">Market</h3>
-      <button @click="activeTab = '1'">Tienda</button>
-      <button @click="activeTab = '2'">Misiones</button>
+      <h3 class="white-color">Welcome to gardener diaries!</h3>
+      <div>
+      <button class="tab-button" @click="activeTab = '1'">Tienda</button>
+      <button class="tab-button" @click="activeTab = '2'">Misiones</button>
+      </div>
       <button class="close-btn" @click="handleToggleBook" aria-label="Cerrar">✕</button>
 
     </header>

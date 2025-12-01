@@ -50,7 +50,7 @@ app.component('login-form', {
                     this.$emit('login-submit', data);
 
                     // Redirigir si quieres
-                    // window.location.href = "plants.html";
+                    window.location.href = "game.html";
                 }
             } catch (err) {
                 this.error = err.message;

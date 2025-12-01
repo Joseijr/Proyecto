@@ -45,6 +45,7 @@ app.component('signin-form', {
                         this.error = data.message;
                     } else {
                         this.result = data.message;
+                        window.location.href = "login.html";
                     }
                     this.loading = false;
                 })
