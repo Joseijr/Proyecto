@@ -113,7 +113,7 @@ const app = Vue.createApp({
         },
 
         cargarPartida() {
-            fetch("http://prueba.test/api/v1/game/data", {
+            fetch("http://backendd.test/api/v1/game/data", {
                 method: "GET",
                 headers: {
                     "Accept": "application/json",
@@ -215,7 +215,7 @@ const app = Vue.createApp({
             this.coins -= price;
 
             try {
-                const res = await fetch(`http://prueba.test/api/plants/${id}/${price}/sumar`, {
+                const res = await fetch(`http://backendd.test/api/plants/${id}/${price}/sumar`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -242,7 +242,7 @@ const app = Vue.createApp({
             seed.quantity -= 1;
 
             try {
-                const res = await fetch(`http://prueba.test/api/plants/${id}/restar`, {
+                const res = await fetch(`http://backendd.test/api/plants/${id}/restar`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -400,7 +400,7 @@ const app = Vue.createApp({
             }
 
             try {
-                const res = await fetch("http://prueba.test/api/plots/buy", {
+                const res = await fetch("http://backendd.test/api/plots/buy", {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",

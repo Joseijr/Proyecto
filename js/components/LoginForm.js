@@ -19,7 +19,7 @@ app.component('login-form', {
             this.error = null;
             this.result = null;
 
-            const server = "http://prueba.test";
+            const server = "http://backend.test";
 
             try {
                 const res = await fetch(server + "/api/login", {

@@ -24,7 +24,7 @@ app.component('app-header', {
         },
 
         async handleLogout() {
-            const server = "http://prueba.test";
+            const server = "http://backend.test";
 
             try {
                 await fetch(server + "/api/logout", {
@@ -43,7 +43,7 @@ app.component('app-header', {
         getUser() {
             this.loading = true;
             this.error = null;
-            const server = 'http://prueba.test';
+            const server = 'http://backend.test';
             const token = localStorage.getItem('token');
 
             fetch(server + '/api/user', {

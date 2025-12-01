@@ -30,7 +30,7 @@ app.component('game-main', {
     getInventory() {
       this.loading = true;
       this.error = null;
-      const server = 'http://prueba.test';
+      const server = 'http://backend.test';
 
 
       fetch(server + '/api/v1/game/data', {
@@ -56,7 +56,7 @@ app.component('game-main', {
     },
 
     async sumar(id, price) {
-      const server = 'http://prueba.test';
+      const server = 'http://backend.test';
       const item = this.items.find(i => i.id === id);
       if (item) item.quantity += 1;
 
@@ -84,7 +84,7 @@ app.component('game-main', {
       }
     },
     async restar(id) {
-      const server = 'http://prueba.test/';
+      const server = 'http://backend.test/';
 
       try {
         const res = await fetch(`${server}/api/plants/${id}/restar`, {
@@ -107,7 +107,7 @@ app.component('game-main', {
       }
     },
     async buyPlot(side, index, price) {
-      const server = 'http://prueba.test';
+      const server = 'http://backend.test';
 
       try {
         const res = await fetch(`${server}/api/plots/buy`, {
@@ -140,7 +140,7 @@ app.component('game-main', {
     },
 
     async generateMissions() {
-      const server = 'http://prueba.test';
+      const server = 'http://backend.test';
       try {
         const res = await fetch(`${server}/api/v1/missions/generate`, {
           method: 'POST',
@@ -159,7 +159,7 @@ app.component('game-main', {
     getMissions() {
       this.loading = true;
       this.error = null;
-      const server = 'http://prueba.test';
+      const server = 'http://backend.test';
       fetch(server + '/api/v1/missions') // Endpoint de tus misiones
         .then(response => {
           if (!response.ok) {
