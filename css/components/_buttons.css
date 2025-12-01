@@ -105,11 +105,12 @@
         border-radius: 1rem;
         padding-block: .2rem;
         padding-inline: 2rem;
+        text-align: center;
     }
 
     .tab-button:hover{
         background-color: var(--secondary);
-        color: var;
+        color: var(--black);
     }
 
         .action-btn {

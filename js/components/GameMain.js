@@ -307,6 +307,8 @@ app.component('game-main', {
 
       <!--Modulo de Misiones-->
 
+
+
       <div v-for="m in missions"
            :key="'mission-' + m.id"
            class="mission-item"
@@ -319,7 +321,7 @@ app.component('game-main', {
           <span class="extra-color">{{ m.reward }}</span> Buttons
         </p>
 
-        <button>Reclamar</button>
+        <button class="market-buy-btn">Reclamar</button>
         <hr>
       </div>
 
