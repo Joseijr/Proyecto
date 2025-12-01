@@ -14,25 +14,25 @@
 
 <body class="signin-back">
     <div id="app">
-        <!-- App Header Component (reutilizado) -->
+        <!-- App Header Component-->
         <app-header :t="t" :lang="lang" :ancho="ancho" :menu="menu" @change-language="changeLanguage"
-            @toggle-menu="showHam">
+            @toggle-menu="showHam" bg-color="primary-bg">
         </app-header>
 
         <!-- Signin Form Component -->
         <signin-form :t="t" @signin-submit="SignInBtn">
         </signin-form>
+        <app-footer bg-color="primary-bg"></app-footer>
     </div>
 
-    <footer class="primary-bg">
-        <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
-    </footer>
+
 
     <!-- Main app -->
     <script src="js/main.js"></script>
     <!-- Components -->
     <script src="js/components/appHeader.js"></script>
     <script src="js/components/signinForm.js"></script>
+    <script src="js/components/appFooter.js"></script>
 
     <script>const mountedApp = app.mount("#app");</script>
 </body>

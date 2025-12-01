@@ -328,10 +328,6 @@ app.component('game-main', {
 
 
   </main>
-
-  <footer class="green-bg">
-    <p class="white-color mt-m">Mushroom's Garden - All rights reserved</p>
-  </footer>
   `
 });
 
