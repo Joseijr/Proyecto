@@ -10,7 +10,7 @@ app.component('missions-list', {
         getMissions() {
             this.loading = true;
             this.error = null;
-            const server = 'http://backend.test';
+            const server = 'http://prueba.test';
             fetch(server + '/api/v1/missions') // Endpoint de tus misiones
                 .then(response => {
                     if (!response.ok) {

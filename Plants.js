@@ -10,7 +10,7 @@ app.component('plant', {
         getPlants() {
             this.loading = true;
             this.error = null;
-            const server = 'http://backend.test';
+            const server = 'http://prueba.test';
             // Replace the URL below with your custom API link
             fetch(server + '/api/v1/garden/plants')
                 .then(response => {

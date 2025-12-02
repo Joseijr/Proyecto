@@ -20,7 +20,7 @@ app.component('signin-form', {
             this.error = null;
             this.result = null;
 
-            const server = "http://backend.test";
+            const server = "http://prueba.test";
 
             // Agregar @gmail.com automáticamente si no lo tiene
             if (!this.email.includes("@")) {
