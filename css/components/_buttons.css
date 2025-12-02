@@ -91,7 +91,7 @@
         background: #fff;
         color: var(--secondary);}
 
-        .market-buy-btn:disabled {
+    .market-buy-btn:disabled {
     opacity: .6;
     cursor: not-allowed;
     }
