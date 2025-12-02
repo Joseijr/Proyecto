@@ -97,7 +97,7 @@
     }
 
     .tab-button{
-        border: var(--secondary);
+        border: 2rem;
         background: transparent;
         color: var(--white);
         cursor: pointer;
@@ -106,11 +106,14 @@
         padding-block: .2rem;
         padding-inline: 2rem;
         text-align: center;
+        transition: ease-in-out .3s;
+    
     }
 
     .tab-button:hover{
         background-color: var(--secondary);
         color: var(--black);
+        
     }
 
         .action-btn {
