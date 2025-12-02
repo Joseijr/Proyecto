@@ -57,19 +57,19 @@ app.component('app-footer', {
                     <div class="social-list">
                         <div class="social-item">
                             <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png">
-                            <span>gigisartplace0707@gmail.com</span>
+                            <a href="https://www.instagram.com/gigivjs?igsh=MWk2eHpjZWtkN2syYQ==">gigisartplace0707@gmail.com</a>
                         </div>
                         <div class="social-item">
                             <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png">
-                            <span>jjimenezrubi6@gmail.com</span>
+                            <a href="https://www.instagram.com/jose_ijr?igsh=MWp0ZmQxamI5MTFlYw==">jjimenezrubi6@gmail.com</a>
                         </div>
                         <div class="social-item">
                             <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub">
-                            <span>GitHub 1</span>
+                            <a href="https://github.com/JjimenaVS">JjimenaVS</a>
                         </div>
                         <div class="social-item">
                             <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub">
-                            <span>GitHub 2</span>
+                            <a href="https://github.com/Joseijr">Joseijr</a>
                         </div>
                     </div>
                 </div>

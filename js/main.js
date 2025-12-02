@@ -11,11 +11,9 @@ const app = Vue.createApp({
                 { id: 3, image: "../assets/bg-granja.png" }
             ],
 
-
             t: {},
             lang: "en",
             menu: false,
-
             //Obtiene el tamaño de la pantalla
             ancho: window.innerWidth,
 
@@ -26,12 +24,9 @@ const app = Vue.createApp({
             plotCost: 5, // Costo de comprar una parcela
             seedsInventory: [],
             fertilizer: 0,
-            coins: 15,
 
             selectedSeed: null,
-
             selectedWater: false,
-
 
             plotsLeft: Array(4).fill(false),   // false = no comprada, true = comprada
             plotsRight: Array(4).fill(false),
@@ -41,7 +36,6 @@ const app = Vue.createApp({
             cropsRight: Array(4).fill(null)
         };
     },
-
 
     computed: {
         // Computed property para obtener la imagen actual
@@ -78,7 +72,6 @@ const app = Vue.createApp({
                 this.i = 0;
             }
         },
-
         // Método para imagen anterior
         prevImage() {
             if (this.i > 0) {
@@ -90,7 +83,6 @@ const app = Vue.createApp({
         hideImage() {
             this.show = false;
         },
-
         showImage() {
             this.show = true;
         },
@@ -98,20 +90,18 @@ const app = Vue.createApp({
         logInBtn() {
             console.log("boton de iniciar sesion o login");
         },
-
         SignInBtn() {
             console.log("boton de registrarse o sign in");
         },
-
         showHam() {
             if (this.menu == false) {
                 this.menu = true;
             } else {
                 this.menu = false;
             }
-
         },
 
+        //////////////////////////////////////////////////////////////////////////
         cargarPartida() {
             fetch("http://prueba.test/api/v1/game/data", {
                 method: "GET",
@@ -139,18 +129,58 @@ const app = Vue.createApp({
                     this.plotsLeft = plotStatuses.slice(0, 4);
                     this.plotsRight = plotStatuses.slice(4, 8);
 
-
-                    if (data.items) {
-                        data.items.forEach(inv => {
-                            const seed = this.seedsInventory.find(s => s.id === inv.item.id);
-                            if (seed) seed.quantity = inv.quantity;
-                        });
-                    }
-
                 })
                 .catch(err => console.error("Error cargando partida:", err));
         },
 
+        ///////////////////////////////////////////////
+        ///////////////////////////////////////////////
+        checkCropGrowth() {
+            const server = 'http://prueba.test';
+            const GROWTH_TIME = {
+                start: 10000,
+                almost: 15000
+            };
+            console.log("Verificando crecimiento...");
+            const now = Date.now();
+
+            const checkAndUpdate = (crop, side, index) => {
+                if (!crop || !crop.planted_at) return;
+
+                const plantedAt = new Date(crop.planted_at).getTime();
+                const elapsed = now - plantedAt;
+
+                let newPhase = null;
+
+                if (crop.phase === 'start' && elapsed > GROWTH_TIME.start) {
+                    newPhase = 'almost';
+                } else if (crop.phase === 'almost' && elapsed > GROWTH_TIME.start + GROWTH_TIME.almost) {
+                    newPhase = 'done';
+                }
+
+                if (newPhase) {
+                    fetch(`${server}/api/plots/${crop.id}/phase`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({ phase: newPhase })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(`Crop ${crop.id} cambiado a fase ${newPhase}`);
+                            if (side === 'left') this.cropsLeft[index].phase = newPhase;
+                            else this.cropsRight[index].phase = newPhase;
+                        });
+                }
+            };
+
+            this.cropsLeft.forEach((c, i) => checkAndUpdate(c, 'left', i));
+            this.cropsRight.forEach((c, i) => checkAndUpdate(c, 'right', i));
+        },
+
+        ///////////////////////////////////////////////////////////////////////////
         waterAction() {
             if (this.selectedWater === true) {
                 console.log("Acción: Regar");
@@ -160,28 +190,28 @@ const app = Vue.createApp({
             else {
                 this.clearWaterSelection();
             }
-
         },
 
+        ///////////////////////////////////////////////////////////////
         clearWaterSelection() {
-
             this.selectedWater = false;
             document.body.style.cursor = ''; // cambia al cursor normalito
-
-
         },
 
+        //////////////////////////////////////////////////////////////
         // Método para abrir/cerrar inventario
         inventoryAction() {
             this.inventoryOpen = !this.inventoryOpen;
             //console.log('Inventario toggle:', this.inventoryOpen); // DEBUG
         },
 
+        ///////////////////////////////////////////////////////////
         // Método para abrir/cerrar el libro
         toggleBook() {
             this.showBook = !this.showBook;
         },
 
+        ///////////////////////////////////////////////////////////
         //cosas del fertilizante
         fertilizeAction() {
             if (this.fertilizer.quantity > 0) {
@@ -189,6 +219,7 @@ const app = Vue.createApp({
             }
         },
 
+        ///////////////////////////////////////////////////////
         buyFertilizer() {
             if (this.coins >= 5) {
                 this.coins -= 3;
@@ -196,24 +227,30 @@ const app = Vue.createApp({
             } else {
                 console.warn("No tienes suficientes monedas para comprar fertilizante.");
             }
-
         },
 
+        ///////////////////////////////
+        cursorSelected(seed) {
+            console.log("Seed seleccionada:", seed);
+
+            // buscar la semilla REAL del inventario
+            const realSeed = this.seedsInventory.find(s => s.id === seed.id);
+
+            this.selectedSeed = realSeed ? realSeed : null;
+
+            console.log("Seed usada realmente:", this.selectedSeed);
+        },
+
+        ////////////////////////////////////////////////////////////////////////////////
         //cosas con las semillas
-
         // Comprar semilla: busca por ID y suma 1 unidad
-
         async buySeed(id) {
             const seed = this.seedsInventory.find(s => s.id === id);
             if (!seed) return;
-
             const price = seed.price;  // ← precio real desde el inventario
-
             if (this.coins < price) return;
-
             seed.quantity += 1;
             this.coins -= price;
-
             try {
                 const res = await fetch(`http://prueba.test/api/plants/${id}/${price}/sumar`, {
                     method: "PUT",
@@ -222,10 +259,8 @@ const app = Vue.createApp({
                         "Authorization": "Bearer " + localStorage.getItem("token")
                     }
                 });
-
                 if (!res.ok) throw new Error();
                 const data = await res.json();
-
                 seed.quantity = data.quantity;
                 this.coins = data.wallet_balance;
             } catch {
@@ -234,13 +269,15 @@ const app = Vue.createApp({
             }
         },
 
+        ///////////////////////////////////////////////////////////////////////////
         // Usar semilla desde inventario: recibe SOLO el id y consume 1 unidad
         async useSeed(id) {
             const seed = this.seedsInventory.find(s => s.id === id);
-            if (!seed || seed.quantity <= 0) return false;
-
+            if (!seed || seed.quantity <= 0) {
+                console.warn("NO TIENES SEMILLAS DISPONIBLES", seed);
+                return false;
+            }
             seed.quantity -= 1;
-
             try {
                 const res = await fetch(`http://prueba.test/api/plants/${id}/restar`, {
                     method: "PUT",
@@ -249,20 +286,95 @@ const app = Vue.createApp({
                         "Authorization": "Bearer " + localStorage.getItem("token")
                     }
                 });
-
                 if (!res.ok) throw new Error();
-
                 const data = await res.json();
                 seed.quantity = data.quantity;
-
             } catch {
                 seed.quantity += 1;
                 return false;
             }
-
             return true;
         },
 
+        /////////////////////////////////////////////////////////////////////////////
+        async plantSeed(side, index, seed) {
+            try {
+                const res = await fetch("http://prueba.test/api/plots/plant", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    },
+                    body: JSON.stringify({
+                        side,
+                        plot_index: index,
+                        seed_id: seed.id
+                    })
+                });
+
+                console.log("plantSeed - usar semilla id:", this.selectedSeed ? this.selectedSeed.id : null);
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || "Error al plantar");
+
+                // Activa visualmente el cultivo
+                const crops = side === "left" ? this.cropsLeft : this.cropsRight;
+
+                crops[index] = {
+                    id: seed.id,
+                    seed_id: seed.id,
+                    name: seed.name,
+                    image: seed.image,
+                    phase: "start",  // fase inicial del cultivo
+                    planted_at: Date.now()
+                };
+
+                // Limpia la selección
+                this.selectedSeed = null;
+                document.body.style.cursor = "";
+
+                return true;
+            } catch (err) {
+                console.error("Error al plantar:", err);
+                return false;
+            }
+        },
+
+        /////////////////////////////////////////////////
+        handlePlotClick(side, index) {
+            const plotList = side === "left" ? this.plotsLeft : this.plotsRight;
+            const deniedList = side === "left" ? this.deniedLeft : this.deniedRight;
+            const crops = side === "left" ? this.cropsLeft : this.cropsRight;
+
+            // 1. Parcela NO activada → intentar comprar
+            if (!plotList[index]) {
+                if (this.coins < this.plotCost) {
+                    deniedList[index] = true;
+                    setTimeout(() => deniedList[index] = false, 400);
+                    return;
+                }
+                this.buyPlot(side, index, this.plotCost);
+                return;
+            }
+
+            // 2. Ya hay cultivo → ignorar
+            if (crops[index]) return;
+
+            // 3. No hay semilla seleccionada
+            if (!this.selectedSeed) {
+                deniedList[index] = true;
+                setTimeout(() => deniedList[index] = false, 400);
+                return;
+            }
+
+            // 4. Plantar
+            this.useSeed(this.selectedSeed.id).then(success => {
+                if (success) {
+                    this.plantSeed(side, index, this.selectedSeed);
+                }
+            });
+        },
+
+        ///////////////////////////////////////////////////////////////////////////////
         // Botón de la pala: alterna el modo "desplantar"
         // - Activa: limpia selección de semilla y cambia cursor a la pala
         // - Desactiva: restaura el cursor normal
@@ -276,25 +388,7 @@ const app = Vue.createApp({
             }
         },
 
-        // Al seleccionar una semilla:
-        // Si la pala estaba activa, se desactiva
-        // Si se vuelve a tocar la misma semilla, se deselecciona (toggle)
-        cursorSelected(seed) {
-            if (this.selectedSeed && this.selectedSeed.id === seed.id) {
-                this.clearSeedSelection();
-                return;
-            }
-            this.shovelMode = false; // salir de modo pala si estaba activo
-            this.selectedSeed = seed;
-            document.body.style.cursor = `url(${seed.image}) 16 16, pointer`;
-        },
-
-        // Limpia selección y cursor
-        clearSeedSelection() {
-            this.selectedSeed = null;
-            if (!this.shovelMode) document.body.style.cursor = "";
-        },
-
+        ////////////////////////////////////////////////////////////////////
         // Quitar cultivo de una parcela (desplantar)
         // No devuelve semillas ni monedas; solo limpia la parcela
         removeCrop(side, index) {
@@ -303,102 +397,15 @@ const app = Vue.createApp({
             crops[index] = null;       // parcela queda vacía
         },
 
-        // Maneja los clicks de parcelas
-        // // 1) Si está el modo pala intenta desplantar
-        // // 2) Si no está comprada intenta comprar
-        // // 3) Si está comprada y vacía y hay semilla seleccionada intenta plantar
-        // // 4) Si ya tiene cultivo tira informacion
-        // handlePlotClick(side, index) {
-        //     const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
-        //     const crops = side === 'left' ? this.cropsLeft : this.cropsRight;
-
-        //     // 1) Modo pala: desplantar y salir
-        //     if (this.shovelMode) {
-        //         if (crops[index]) {
-        //             this.removeCrop(side, index);
-        //         } else {
-        //             console.log('No hay un cultivo para quitar en esta parcela.');
-        //         }
-        //         return;
-        //     }
-
-        //     // 2) Comprar parcela si aún no está comprada
-        //     if (!plots[index]) {
-        //         this.buyPlot(side, index);
-        //         return;
-        //     }
-
-        //     // 3) Plantar si está comprada, vacía y hay semilla seleccionada
-        //     if (plots[index] && !crops[index] && this.selectedSeed) {
-        //         this.plantSeed(side, index);
-        //         return;
-        //     }
-
-        //     // 4) Ya hay un cultivo
-        //     if (crops[index]) {
-        //         console.log('Ya hay un cultivo aquí:', crops[index]);
-        //     }
-        // },
-        handlePlotClick(side, index) {
-            const plots = side === "left" ? this.plotsLeft : this.plotsRight;
-
-            if (!plots[index]) {
-                // La parcela no está comprada → comprar
-                this.buyPlot(side, index, this.plotCost);
-                return;
-            }
-
-            // Si la parcela ya es tuya → intentar plantar
-            this.plantSeedInPlot(side, index);
-        },
-
-        // Planta consumiendo 1 semilla por id y marcando la parcela con el cultivo
-        async plantSeedInPlot(side, index) {
-            if (!this.selectedSeed) {
-                console.warn("No has seleccionado ninguna semilla");
-                return;
-            }
-
-            const plots = side === "left" ? this.plotsLeft : this.plotsRight;
-            const crops = side === "left" ? this.cropsLeft : this.cropsRight;
-
-            if (!plots[index]) {
-                console.warn("La parcela no está comprada");
-                return;
-            }
-
-            if (crops[index] !== null) {
-                console.warn("Ya hay un cultivo en esta parcela");
-                return;
-            }
-
-            const ok = await this.useSeed(this.selectedSeed.id);
-
-            if (!ok) {
-                console.warn("No tienes suficientes semillas");
-                return;
-            }
-
-            crops[index] = {
-                phase: "start",
-                seed_id: this.selectedSeed.id
-            };
-
-            this.clearSeedSelection();
-
-            console.log("Semilla plantada en", side, index);
-        }
-        ,
+        //////////////////////////////////////////////////////////////////////////
         async buyPlot(side, index) {
             const price = this.plotCost;
-
             if (this.coins < this.plotCost) {
                 const denied = side === 'left' ? this.deniedLeft : this.deniedRight;
                 denied[index] = true;
                 setTimeout(() => (denied[index] = false), 350);
                 return;
             }
-
             try {
                 const res = await fetch("http://prueba.test/api/plots/buy", {
                     method: "PUT",
@@ -408,34 +415,24 @@ const app = Vue.createApp({
                     },
                     body: JSON.stringify({ side, index, price })
                 });
-
                 if (!res.ok) throw new Error("Error al comprar parcela");
-
                 const data = await res.json();
-
                 const plots = side === 'left' ? this.plotsLeft : this.plotsRight;
                 plots[index] = true;
-
                 this.coins = data.wallet_balance;
-
                 console.log("Parcela comprada:", data);
                 await this.cargarPartida();
             } catch (err) {
                 console.error("Error comprando parcela:", err);
             }
         },
-
     },
 
+    ///////////////////////////////////////////////////////////////////
     mounted() {
         window.addEventListener("resize", () => {
             this.ancho = window.innerWidth;
         });
-
-        //este era para que cuando le das a escape se deseleccionara la semilla pero yano se usa pq no me gusto jiji
-        // window.addEventListener('keydown', e => {
-        //     if (e.key === 'Escape') this.clearSeedSelection();
-        // });
     },
     //Cuando se crar el documento carga el idioa
     created() {
@@ -443,7 +440,4 @@ const app = Vue.createApp({
         this.loadLanguage(savedLang || this.lang);
         this.cargarPartida();
     }
-
-
-
 });

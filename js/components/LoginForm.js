@@ -49,7 +49,7 @@ app.component('login-form', {
                     // Notificar al componente padre (opcional)
                     this.$emit('login-submit', data);
 
-                    // Redirigir si quieres
+                    // Redirigir 
                     window.location.href = "game.html";
                 }
             } catch (err) {

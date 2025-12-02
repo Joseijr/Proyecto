@@ -18,12 +18,13 @@
         @toggle-menu="showHam" bg-color="green-bg">
       </app-header>
 
-      <game-main :inventory-open="inventoryOpen" :seeds="seedsInventory" :fertilizer="fertilizer" :coins="coins"
+<game-main :inventory-open="inventoryOpen" :seeds="seedsInventory" :fertilizer="fertilizer" :coins="coins"
         :selected-seed="selectedSeed" :show-book="showBook" :plots-left="plotsLeft" :plots-right="plotsRight"
         :denied-left="deniedLeft" :denied-right="deniedRight" :crops-left="cropsLeft" :crops-right="cropsRight"
         @plant-action="plantAction" @water-action="waterAction" @fertilize-action="fertilizeAction"
         @inventory-action="inventoryAction" @buy-fertilizer="buyFertilizer" @select-seed="cursorSelected"
-        @toggle-book="toggleBook" @plot-click="handlePlotClick" @buy-plot="buyPlot" />
+        @toggle-book="toggleBook" @plot-click="handlePlotClick" @check-growth="checkCropGrowth" @buy-plot="buyPlot" />
+        
     </div>
     <app-footer bg-color="green-bg" text-color="white-color"></app-footer>
   </div>

@@ -12,7 +12,7 @@ app.component('game-main', {
 
   props: {
     inventoryOpen: { type: Boolean, required: true },
-    fertilizer: { type: Object, required: true },
+    fertilizer: { type: Number, required: true },
     coins: { type: Number, required: true },
     selectedSeed: { type: Object, default: null },
     showBook: { type: Boolean, required: true },
@@ -22,16 +22,60 @@ app.component('game-main', {
     deniedRight: { type: Array, required: true },
     cropsLeft: { type: Array, required: true },
     cropsRight: { type: Array, required: true },
-
   },
 
   methods: {
 
+    ////////////////////////////////////////
+
+    //con este se guardan las plantas pero no crecen
+    // getInventory() {
+    //   this.loading = true;
+    //   this.error = null;
+    //   const server = 'http://prueba.test';
+
+    //   fetch(server + '/api/v1/game/data', {
+    //     headers: {
+    //       "Authorization": "Bearer " + localStorage.getItem("token")
+    //     }
+    //   })
+    //     .then(res => {
+    //       if (!res.ok) throw new Error('Network error');
+    //       return res.json();
+    //     })
+    //     .then(data => {
+
+    //       this.items = data.items;
+    //       this.wallet = data.wallet;
+
+    //       const plots = data.plots;
+
+    //       plots.forEach(p => {
+    //         if (p.side === "left") {
+    //           this.plotsLeft[p.plot_index] = p.status > 0;
+    //           this.cropsLeft[p.plot_index] = p.seed_id ? p : this.cropsLeft[p.plot_index];
+    //         } else {
+    //           this.plotsRight[p.plot_index] = p.status > 0;
+    //           this.cropsRight[p.plot_index] = p.seed_id ? p : this.cropsRight[p.plot_index];
+    //         }
+    //       });
+
+    //       this.loading = false;
+
+    //       // Mantener crecimiento funcionando
+    //       this.checkCropGrowth();
+    //     })
+    //     .catch(err => {
+    //       this.error = err.message;
+    //       this.loading = false;
+    //     });
+    // },
+
+    //Con este otro crecen pero no se guardan las plantas
     getInventory() {
       this.loading = true;
       this.error = null;
       const server = 'http://prueba.test';
-
 
       fetch(server + '/api/v1/game/data', {
         headers: {
@@ -52,14 +96,13 @@ app.component('game-main', {
           this.error = err.message;
           this.loading = false;
         });
-
     },
 
+    //////////////////////////////////////////
     async sumar(id, price) {
       const server = 'http://prueba.test';
       const item = this.items.find(i => i.id === id);
       if (item) item.quantity += 1;
-
       try {
         const res = await fetch(`${server}/api/plants/${id}/${price}/sumar`, {
           method: "PUT",
@@ -68,24 +111,21 @@ app.component('game-main', {
             "Authorization": "Bearer " + localStorage.getItem("token")
           }
         });
-
         if (!res.ok) throw new Error("Error al comprar");
-
         const data = await res.json();
-
         if (item) item.quantity = data.quantity;
         if (this.wallet?.balance !== undefined) {
           this.wallet.balance = data.wallet_balance;
         }
-
       } catch (err) {
         console.error(err);
         if (item) item.quantity -= 1;
       }
     },
-    async restar(id) {
-      const server = 'http://prueba.test/';
 
+    //////////////////////////////////////////
+    async restar(id) {
+      const server = 'http://prueba.test';
       try {
         const res = await fetch(`${server}/api/plants/${id}/restar`, {
           method: "PUT",
@@ -94,11 +134,8 @@ app.component('game-main', {
             "Authorization": "Bearer " + localStorage.getItem("token")
           }
         });
-
         if (!res.ok) throw new Error("Error al restar");
-
         const data = await res.json();
-
         const item = this.items.find(i => i.id === id);
         if (item) item.quantity = data.quantity;
 
@@ -106,9 +143,10 @@ app.component('game-main', {
         console.error(err);
       }
     },
+
+    /////////////////////////////////////////////
     async buyPlot(side, index, price) {
       const server = 'http://prueba.test';
-
       try {
         const res = await fetch(`${server}/api/plots/buy`, {
           method: "PUT",
@@ -122,23 +160,67 @@ app.component('game-main', {
             price
           })
         });
-
         const data = await res.json();
-
         if (!res.ok) throw new Error(data.error || "Error al comprar parcela");
-
         // Descontar balance en el front
         this.wallet.balance = data.wallet_balance;
-
         // Activar visualmente la parcela
         if (side === 'left') this.plotsLeft[index] = true;
         else this.plotsRight[index] = true;
-
       } catch (err) {
         alert("Error: " + err.message);
       }
     },
 
+
+    ///////////////////////////////////////////////
+    checkCropGrowth() {
+      const server = 'http://prueba.test';
+      const GROWTH_TIME = {
+        start: 10000,
+        almost: 15000
+      };
+      console.log("Verificando crecimiento...");
+      const now = Date.now();
+
+      const checkAndUpdate = (crop, side, index) => {
+        if (!crop || !crop.planted_at) return;
+
+        const plantedAt = new Date(crop.planted_at).getTime();
+        const elapsed = now - plantedAt;
+
+        let newPhase = null;
+
+        if (crop.phase === 'start' && elapsed > GROWTH_TIME.start) {
+          newPhase = 'almost';
+        } else if (crop.phase === 'almost' && elapsed > GROWTH_TIME.start + GROWTH_TIME.almost) {
+          newPhase = 'done';
+        }
+
+        if (newPhase) {
+          fetch(`${server}/api/plots/${crop.id}/phase`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({ phase: newPhase })
+          })
+            .then(res => res.json())
+            .then(data => {
+              console.log(`Crop ${crop.id} cambiado a fase ${newPhase}`);
+              if (side === 'left') this.cropsLeft[index].phase = newPhase;
+              else this.cropsRight[index].phase = newPhase;
+            });
+        }
+      };
+
+      this.cropsLeft.forEach((c, i) => checkAndUpdate(c, 'left', i));
+      this.cropsRight.forEach((c, i) => checkAndUpdate(c, 'right', i));
+    },
+
+
+    ///////////////////////////////////////////
     async generateMissions() {
       const server = 'http://prueba.test';
       try {
@@ -156,6 +238,8 @@ app.component('game-main', {
         alert('Error al generar misiones: ' + err.message);
       }
     },
+
+    ////////////////////////////////////////////////
     getMissions() {
       this.loading = true;
       this.error = null;
@@ -177,28 +261,60 @@ app.component('game-main', {
         });
     },
 
+    ///////////////////////////////////////////
     handlePlant() { this.$emit('plant-action'); },
     handleWater() { this.$emit('water-action'); },
     handleFertilize() { this.$emit('fertilize-action'); },
     handleInventory() { this.$emit('inventory-action'); },
     handleSelectSeed(seed) { this.$emit('select-seed', seed); },
     handleToggleBook() { this.$emit('toggle-book'); },
-    handlePlotClick(side, index) { this.$emit('buy-plot', side, index, this.plotCost); },
+    handlePlotClick(side, index) { this.$emit('plot-click', side, index); },
 
+    ///////////////////////////////////////////
     getCropImage(crop) {
       if (!crop) return null;
-      if (crop.phase === 'start') return 'assets/startgrowing.png';
-      if (crop.phase === 'almost') return 'assets/almostgrown.png';
-      return null;
+
+      console.log('getCropImage llamado:', crop);
+
+      switch (crop.phase) {
+        case 'start':
+          console.log('Fase: start');
+          return 'assets/startgrowing.png';
+        case 'almost':
+          console.log('Fase: almost');
+          return 'assets/almostgrown.png';
+        case 'done':
+          console.log('Fase: final, seed_id:', crop.seed_id);
+          switch (crop.seed_id) {
+            case 1: return 'assets/HelleborusNiger.png';
+            case 2: return 'assets/belladona.png';
+            case 3: return 'assets/Lavanda.png';
+            case 4: return 'assets/mandragora.png';
+            case 5: return 'assets/albaca.png';
+            case 6: return 'assets/romero.png';
+            case 7: return 'assets/ruta.png';
+            case 8: return 'assets/dandolion.png';
+            default:
+              console.warn('Seed_id no reconocido:', crop.seed_id);
+              return null;
+          }
+        default:
+          console.warn('Fase no reconocida:', crop.phase);
+          return null;
+      }
     }
   },
 
+  //////////////////////////////////////////
   created() {
     this.getInventory();  // solo llama a inventario
     this.getMissions();
 
+    setInterval(() => {
+      this.checkCropGrowth();
+    }, 10000)
   },
-
+  /////////////////////////////////////////
   template: /*html*/`
   <main class="main-content">
     <section class="image-container">
@@ -210,7 +326,6 @@ app.component('game-main', {
             <img src="assets/coin.png" alt="Monedas" class="coin-icon-img">
             <span class="tool-quantity">{{ wallet ? wallet.balance : 0 }}</span>
           </div>
-
 
           <!--
           <button class="action-btn" title="Quitar planta" @click="handlePlant">
@@ -273,7 +388,6 @@ app.component('game-main', {
 <div v-if="showBook" class="book-modal" @click.self="handleToggleBook">
   <div class="book-box">
     <header class="book-box-header">
-      <h3 class="white-color">Welcome to gardener diaries!</h3>
       <div>
       <button class="tab-button" @click="activeTab = '1'">Tienda</button>
       <button class="tab-button" @click="activeTab = '2'">Misiones</button>
@@ -307,8 +421,6 @@ app.component('game-main', {
 
       <!--Modulo de Misiones-->
 
-
-
       <div v-for="m in missions"
            :key="'mission-' + m.id"
            class="mission-item"
@@ -321,7 +433,7 @@ app.component('game-main', {
           <span class="extra-color">{{ m.reward }}</span> Buttons
         </p>
 
-        <button class="market-buy-btn">Reclamar</button>
+        <button>Reclamar</button>
         <hr>
       </div>
 
@@ -334,5 +446,3 @@ app.component('game-main', {
   </main>
   `
 });
-
-
